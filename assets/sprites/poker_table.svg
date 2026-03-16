@@ -1,0 +1,24 @@
+<svg width="192" height="128" viewBox="0 0 192 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Poker table top-down, octagonal green felt -->
+  <!-- Table rim -->
+  <ellipse cx="96" cy="64" rx="88" ry="56" fill="#4e342e"/>
+  <!-- Felt surface -->
+  <ellipse cx="96" cy="64" rx="78" ry="46" fill="#1b5e20"/>
+  <!-- Felt inner lighter area -->
+  <ellipse cx="96" cy="64" rx="66" ry="36" fill="#2e7d32"/>
+  <!-- Card spots / player positions (7 positions) -->
+  <circle cx="96" cy="28" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="148" cy="38" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="168" cy="66" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="148" cy="92" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="44" cy="92" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="24" cy="66" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="44" cy="38" r="6" fill="#1b5e20" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- Center pot circle -->
+  <circle cx="96" cy="64" r="14" fill="#1a4a1a" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="96" y="68" font-size="9" text-anchor="middle" fill="#ffd700" font-family="sans-serif">POT</text>
+  <!-- Chips in center -->
+  <circle cx="88" cy="62" r="3" fill="#ff5252"/>
+  <circle cx="96" cy="58" r="3" fill="#42a5f5"/>
+  <circle cx="104" cy="62" r="3" fill="#66bb6a"/>
+</svg>

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dllfo4eygaocd"]
+
+[ext_resource type="PackedScene" uid="uid://pl2i388qfik7" path="res://scenes/casino_floor.tscn" id="1_o5qli"]
+
+[node name="Main" type="Node2D" unique_id=1688178233]
+
+[node name="CasinoFloor" parent="." unique_id=1339453593 instance=ExtResource("1_o5qli")]
