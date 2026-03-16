@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://8scqbqc7i2bl"]
+
+[ext_resource type="Texture2D" uid="uid://pdt0pqbar8hu" path="res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png" id="1_12cc0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1oql"]
+size = Vector2(134, 72)
+
+[node name="RouletteTable" type="Node2D" unique_id=541743717]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1613917940]
+position = Vector2(986, 497)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_12cc0")
+region_enabled = true
+region_rect = Rect2(911.9275, 195.5329, 112.23193, 60.432556)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1323150341]
+position = Vector2(986, 497)
+shape = SubResource("RectangleShape2D_o1oql")

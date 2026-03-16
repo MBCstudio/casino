@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://tmksr66rmjf6"]
+
+[ext_resource type="Texture2D" uid="uid://pdt0pqbar8hu" path="res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png" id="1_dd4j5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n86pn"]
+radius = 27.99997
+height = 108.0
+
+[node name="BlackjackTable" type="Node2D" unique_id=541743717]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1148397357]
+position = Vector2(986, 497)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_dd4j5")
+region_enabled = true
+region_rect = Rect2(927.8008, 368.9419, 97.20325, 49.8739)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1583560528]
+position = Vector2(986, 494)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_n86pn")
