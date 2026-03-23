@@ -1887,15 +1887,3 @@ position = Vector2(-200, -126)
 scale = Vector2(1.2, 1.2)
 
 [node name="Customers" type="Node2D" parent="." unique_id=1331321745]
-
-[node name="Normal_customer" parent="Customers" unique_id=1651502869 instance=ExtResource("5_2ghwp")]
-position = Vector2(322, 561)
-
-[node name="Normal_customer2" parent="Customers" unique_id=1597932130 instance=ExtResource("5_2ghwp")]
-position = Vector2(940, 274)
-
-[node name="Normal_customer3" parent="Customers" unique_id=921788446 instance=ExtResource("5_2ghwp")]
-position = Vector2(944, 920)
-
-[node name="Normal_customer4" parent="Customers" unique_id=1085943090 instance=ExtResource("5_2ghwp")]
-position = Vector2(1575, 571)
