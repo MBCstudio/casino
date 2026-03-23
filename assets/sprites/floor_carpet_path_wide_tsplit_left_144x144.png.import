@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0u1krsqcelaf"
-path="res://.godot/imported/casino_floor_diamond_3x3.png-7742bcf87d964e986be9a025e060c344.ctex"
+uid="uid://dxgn8fvpe2hqc"
+path="res://.godot/imported/floor_carpet_path_wide_tsplit_left_144x144.png-85c85e4ef1e5d98ff9a874857ebdebe8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/casino_floor_diamond_3x3.png"
-dest_files=["res://.godot/imported/casino_floor_diamond_3x3.png-7742bcf87d964e986be9a025e060c344.ctex"]
+source_file="res://assets/sprites/floor_carpet_path_wide_tsplit_left_144x144.png"
+dest_files=["res://.godot/imported/floor_carpet_path_wide_tsplit_left_144x144.png-85c85e4ef1e5d98ff9a874857ebdebe8.ctex"]
 
 [params]
 

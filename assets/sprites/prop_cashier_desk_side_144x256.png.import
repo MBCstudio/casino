@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwp2ijon2v0ov"
-path="res://.godot/imported/poker_table.svg-1d375c06091466542fbbb3ca69ad3d88.ctex"
+uid="uid://crgyyeqnmb3eo"
+path="res://.godot/imported/prop_cashier_desk_side_144x256.png-b52585eaa2667500968213fe89dcabde.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/poker_table.svg"
-dest_files=["res://.godot/imported/poker_table.svg-1d375c06091466542fbbb3ca69ad3d88.ctex"]
+source_file="res://assets/sprites/prop_cashier_desk_side_144x256.png"
+dest_files=["res://.godot/imported/prop_cashier_desk_side_144x256.png-b52585eaa2667500968213fe89dcabde.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

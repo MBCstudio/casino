@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cd1gc57imcfjg"
-path="res://.godot/imported/flower_casino_80x128.png-c54594a972bf1f90c827174308eaf9ce.ctex"
+uid="uid://moetu6kll85s"
+path="res://.godot/imported/floor_carpet_path_wide_cross_144x144.png-4f4e636e58477dba9047db9a16001c9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/flower_casino_80x128.png"
-dest_files=["res://.godot/imported/flower_casino_80x128.png-c54594a972bf1f90c827174308eaf9ce.ctex"]
+source_file="res://assets/sprites/floor_carpet_path_wide_cross_144x144.png"
+dest_files=["res://.godot/imported/floor_carpet_path_wide_cross_144x144.png-4f4e636e58477dba9047db9a16001c9c.ctex"]
 
 [params]
 

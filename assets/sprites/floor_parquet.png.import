@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r3ag6ynxe1pn"
-path="res://.godot/imported/casino_assets_atlas.png-60e87bb0dfa289007071d5bc88462d11.ctex"
+uid="uid://c2b6ob2qckd38"
+path="res://.godot/imported/floor_parquet.png-99b2a88f8de8f075dec8b516c02e7d52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/casino_assets_atlas.png"
-dest_files=["res://.godot/imported/casino_assets_atlas.png-60e87bb0dfa289007071d5bc88462d11.ctex"]
+source_file="res://assets/sprites/floor_parquet.png"
+dest_files=["res://.godot/imported/floor_parquet.png-99b2a88f8de8f075dec8b516c02e7d52.ctex"]
 
 [params]
 
