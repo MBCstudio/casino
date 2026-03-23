@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://74x1tkdy464n"]
 
+[ext_resource type="Script" uid="uid://cce4evyguly0m" path="res://scripts/customer.gd" id="1_hsaiv"]
 [ext_resource type="Texture2D" uid="uid://b7t2x14y4w7b7" path="res://assets/sprites/customer.png" id="1_lhsip"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t5qwh"]
@@ -142,11 +143,19 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Normal_customer" type="Node2D" unique_id=1651502869]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o7yud"]
+radius = 18.0
+height = 110.0
+
+[node name="Normal_customer" type="CharacterBody2D" unique_id=1597932130]
+position = Vector2(7.06, 0)
+up_direction = Vector2(-1, 0)
+script = ExtResource("1_hsaiv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1294089300]
-position = Vector2(894, 487)
 sprite_frames = SubResource("SpriteFrames_bolbq")
-animation = &"walk_up"
-frame = 2
-frame_progress = 0.500672
+animation = &"walk_right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1110807250]
+shape = SubResource("CapsuleShape2D_o7yud")
+disabled = true
