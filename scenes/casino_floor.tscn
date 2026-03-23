@@ -1883,14 +1883,19 @@ layer_4/tile_data = PackedInt32Array(1900564, 131103, 3, 1966100, 131103, 4, 203
 [node name="Tables" type="Node2D" parent="." unique_id=1013377653]
 
 [node name="RouletteTable" parent="Tables" unique_id=592396658 instance=ExtResource("3_i2asg")]
-position = Vector2(492, 22)
+position = Vector2(-200, -126)
 scale = Vector2(1.2, 1.2)
-
-[node name="RouletteTable2" parent="Tables" unique_id=1244898674 instance=ExtResource("3_i2asg")]
-position = Vector2(491, -327)
-scale = Vector2(1.2, 1.2)
-
-[node name="BlackjackTable" parent="Tables" unique_id=861166496 instance=ExtResource("4_xbi78")]
-position = Vector2(-327, -124)
 
 [node name="Customers" type="Node2D" parent="." unique_id=1331321745]
+
+[node name="Normal_customer" parent="Customers" unique_id=1651502869 instance=ExtResource("5_2ghwp")]
+position = Vector2(322, 561)
+
+[node name="Normal_customer2" parent="Customers" unique_id=1597932130 instance=ExtResource("5_2ghwp")]
+position = Vector2(940, 274)
+
+[node name="Normal_customer3" parent="Customers" unique_id=921788446 instance=ExtResource("5_2ghwp")]
+position = Vector2(944, 920)
+
+[node name="Normal_customer4" parent="Customers" unique_id=1085943090 instance=ExtResource("5_2ghwp")]
+position = Vector2(1575, 571)

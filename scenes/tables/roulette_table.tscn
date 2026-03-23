@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://8scqbqc7i2bl"]
 
 [ext_resource type="Texture2D" uid="uid://pdt0pqbar8hu" path="res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png" id="1_12cc0"]
+[ext_resource type="Script" uid="uid://bsm02eooh608o" path="res://scripts/casino_table.gd" id="1_o1oql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1oql"]
 size = Vector2(135, 71)
 
-[node name="RouletteTable" type="Node2D" unique_id=592396658]
+[node name="RouletteTable" type="Area2D" unique_id=1387399777]
+script = ExtResource("1_o1oql")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=418557897]
 position = Vector2(955, 580)
@@ -17,3 +19,20 @@ region_rect = Rect2(911.86273, 195.77155, 112.70575, 61.092865)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1863102322]
 position = Vector2(955.5, 579.5)
 shape = SubResource("RectangleShape2D_o1oql")
+
+[node name="Seats" type="Node2D" parent="." unique_id=1475944728]
+
+[node name="Seat1" type="Marker2D" parent="Seats" unique_id=1154681391]
+position = Vector2(987, 642)
+
+[node name="Seat2" type="Marker2D" parent="Seats" unique_id=683834875]
+position = Vector2(910, 641)
+
+[node name="Seat3" type="Marker2D" parent="Seats" unique_id=1563139686]
+position = Vector2(1049, 579)
+
+[node name="Seat4" type="Marker2D" parent="Seats" unique_id=2060449998]
+position = Vector2(1000, 524)
+
+[node name="Seat5" type="Marker2D" parent="Seats" unique_id=362652113]
+position = Vector2(943, 525)
