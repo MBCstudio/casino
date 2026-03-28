@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://8scqbqc7i2bl" path="res://scenes/tables/roulette_table.tscn" id="3_i2asg"]
 [ext_resource type="Texture2D" uid="uid://pdt0pqbar8hu" path="res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png" id="4_udrtw"]
 [ext_resource type="Texture2D" uid="uid://cuba4t03hhqwb" path="res://assets/sprites/floor_pavement_48x48.png" id="4_wqkjp"]
-[ext_resource type="PackedScene" uid="uid://c56ab7kykng0r" path="res://scenes/tables/blackjack_table.tscn" id="4_xbi78"]
 [ext_resource type="Texture2D" uid="uid://cjv06shvwbkwq" path="res://assets/sprites/floor_dark_gap_16x16.png" id="5_3febt"]
 [ext_resource type="Texture2D" uid="uid://moetu6kll85s" path="res://assets/sprites/floor_carpet_path_wide_cross_144x144.png" id="7_wqkjp"]
 [ext_resource type="Texture2D" uid="uid://c4wqb54gsjs70" path="res://assets/sprites/floor_carpet_path_wide_straight_V_144x144.png" id="8_3febt"]
@@ -14,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dbxkf6o44l58o" path="res://assets/sprites/floor_carpet_path_wide_corner_SE_144x144.png" id="10_gu02m"]
 [ext_resource type="Texture2D" uid="uid://crgyyeqnmb3eo" path="res://assets/sprites/prop_cashier_desk_side_144x256.png" id="12_3febt"]
 [ext_resource type="Texture2D" uid="uid://cf3ys7r7n4lav" path="res://assets/sprites/prop_casino_doors_topdown_96x96.png" id="12_d4bsi"]
+[ext_resource type="PackedScene" uid="uid://74x1tkdy464n" path="res://scenes/actors/customers/normal_customer.tscn" id="14_3febt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gu02m"]
 texture = ExtResource("1_3j816")
@@ -1883,7 +1883,19 @@ layer_4/tile_data = PackedInt32Array(1900564, 131103, 3, 1966100, 131103, 4, 203
 [node name="Tables" type="Node2D" parent="." unique_id=1013377653]
 
 [node name="RouletteTable" parent="Tables" unique_id=592396658 instance=ExtResource("3_i2asg")]
-position = Vector2(-200, -126)
+position = Vector2(1548, 338)
 scale = Vector2(1.2, 1.2)
 
 [node name="Customers" type="Node2D" parent="." unique_id=1331321745]
+
+[node name="Normal_customer" parent="Customers" unique_id=1597932130 instance=ExtResource("14_3febt")]
+position = Vector2(1561, 643)
+
+[node name="Normal_customer2" parent="Customers" unique_id=427856296 instance=ExtResource("14_3febt")]
+position = Vector2(1256, 330)
+
+[node name="Normal_customer3" parent="Customers" unique_id=802558251 instance=ExtResource("14_3febt")]
+position = Vector2(1570, 69)
+
+[node name="Normal_customer4" parent="Customers" unique_id=1744144678 instance=ExtResource("14_3febt")]
+position = Vector2(1852, 339)

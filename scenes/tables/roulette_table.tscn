@@ -10,29 +10,27 @@ size = Vector2(135, 71)
 script = ExtResource("1_o1oql")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=418557897]
-position = Vector2(955, 580)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_12cc0")
 region_enabled = true
 region_rect = Rect2(911.86273, 195.77155, 112.70575, 61.092865)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1863102322]
-position = Vector2(955.5, 579.5)
 shape = SubResource("RectangleShape2D_o1oql")
 
 [node name="Seats" type="Node2D" parent="." unique_id=1475944728]
 
 [node name="Seat1" type="Marker2D" parent="Seats" unique_id=1154681391]
-position = Vector2(987, 642)
+position = Vector2(-14, 62)
 
 [node name="Seat2" type="Marker2D" parent="Seats" unique_id=683834875]
-position = Vector2(910, 641)
+position = Vector2(50, 62)
 
 [node name="Seat3" type="Marker2D" parent="Seats" unique_id=1563139686]
-position = Vector2(1049, 579)
+position = Vector2(97, 1)
 
 [node name="Seat4" type="Marker2D" parent="Seats" unique_id=2060449998]
-position = Vector2(1000, 524)
+position = Vector2(50, -67)
 
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=362652113]
-position = Vector2(943, 525)
+position = Vector2(-11, -67)

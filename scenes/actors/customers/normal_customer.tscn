@@ -158,4 +158,3 @@ animation = &"walk_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1110807250]
 shape = SubResource("CapsuleShape2D_o7yud")
-disabled = true
