@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed = 100
+@export var enter_chance = 0.3
 
 var target_position: Vector2
 var target_table = null
@@ -8,13 +9,15 @@ var target_seat = null
 var money = 100
 var is_seated = false
 
+# 🔥 NOWE
+var on_sidewalk = true
+var walking_direction = 1
+
 func _ready():
 	randomize()
 	
-	# 🔥 disable collisions with other customers
 	collision_mask = 0
 	
-	find_table()
 
 # ====== DEBUG ======
 func _draw():
@@ -26,25 +29,47 @@ func _physics_process(delta):
 	move_to_target()
 	update_animation()
 
+# ====== SIDEWALK ======
+
+func start_sidewalk_walk():
+	walking_direction = [1, -1].pick_random()
+	on_sidewalk = true
+
+func go_to_casino():
+	on_sidewalk = false
+	find_table()
+
 # ====== MOVEMENT ======
 
 func move_to_target():
 	if is_seated:
 		return
 	
+	# 🔥 CHODNIK
+	if on_sidewalk:
+		velocity = Vector2(0, walking_direction * speed)
+		move_and_slide()
+		
+		# znikanie poza mapą
+		if global_position.y < -50 or global_position.y > 1200:
+			queue_free()
+		
+		return
+	
+	# 🔥 KASYNO
 	if target_seat:
 		target_position = target_seat.global_position
 	
 	var direction = target_position - global_position
 	
-	if direction.length() > 2:
+	if direction.length() > 5:
 		velocity = direction.normalized() * speed
 	else:
 		velocity = Vector2.ZERO
 		global_position = target_position
 		
 		if target_table:
-			is_seated = true   # 🔥 IMPORTANT
+			is_seated = true
 			face_table()
 			try_play()
 	
@@ -69,7 +94,6 @@ func find_table():
 		if table.try_add_player(self):
 			return
 	
-	# no table available
 	target_table = null
 	target_seat = null
 	pick_random_target()
@@ -78,13 +102,19 @@ func try_play():
 	if target_table:
 		target_table.play_with_client(self)
 		
-		is_seated = false   # 🔥 reset
+		is_seated = false
 		
 		target_table = null
 		target_seat = null
 		find_table()
 
-# ====== FACING SYSTEM ======
+# ====== WEJŚCIE DO KASYNA ======
+
+func decide_enter_casino():
+	if randf() < enter_chance:
+		go_to_casino()
+
+# ====== FACING ======
 
 func face_table():
 	var sprite = $AnimatedSprite2D
@@ -92,22 +122,15 @@ func face_table():
 	var dir = (target_table.global_position - global_position).normalized()
 	
 	if abs(dir.x) > abs(dir.y):
-		if dir.x > 0:
-			sprite.play("walk_right")
-		else:
-			sprite.play("walk_left")
+		sprite.play("walk_right" if dir.x > 0 else "walk_left")
 	else:
-		if dir.y > 0:
-			sprite.play("walk_down")
-		else:
-			sprite.play("walk_up")
+		sprite.play("walk_down" if dir.y > 0 else "walk_up")
 
 # ====== ANIMATION ======
 
 func update_animation():
 	var sprite = $AnimatedSprite2D
 	
-	# if seated → DO NOTHING (keep last frame)
 	if is_seated:
 		return
 	
@@ -116,15 +139,9 @@ func update_animation():
 		return
 	
 	if abs(velocity.x) > abs(velocity.y):
-		if velocity.x > 0:
-			sprite.play("walk_right")
-		else:
-			sprite.play("walk_left")
+		sprite.play("walk_right" if velocity.x > 0 else "walk_left")
 	else:
-		if velocity.y > 0:
-			sprite.play("walk_down")
-		else:
-			sprite.play("walk_up")
+		sprite.play("walk_down" if velocity.y > 0 else "walk_up")
 
 # ====== EMOTIONS ======
 

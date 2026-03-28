@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://crgyyeqnmb3eo" path="res://assets/sprites/prop_cashier_desk_side_144x256.png" id="12_3febt"]
 [ext_resource type="Texture2D" uid="uid://cf3ys7r7n4lav" path="res://assets/sprites/prop_casino_doors_topdown_96x96.png" id="12_d4bsi"]
 [ext_resource type="PackedScene" uid="uid://74x1tkdy464n" path="res://scenes/actors/customers/normal_customer.tscn" id="14_3febt"]
+[ext_resource type="Script" uid="uid://dxxwvag7sl4f6" path="res://scripts/customer_spawner.gd" id="15_tp5si"]
+[ext_resource type="Script" uid="uid://dumvl3v56sleb" path="res://scenes/casino_entrance.gd" id="16_gu02m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gu02m"]
 texture = ExtResource("1_3j816")
@@ -1862,6 +1864,9 @@ sources/27 = SubResource("TileSetAtlasSource_anw68")
 sources/28 = SubResource("TileSetAtlasSource_wr1la")
 sources/31 = SubResource("TileSetAtlasSource_n24re")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4bsi"]
+size = Vector2(160, 87)
+
 [node name="CasinoFloor" type="Node2D" unique_id=1339453593]
 
 [node name="Floor" type="Node2D" parent="." unique_id=77351220]
@@ -1888,14 +1893,18 @@ scale = Vector2(1.2, 1.2)
 
 [node name="Customers" type="Node2D" parent="." unique_id=1331321745]
 
-[node name="Normal_customer" parent="Customers" unique_id=1597932130 instance=ExtResource("14_3febt")]
-position = Vector2(1561, 643)
+[node name="CustomerSpawner" type="Node2D" parent="." unique_id=8769380]
+script = ExtResource("15_tp5si")
+customer_scene = ExtResource("14_3febt")
+spawn_x_min = 10
+spawn_x_max = 90
+screen_height = 1100
 
-[node name="Normal_customer2" parent="Customers" unique_id=427856296 instance=ExtResource("14_3febt")]
-position = Vector2(1256, 330)
+[node name="CasinoEntrance" type="Area2D" parent="." unique_id=141115052]
+script = ExtResource("16_gu02m")
 
-[node name="Normal_customer3" parent="Customers" unique_id=802558251 instance=ExtResource("14_3febt")]
-position = Vector2(1570, 69)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CasinoEntrance" unique_id=578348366]
+position = Vector2(78, 542)
+shape = SubResource("RectangleShape2D_d4bsi")
 
-[node name="Normal_customer4" parent="Customers" unique_id=1744144678 instance=ExtResource("14_3febt")]
-position = Vector2(1852, 339)
+[connection signal="body_entered" from="CasinoEntrance" to="CasinoEntrance" method="_on_body_entered"]
