@@ -63,22 +63,27 @@ func remove_player(client):
 func has_space() -> bool:
 	return current_players.size() < max_players
 
-func play_with_client(client):
-	if client.money < bet:
-		remove_player(client)
-		return
+func play_with_client(client) -> bool:
+	var current_bet = client.approach_table()
 	
-	var result = play_game()
-	client.money += result
+	if client.money < current_bet:
+		return false
 	
-	if result > 0:
+	var is_win = client.play_round(win_probability)
+	
+	if is_win:
+		client.on_win(current_bet)
 		if client.has_method("happy"):
 			client.happy()
+		print("Gracz w %s wygrał %.2f$! Stan konta: %.2f$ (Złość: %.2f)" % [table_type, current_bet, client.money, client.anger])
 	else:
+		client.on_loss(current_bet)
 		if client.has_method("angry"):
 			client.angry()
-	
-	remove_player(client)
+		print("Gracz w %s przegrał %.2f$... Stan konta: %.2f$ (Złość: %.2f)" % [table_type, current_bet, client.money, client.anger])
+		
+	# Zwracam true bo grana runda się powiodła (gracz miał pieniądze)
+	return true
 
 # ====== CLICK / UI ======
 
