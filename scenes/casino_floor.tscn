@@ -1899,3 +1899,9 @@ position = Vector2(1570, 69)
 
 [node name="Normal_customer4" parent="Customers" unique_id=1744144678 instance=ExtResource("14_3febt")]
 position = Vector2(1852, 339)
+
+[node name="VIP_customer" parent="Customers" instance=ExtResource("14_3febt")]
+position = Vector2(1500, 450)
+money = 2500.0
+base_bet = 100.0
+status = "vip"
