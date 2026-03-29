@@ -32,7 +32,7 @@ func _ready():
 	print("Nowy gracz [%s]: 🪙 $%.2f | 🎲 Zakład: $%.2f | ⚠️ Ryzyko: %.2f | 🍷 Uzależnienie: %.2f | 🍀 Szczęście: %.2f | 🧠 Exp: %.2f" % [status, money, base_bet, risk, addiction, luck, experience])
 	
 	# 🔥 disable collisions with other customers
-	collision_mask = 0
+	#collision_mask = 0
 	
 
 # ====== DEBUG ======

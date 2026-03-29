@@ -11,7 +11,7 @@ func _ready():
 
 func spawn_loop():
 	while true:
-		await get_tree().create_timer(randf_range(1.0, 2.5)).timeout
+		await get_tree().create_timer(randf_range(5.0, 8.5)).timeout
 		spawn_customer()
 
 func spawn_customer():
