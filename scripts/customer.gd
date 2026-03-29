@@ -7,6 +7,8 @@ extends CharacterBody2D
 @export var base_bet: float = 10.0
 @export var status: String = "normal"
 
+@onready var nav_agent = $NavigationAgent2D
+
 var target_position: Vector2
 var target_table = null
 var target_seat = null
@@ -30,10 +32,11 @@ func _ready():
 	experience = randf_range(0.0, 0.03)
 	
 	print("Nowy gracz [%s]: 🪙 $%.2f | 🎲 Zakład: $%.2f | ⚠️ Ryzyko: %.2f | 🍷 Uzależnienie: %.2f | 🍀 Szczęście: %.2f | 🧠 Exp: %.2f" % [status, money, base_bet, risk, addiction, luck, experience])
-	
-	# 🔥 disable collisions with other customers
-	#collision_mask = 0
-	
+
+# ====== NAVIGATION HELPER ======
+func set_target(pos: Vector2):
+	target_position = pos
+	nav_agent.target_position = pos
 
 # ====== DEBUG ======
 func _draw():
@@ -42,6 +45,11 @@ func _draw():
 
 func _physics_process(delta):
 	queue_redraw()
+	
+	# If reached entrance and no table yet → find table
+	if not on_sidewalk and nav_agent.is_navigation_finished() and target_table == null:
+		find_table()
+	
 	move_to_target()
 	update_animation()
 
@@ -53,7 +61,10 @@ func start_sidewalk_walk():
 
 func go_to_casino():
 	on_sidewalk = false
-	find_table()
+	
+	# 🔥 IMPORTANT: adjust path to your scene!
+	var entrance = get_node("/root/CasinoFloor/CasinoEntrance/EntrancePoint")
+	set_target(entrance.global_position)
 
 # ====== MOVEMENT ======
 
@@ -61,47 +72,49 @@ func move_to_target():
 	if is_seated:
 		return
 	
-	# 🔥 CHODNIK
+	# 🔥 SIDEWALK (unchanged)
 	if on_sidewalk:
 		velocity = Vector2(0, walking_direction * speed)
 		move_and_slide()
 		
-		# znikanie poza mapą
 		if global_position.y < -50 or global_position.y > 1200:
 			queue_free()
 		
 		return
 	
-	# 🔥 KASYNO
+	# 🔥 CASINO NAVIGATION
+	
 	if target_seat:
-		target_position = target_seat.global_position
+		set_target(target_seat.global_position)
 	
-	var direction = target_position - global_position
-	
-	if direction.length() > 5:
-		velocity = direction.normalized() * speed
-	else:
+	if nav_agent.is_navigation_finished():
 		velocity = Vector2.ZERO
-		global_position = target_position
 		
-		if target_table:
+		if target_table and not is_seated:
 			is_seated = true
 			face_table()
 			try_play()
+		
+		return
 	
+	var next_point = nav_agent.get_next_path_position()
+	var direction = (next_point - global_position).normalized()
+	
+	velocity = direction * speed
 	move_and_slide()
 
 func pick_random_target():
-	target_position = Vector2(
+	set_target(Vector2(
 		randf_range(0, 800),
 		randf_range(0, 600)
-	)
+	))
 
 # ====== TABLE SYSTEM ======
 
 func set_target_seat(seat, table):
 	target_seat = seat
 	target_table = table
+	set_target(seat.global_position)
 
 func find_table():
 	var tables = get_tree().get_nodes_in_group("tables")
@@ -115,47 +128,41 @@ func find_table():
 	pick_random_target()
 
 func try_play():
-	# Gracz gra przy stole dopóki ma pieniądze, nie rozzłości się wystarczająco i nie zechce zmienić stołu
 	while target_table != null:
 		if target_table.table_type == "roulette":
 			await get_tree().create_timer(20.0).timeout
 		else:
-			await get_tree().create_timer(5.0).timeout # opóźnienie dla innych gier jeśli są
+			await get_tree().create_timer(5.0).timeout
 			
-		# Sprawdzenie zabezpieczające, gdyby w międzyczasie stracił dostęp do stołu
 		if not target_table:
 			break
 			
 		var could_play = target_table.play_with_client(self)
 		
-		# Brak wystarczających środków na grę
 		if not could_play:
 			print("Gracz [%s] nie ma srodków na grę, szuka innej opcji." % status)
 			break
 			
-		# Decyzje po rozegranej rundzie:
 		if should_leave():
 			print("Gracz [%s] jest wściekły (Złość: %.1f) i wychodzi z kasyna!" % [status, anger])
 			target_table.remove_player(self)
-			queue_free() # Gracz usuwany jest z gry (wychodzi)
+			queue_free()
 			return
 		elif should_change_table():
 			print("Gracz [%s] zmienia stolik (Złość: %.1f)." % [status, anger])
 			break
 			
-	# Zakończył partię gier na tym stole
 	if target_table:
 		target_table.remove_player(self)
 		
-	is_seated = false   # 🔥 reset
+	is_seated = false
 	
 	target_table = null
 	target_seat = null
 	
-	# Szuka następnego stołu
 	find_table()
 
-# ====== WEJŚCIE DO KASYNA ======
+# ====== ENTRY DECISION ======
 
 func decide_enter_casino():
 	if randf() < enter_chance:
@@ -171,12 +178,9 @@ func face_table():
 	if abs(dir.x) > abs(dir.y):
 		sprite.play("walk_right" if dir.x > 0 else "walk_left")
 	else:
-		if dir.y > 0:
-			sprite.play("walk_down")
-		else:
-			sprite.play("walk_up")
+		sprite.play("walk_down" if dir.y > 0 else "walk_up")
 			
-	sprite.stop() # Zatrzymuje animację, aby klient stał zamiast przebierać nogami
+	sprite.stop()
 
 # ====== ANIMATION ======
 

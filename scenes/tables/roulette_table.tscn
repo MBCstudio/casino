@@ -34,3 +34,7 @@ position = Vector2(50, -67)
 
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=362652113]
 position = Vector2(-11, -67)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1254410962]
+vertices = PackedVector2Array(65, 14, 61, -3, 65, -35, -71, -35, -71, 33, 64, 29)
+affect_navigation_mesh = true

@@ -1867,7 +1867,12 @@ sources/28 = SubResource("TileSetAtlasSource_wr1la")
 sources/31 = SubResource("TileSetAtlasSource_n24re")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4bsi"]
-size = Vector2(160, 42)
+size = Vector2(160, 16.5)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_tp5si"]
+vertices = PackedVector2Array(1824.4609, 1068.8984, 236.38281, 1055.0938, 249.35938, 956.3281, 1819.5078, 971.6406, 120.85156, 1061.2422, 122.86719, 1079.3906, 2.9296875, 1083.6406, 82.859375, 1053.0391, -3.9296875, -16.4375, 84, 987.6797, 88.296875, 894.14844, 118.96094, 600.28906, 119.96875, 881.28125, 113.8125, 553.1172, 181.9375, 546.02344, 184.92969, 64.921875, 1823, 53.070313, 1823, 144, 1815.6016, 476.5, 1892.1406, 144, 1896.8594, 472.47656, 1820.3906, 591.60156, 183.07813, 604.65625, 180.07813, 954.28125, 1890.2109, 594.5781, 1898.7734, 966.6172, 86.72656, 188.21875, 119.84375, 191.14063, 83, 143.42188, 83, 29.9375, 126.578125, -9.4765625, 128.46875, 20.046875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(7, 6, 8, 9), PackedInt32Array(10, 9, 8), PackedInt32Array(11, 12, 10, 8, 13), PackedInt32Array(14, 15, 16, 17, 18), PackedInt32Array(17, 19, 20, 18), PackedInt32Array(14, 18, 21, 3, 2, 22), PackedInt32Array(2, 23, 22), PackedInt32Array(24, 25, 3, 21), PackedInt32Array(14, 22, 11, 13), PackedInt32Array(26, 27, 13), PackedInt32Array(26, 13, 8, 28), PackedInt32Array(29, 28, 8), PackedInt32Array(29, 8, 30, 31)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(175, 55, 1833, 43, 1833, 134, 1902, 134, 1907, 482, 1826, 486, 1830, 582, 1900, 585, 1909, 976, 1830, 981, 1835, 1079, 225, 1065, 238, 966, 170, 964, 173, 614, 129, 611, 130, 888, 98, 901, 94, 988, 93, 1045, 130, 1053, 134, 1089, -7, 1094, -14, -27, 136, -19, 139, 28, 93, 38, 93, 143, 96, 179, 130, 182, 124, 542, 172, 537)])
 
 [node name="CasinoFloor" type="Node2D" unique_id=1339453593]
 
@@ -1906,7 +1911,15 @@ screen_height = 1100
 script = ExtResource("16_gu02m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CasinoEntrance" unique_id=578348366]
-position = Vector2(78, 544)
+position = Vector2(78, 538.25)
 shape = SubResource("RectangleShape2D_d4bsi")
+
+[node name="EntrancePoint" type="Marker2D" parent="CasinoEntrance" unique_id=1707357204]
+position = Vector2(151, 550)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1634417178]
+position = Vector2(-1, -7)
+navigation_polygon = SubResource("NavigationPolygon_tp5si")
+use_edge_connections = false
 
 [connection signal="body_entered" from="CasinoEntrance" to="CasinoEntrance" method="_on_body_entered"]
