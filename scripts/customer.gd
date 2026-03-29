@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var money: float = 100.0
 @export var base_bet: float = 10.0
 @export var status: String = "normal"
+@export var cashier_point: Node2D
 
 var target_position: Vector2
 var target_table = null
@@ -13,6 +14,8 @@ var target_seat = null
 var is_seated = false
 
 # 🔥 NOWE
+var is_going_to_cashier = false
+var is_waiting_at_cashier = false
 var on_sidewalk = true
 var walking_direction = 1
 var risk: float
@@ -53,12 +56,29 @@ func start_sidewalk_walk():
 
 func go_to_casino():
 	on_sidewalk = false
+	find_cashier()
+
+func find_cashier():
+	var cashiers = get_tree().get_nodes_in_group("cashier")
+	
+	if cashiers.size() > 0:
+		is_going_to_cashier = true
+		target_position = cashiers[0].global_position 
+	else:
+		find_table()
+
+func wait_at_cashier():
+	is_waiting_at_cashier = true
+	
+	await get_tree().create_timer(5.0).timeout
+	
+	is_waiting_at_cashier = false
 	find_table()
 
 # ====== MOVEMENT ======
 
 func move_to_target():
-	if is_seated:
+	if is_seated or is_waiting_at_cashier:
 		return
 	
 	# 🔥 CHODNIK
@@ -84,7 +104,10 @@ func move_to_target():
 		velocity = Vector2.ZERO
 		global_position = target_position
 		
-		if target_table:
+		if is_going_to_cashier:
+			is_going_to_cashier = false
+			wait_at_cashier()
+		elif target_table and not is_seated:
 			is_seated = true
 			face_table()
 			try_play()
