@@ -20,6 +20,7 @@ var is_seated = false
 # Tablica trasy punkt po punkcie (waypointy) zastępująca skomplikowane flagi
 var waypoints: Array[Vector2] = []
 
+var counted_as_customer = false
 var has_visited_cashier = false
 var is_in_cashier_queue = false
 var is_waiting = false
@@ -66,6 +67,10 @@ func _physics_process(delta):
 	move_to_target()
 	update_animation()
 
+func _exit_tree():
+	if counted_as_customer and is_instance_valid(GameManager):
+		GameManager.remove_customer()
+
 # ====== SIDEWALK ======
 func go_to_casino():
 	on_sidewalk = false
@@ -80,6 +85,7 @@ func find_cashier():
 		set_target(cashiers[0].global_position)
 	else:
 		has_visited_cashier = true
+		counted_as_customer = true
 		# dodanie klienta do UI
 		GameManager.add_customer()
 		find_table()
@@ -97,6 +103,9 @@ func wait_at_cashier():
 	
 	is_waiting = false
 	is_in_cashier_queue = false
+	
+	counted_as_customer = true
+	GameManager.add_customer()
 	
 	find_table()
 	

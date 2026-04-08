@@ -32,17 +32,19 @@ func close():
 
 # ====== CONTROL ======
 func update_controls():
+	slider.step = 0.01
 	slider.min_value = current_table.base_win_probability - 0.05
 	slider.max_value = current_table.base_win_probability + 0.05
 	slider.value = current_table.win_probability
 	
-	win_label.text = "Win Chance: %.2f" % current_table.win_probability
+	win_label.text = "Win Chance: %.2f" % (current_table.win_probability * 100) + "%"
 
 func _on_HSlider_value_changed(value):
 	current_table.win_probability = value
-	win_label.text = "Win Chance: %.2f" % value
+	win_label.text = "Win Chance: %.2f" % (value * 100) + "%"
 	
-	current_table.update_prestige()
+	if current_table.has_method("update_prestige"):
+		current_table.update_prestige()
 
 # ====== CLOSE ======
 func _on_Close_pressed():
@@ -69,4 +71,6 @@ func _ready():
 	print("LABEL:", win_label)
 	
 	slider.value_changed.connect(_on_HSlider_value_changed)
+	if has_node("CenterContainer/Panel/VBoxContainer/Header/CloseButton"):
+		$CenterContainer/Panel/VBoxContainer/Header/CloseButton.pressed.connect(_on_Close_pressed)
 	

@@ -58,6 +58,18 @@ corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Close_Btn"]
+bg_color = Color(0.1, 0.05, 0.05, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.2, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="TableUi" type="CanvasLayer" unique_id=1830125835]
 process_mode = 3
 script = ExtResource("1_417wc")
@@ -107,6 +119,17 @@ size_flags_horizontal = 3
 [node name="PrestigeLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1409910028]
 layout_mode = 2
 text = "⭐ 5"
+
+[node name="ClosePadding" type="Control" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1029384756]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1122334455]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.3, 0.3, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_Close_Btn")
+text = "X"
 
 [node name="TabContainer" type="TabContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=736342985]
 custom_minimum_size = Vector2(800, 0)
