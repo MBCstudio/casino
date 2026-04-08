@@ -12,6 +12,7 @@ extends CharacterBody2D
 
 @onready var nav_agent = $NavigationAgent2D
 
+var target_position: Vector2
 var target_table = null
 var target_seat = null
 var is_seated = false
@@ -79,6 +80,8 @@ func find_cashier():
 		set_target(cashiers[0].global_position)
 	else:
 		has_visited_cashier = true
+		# dodanie klienta do UI
+		GameManager.add_customer()
 		find_table()
 
 func wait_at_cashier():
@@ -87,7 +90,7 @@ func wait_at_cashier():
 	
 	await get_tree().create_timer(wait_time_cashier).timeout
 	
-<<<<<<< Updated upstream
+
 	# Czekamy przy kasie aż zwolni się jakieś miejsce przy stolikach (jeśli kasyno jest pełne)
 	while _get_free_play_spots() <= 0:
 		await get_tree().create_timer(1.0).timeout
@@ -122,13 +125,7 @@ func wait_at_random_place():
 	await get_tree().create_timer(wait_t).timeout
 	
 	is_waiting = false
-=======
-	is_waiting_at_cashier = false
 	
-	# dodanie klienta do UI
-	GameManager.add_customer()
-	
->>>>>>> Stashed changes
 	find_table()
 
 # ====== MOVEMENT ======
@@ -358,13 +355,6 @@ func try_play():
 	
 	find_table()
 
-# ====== RANDOM ======
-func pick_random_target():
-	set_target(Vector2(
-		randf_range(200, 800),
-		randf_range(200, 900)
-	))
-
 # ====== ENTRY ======
 func decide_enter_casino():
 	if randf() < enter_chance:
@@ -425,22 +415,29 @@ func update_animation():
 	else:
 		sprite.play("walk_down" if velocity.y > 0 else "walk_up")
 
-# ====== FACING ======
-func face_table():
-	var sprite = $AnimatedSprite2D
-	
-	var dir = (target_table.global_position - global_position).normalized()
-	
-	if abs(dir.x) > abs(dir.y):
-		sprite.play("walk_right" if dir.x > 0 else "walk_left")
-	else:
-		sprite.play("walk_down" if dir.y > 0 else "walk_up")
-	
-	sprite.stop()
-
 # ====== LOGIC ======
 func should_leave() -> bool:
 	return anger > 75.0
 
 func should_change_table() -> bool:
 	return anger >= 50.0 and anger <= 75.0
+
+func approach_table() -> float:
+	var drawn = randf_range(0.0, 1.0)
+	var current_bet = base_bet
+	if drawn < risk:
+		current_bet *= 2.0
+	return current_bet
+	
+func play_round(win_probability: float) -> bool:
+	var final_win_chance = win_probability + luck + experience
+	var drawn = randf_range(0.0, 1.0)
+	return drawn < final_win_chance
+	
+func on_win(bet: float) -> void:
+	money += bet
+	anger = clamp(anger - 20.0, 0.0, 100.0)
+
+func on_loss(bet: float) -> void:
+	money -= bet
+	anger = clamp(anger + 20.0 - addiction, 0.0, 100.0)

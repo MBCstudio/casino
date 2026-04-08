@@ -35,6 +35,7 @@ func play_roulette() -> int:
 func play_blackjack() -> int:
 	var roll = randf()
 	return bet if roll < win_probability else -bet
+	
 
 # ====== CLIENT SYSTEM ======
 
