@@ -9,11 +9,9 @@ extends CharacterBody2D
 @export var money: float = 100.0
 @export var base_bet: float = 10.0
 @export var status: String = "normal"
-@export var cashier_point: Node2D
 
 @onready var nav_agent = $NavigationAgent2D
 
-var target_position: Vector2
 var target_table = null
 var target_seat = null
 var is_seated = false
@@ -26,12 +24,19 @@ var is_in_cashier_queue = false
 var is_waiting = false
 var on_sidewalk = true
 var walking_direction = 1
+
+var is_going_to_cashier = false
+var is_waiting_at_cashier = false
+var is_going_to_seat = false
+
+# ====== STATS ======
 var risk: float
 var addiction: float
 var luck: float
 var experience: float
 var anger: float = 0.0
 
+# ====== INIT ======
 func _ready():
 	randomize()
 	add_to_group("customers")
@@ -40,10 +45,8 @@ func _ready():
 	addiction = randf_range(0.0, 10.0)
 	luck = randf_range(-0.05, 0.05)
 	experience = randf_range(0.0, 0.03)
-	
-	print("Nowy gracz [%s]: 🪙 $%.2f | 🎲 Zakład: $%.2f | ⚠️ Ryzyko: %.2f | 🍷 Uzależnienie: %.2f | 🍀 Szczęście: %.2f | 🧠 Exp: %.2f" % [status, money, base_bet, risk, addiction, luck, experience])
 
-# ====== NAVIGATION HELPER ======
+# ====== NAVIGATION ======
 func set_target(pos: Vector2):
 	target_position = pos
 	nav_agent.target_position = pos
@@ -55,6 +58,7 @@ func _draw():
 		draw_circle(to_local(target_position), 5, Color.RED)
 	draw_circle(Vector2.ZERO, 5, Color.GREEN)
 
+# ====== MAIN LOOP ======
 func _physics_process(delta):
 	queue_redraw()
 	
@@ -62,16 +66,12 @@ func _physics_process(delta):
 	update_animation()
 
 # ====== SIDEWALK ======
-
-func start_sidewalk_walk():
-	walking_direction = [1, -1].pick_random()
-	on_sidewalk = true
-
 func go_to_casino():
 	on_sidewalk = false
 	is_in_cashier_queue = true
 	find_cashier()
 
+# ====== CASHIER ======
 func find_cashier():
 	var cashiers = get_tree().get_nodes_in_group("cashier")
 	
@@ -124,7 +124,6 @@ func wait_at_random_place():
 	find_table()
 
 # ====== MOVEMENT ======
-
 func move_to_target():
 	if is_seated or is_waiting:
 		return
@@ -136,7 +135,6 @@ func move_to_target():
 		
 		if global_position.y < -50 or global_position.y > 1200:
 			queue_free()
-		
 		return
 	
 	# CASINO NAVIGATION
@@ -224,7 +222,6 @@ func pick_random_target():
 	))
 
 # ====== TABLE SYSTEM ======
-
 func set_target_seat(seat, table):
 	target_seat = seat
 	target_table = table
@@ -321,32 +318,29 @@ func find_table():
 		if table.try_add_player(self):
 			return
 	
-	target_table = null
-	target_seat = null
 	pick_random_target()
 
+# ====== GAMEPLAY ======
 func try_play():
 	while target_table != null:
 		await get_tree().create_timer(wait_time_table).timeout
 			
 		if not target_table:
 			break
-			
+		
 		var could_play = target_table.play_with_client(self)
 		
 		if not could_play:
-			print("Gracz [%s] nie ma srodków na grę, szuka innej opcji." % status)
 			break
-			
+		
 		if should_leave():
-			print("Gracz [%s] jest wściekły (Złość: %.1f) i wychodzi z kasyna!" % [status, anger])
 			target_table.remove_player(self)
 			queue_free()
 			return
+		
 		elif should_change_table():
-			print("Gracz [%s] zmienia stolik (Złość: %.1f)." % [status, anger])
 			break
-			
+	
 	if target_table:
 		target_table.remove_player(self)
 		
@@ -356,8 +350,14 @@ func try_play():
 	
 	find_table()
 
-# ====== ENTRY DECISION ======
+# ====== RANDOM ======
+func pick_random_target():
+	set_target(Vector2(
+		randf_range(200, 800),
+		randf_range(200, 900)
+	))
 
+# ====== ENTRY ======
 func decide_enter_casino():
 	if randf() < enter_chance:
 		# Ile osób max przy stołach
@@ -402,7 +402,6 @@ func face_table():
 		try_face_target(target_table.global_position)
 
 # ====== ANIMATION ======
-
 func update_animation():
 	var sprite = $AnimatedSprite2D
 	
@@ -418,36 +417,20 @@ func update_animation():
 	else:
 		sprite.play("walk_down" if velocity.y > 0 else "walk_up")
 
-# ====== EMOTIONS ======
+# ====== FACING ======
+func face_table():
+	var sprite = $AnimatedSprite2D
+	
+	var dir = (target_table.global_position - global_position).normalized()
+	
+	if abs(dir.x) > abs(dir.y):
+		sprite.play("walk_right" if dir.x > 0 else "walk_left")
+	else:
+		sprite.play("walk_down" if dir.y > 0 else "walk_up")
+	
+	sprite.stop()
 
-func happy():
-	print("😊 klient wygrywa")
-
-func angry():
-	print("😡 klient przegrywa")
-
-# ====== GAMBLING LOGIC ======
-
-func approach_table() -> float:
-	var drawn = randf_range(0.0, 1.0)
-	var current_bet = base_bet
-	if drawn < risk:
-		current_bet *= 2.0
-	return current_bet
-
-func play_round(win_probability: float) -> bool:
-	var final_win_chance = win_probability + luck + experience
-	var drawn = randf_range(0.0, 1.0)
-	return drawn < final_win_chance
-
-func on_win(bet: float) -> void:
-	money += bet
-	anger = clamp(anger - 20.0, 0.0, 100.0)
-
-func on_loss(bet: float) -> void:
-	money -= bet
-	anger = clamp(anger + 20.0 - addiction, 0.0, 100.0)
-
+# ====== LOGIC ======
 func should_leave() -> bool:
 	return anger > 75.0
 
