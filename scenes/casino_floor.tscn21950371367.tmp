@@ -2122,11 +2122,8 @@ layer_5/tile_data = PackedInt32Array(1507446, 589828, 1342177281, 1441910, 52429
 [node name="Tables" type="Node2D" parent="." unique_id=1013377653]
 
 [node name="RouletteTable" parent="Tables" unique_id=592396658 instance=ExtResource("3_i2asg")]
-position = Vector2(1527, 748)
+position = Vector2(1536, 326)
 scale = Vector2(1.2, 1.2)
-
-[node name="RouletteTable2" parent="Tables" unique_id=1387399777 instance=ExtResource("3_i2asg")]
-position = Vector2(1514, 336)
 
 [node name="Customers" type="Node2D" parent="." unique_id=1331321745]
 
