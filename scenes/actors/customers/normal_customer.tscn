@@ -151,6 +151,7 @@ height = 104.0
 position = Vector2(7.06, 0)
 motion_mode = 1
 up_direction = Vector2(-1, 0)
+wall_min_slide_angle = 0.18151425
 script = ExtResource("1_hsaiv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1294089300]
