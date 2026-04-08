@@ -18,7 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://dh8erbvucosky" path="res://assets/sprites/exit_160x36.png" id="14_d4bsi"]
 [ext_resource type="Texture2D" uid="uid://chwjkk8rwsesp" path="res://assets/sprites/exit_160x40.png" id="15_pampg"]
 [ext_resource type="Script" uid="uid://dxxwvag7sl4f6" path="res://scripts/customer_spawner.gd" id="15_tp5si"]
-[ext_resource type="Script" path="res://scenes/casino_entrance.gd" id="16_gu02m"]
+[ext_resource type="Script" uid="uid://dumvl3v56sleb" path="res://scenes/casino_entrance.gd" id="16_gu02m"]
+[ext_resource type="PackedScene" uid="uid://dajgp7w0ug6wc" path="res://scenes/UI/UI.tscn" id="18_d4bsi"]
+[ext_resource type="PackedScene" uid="uid://cin8704d7kc3m" path="res://scenes/UI/TableUI.tscn" id="19_pampg"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d4bsi"]
 
@@ -2154,5 +2156,9 @@ use_edge_connections = false
 
 [node name="CashierDesk" type="Marker2D" parent="." unique_id=1547498045 groups=["cashier"]]
 position = Vector2(329, 551)
+
+[node name="Ui" parent="." unique_id=221227362 instance=ExtResource("18_d4bsi")]
+
+[node name="TableUi" parent="." unique_id=1830125835 instance=ExtResource("19_pampg")]
 
 [connection signal="body_entered" from="CasinoEntrance" to="CasinoEntrance" method="_on_body_entered"]

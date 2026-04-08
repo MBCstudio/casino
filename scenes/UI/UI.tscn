@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dajgp7w0ug6wc"]
+
+[ext_resource type="Script" uid="uid://bu2mtahgta2q6" path="res://scripts/UI.gd" id="1_0wsoe"]
+
+[node name="Ui" type="CanvasLayer" unique_id=488884624]
+script = ExtResource("1_0wsoe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1040689582]
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.032
+offset_right = 326.66675
+offset_bottom = -11.560001
+grow_horizontal = 2
+scale = Vector2(1.5, 1.5)
+alignment = 1
+
+[node name="Money" type="Label" parent="HBoxContainer" unique_id=1192402616]
+layout_mode = 2
+
+[node name="Reputation" type="Label" parent="HBoxContainer" unique_id=1679033452]
+layout_mode = 2
+
+[node name="Customers" type="Label" parent="HBoxContainer" unique_id=648516869]
+layout_mode = 2

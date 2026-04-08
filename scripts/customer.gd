@@ -87,6 +87,7 @@ func wait_at_cashier():
 	
 	await get_tree().create_timer(wait_time_cashier).timeout
 	
+<<<<<<< Updated upstream
 	# Czekamy przy kasie aż zwolni się jakieś miejsce przy stolikach (jeśli kasyno jest pełne)
 	while _get_free_play_spots() <= 0:
 		await get_tree().create_timer(1.0).timeout
@@ -121,6 +122,13 @@ func wait_at_random_place():
 	await get_tree().create_timer(wait_t).timeout
 	
 	is_waiting = false
+=======
+	is_waiting_at_cashier = false
+	
+	# dodanie klienta do UI
+	GameManager.add_customer()
+	
+>>>>>>> Stashed changes
 	find_table()
 
 # ====== MOVEMENT ======

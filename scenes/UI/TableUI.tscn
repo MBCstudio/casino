@@ -1,0 +1,202 @@
+[gd_scene format=3 uid="uid://cin8704d7kc3m"]
+
+[ext_resource type="Script" uid="uid://btc05p0bhw5ld" path="res://scripts/TableUi.gd" id="1_417wc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_417wc"]
+bg_color = Color(0.05882353, 0.09411765, 0.0627451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83137256, 0.6862745, 0.21568628, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xlikm"]
+bg_color = Color(0.06666667, 0.101960786, 0.07450981, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83137256, 0.6862745, 0.21568628, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37ayo"]
+bg_color = Color(0.06666667, 0.101960786, 0.07450981, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83137256, 0.6862745, 0.21568628, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esfql"]
+bg_color = Color(0.34362257, 0.65921175, 0.6776698, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cufid"]
+bg_color = Color(0.9626749, 0.26891437, 0.75717473, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kim4i"]
+bg_color = Color(0.3093739, 0.70737225, 1.347661e-06, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4w3o0"]
+bg_color = Color(0.73023564, 0.579869, 0.092435844, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[node name="TableUi" type="CanvasLayer" unique_id=1830125835]
+process_mode = 3
+script = ExtResource("1_417wc")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1968327874]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 4.0
+offset_right = 43.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1785459074]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_417wc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=864021131]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 20
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1994341268]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=44536889]
+layout_mode = 2
+
+[node name="TitleBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=61142122]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header/TitleBox" unique_id=779180717]
+layout_mode = 2
+text = "Roulette Table"
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header/TitleBox" unique_id=21538536]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1867657289]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PrestigeLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1409910028]
+layout_mode = 2
+text = "⭐ 5"
+
+[node name="TabContainer" type="TabContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=736342985]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 2
+all_tabs_in_front = true
+
+[node name="Stats" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=289039907]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats" unique_id=1721920144]
+layout_mode = 0
+offset_right = 160.0
+columns = 2
+
+[node name="TableTypePanel" type="Panel" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/GridContainer" unique_id=871145958]
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="BetPanel" type="Panel" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/GridContainer" unique_id=1007869633]
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_37ayo")
+
+[node name="SliderPanel" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats" unique_id=1973647054]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 160.0
+offset_bottom = 47.0
+
+[node name="WinLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/SliderPanel" unique_id=842085291]
+layout_mode = 2
+text = "Win Probability"
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/SliderPanel" unique_id=939254246]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/slider = SubResource("StyleBoxFlat_esfql")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_cufid")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_kim4i")
+
+[node name="PrestigePanel" type="Panel" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats" unique_id=1566166773]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 160.0
+offset_bottom = 8.0
+
+[node name="Dealer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=1051378862]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="DealerInfoLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer" unique_id=1281824814]
+layout_mode = 0
+offset_left = 327.0
+offset_top = 33.0
+offset_right = 487.0
+offset_bottom = 56.0
+text = "Dealer Level: 1"
+
+[node name="DealerUpgradeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer" unique_id=1595853081]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 424.0
+offset_right = 492.0
+offset_bottom = 455.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_4w3o0")
+text = "Upgrade Dealer"
+
+[node name="Table" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=599276071]
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="TablleInfoLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table" unique_id=234608411]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 16.0
+offset_right = 455.0
+offset_bottom = 39.0
+text = "Table Level: 1"
+
+[node name="TableUpgradeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table" unique_id=2142634531]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 424.0
+offset_right = 492.0
+offset_bottom = 455.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_4w3o0")
+text = "Upgrade Table"

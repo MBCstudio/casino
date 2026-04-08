@@ -14,6 +14,10 @@ config/name="casino_1"
 run/main_scene="uid://pl2i388qfik7"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
+[autoload]
+
+GameManager="*uid://drm5ub0wred75"
+
 [display]
 
 window/size/viewport_width=1920

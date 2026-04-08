@@ -2,8 +2,10 @@ extends Node2D
 
 @export var table_type: String = "roulette"
 @export var win_probability: float = 0.45
+@export var base_win_probability: float = 0.45
 @export var bet: int = 10
 @export var max_players: int = 5
+var prestige: int = 10
 
 var current_players: Array = []
 var seats: Array = []
@@ -73,16 +75,22 @@ func play_with_client(client) -> bool:
 	
 	if is_win:
 		client.on_win(current_bet)
+		
+		# 🔥 kasyno przegrywa
+		GameManager.remove_money(current_bet)
+		
 		if client.has_method("happy"):
 			client.happy()
-		print("Gracz w %s wygrał %.2f$! Stan konta: %.2f$ (Złość: %.2f)" % [table_type, current_bet, client.money, client.anger])
+			
 	else:
 		client.on_loss(current_bet)
+		
+		# 🔥 kasyno zarabia
+		GameManager.add_money(current_bet)
+		
 		if client.has_method("angry"):
 			client.angry()
-		print("Gracz w %s przegrał %.2f$... Stan konta: %.2f$ (Złość: %.2f)" % [table_type, current_bet, client.money, client.anger])
-		
-	# Zwracam true bo grana runda się powiodła (gracz miał pieniądze)
+	
 	return true
 
 # ====== CLICK / UI ======
@@ -92,4 +100,22 @@ func _input_event(viewport, event, shape_idx):
 		open_table_menu()
 
 func open_table_menu():
-	print("Kliknięto stolik:", table_type)
+	get_tree().paused = true
+	
+	var ui = get_tree().get_first_node_in_group("table_ui")
+	
+	if ui:
+		ui.open(self)
+	else:
+		print("TableUI not found!")
+	
+# ====== Prestige ========
+func get_prestige():
+	return prestige
+
+func update_prestige():
+	var diff = abs(win_probability - base_win_probability)
+	
+	# im bardziej manipulujesz → tym gorzej
+	prestige = int(10 - diff * 100)
+	prestige = clamp(prestige, 0, 10)
