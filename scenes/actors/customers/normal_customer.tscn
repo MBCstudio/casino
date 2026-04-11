@@ -144,24 +144,27 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o7yud"]
-radius = 8.0
-height = 104.0
+radius = 17.0
+height = 58.0
 
 [node name="Normal_customer" type="CharacterBody2D" unique_id=1597932130]
-position = Vector2(7.06, 0)
 motion_mode = 1
 up_direction = Vector2(-1, 0)
 wall_min_slide_angle = 0.18151425
 script = ExtResource("1_hsaiv")
-enter_chance = 0.2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1294089300]
+position = Vector2(-1, 5)
+scale = Vector2(0.82812494, 0.71875)
 sprite_frames = SubResource("SpriteFrames_bolbq")
 animation = &"walk_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1110807250]
-position = Vector2(0.94000006, -2)
+position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_o7yud")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=336824352]
 avoidance_enabled = true
+radius = 25.0
+neighbor_distance = 100.0
+time_horizon_agents = 1.5

@@ -4,9 +4,10 @@
 [ext_resource type="Script" uid="uid://bsm02eooh608o" path="res://scripts/casino_table.gd" id="1_o1oql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1oql"]
-size = Vector2(135, 71)
+size = Vector2(134, 74)
 
-[node name="RouletteTable" type="Area2D" unique_id=1387399777]
+[node name="RouletteTable" type="StaticBody2D" unique_id=1387399777]
+collision_mask = 3
 script = ExtResource("1_o1oql")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=418557897]
@@ -14,9 +15,6 @@ scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_12cc0")
 region_enabled = true
 region_rect = Rect2(911.86273, 195.77155, 112.70575, 61.092865)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1863102322]
-shape = SubResource("RectangleShape2D_o1oql")
 
 [node name="Seats" type="Node2D" parent="." unique_id=1475944728]
 
@@ -35,6 +33,6 @@ position = Vector2(50, -67)
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=362652113]
 position = Vector2(-11, -67)
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1254410962]
-vertices = PackedVector2Array(65, 14, 61, -3, 65, -35, -71, -35, -71, 33, 64, 29)
-affect_navigation_mesh = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1612867575]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_o1oql")

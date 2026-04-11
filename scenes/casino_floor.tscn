@@ -16,11 +16,11 @@
 [ext_resource type="Texture2D" uid="uid://cf3ys7r7n4lav" path="res://assets/sprites/prop_casino_doors_topdown_96x96.png" id="12_d4bsi"]
 [ext_resource type="PackedScene" uid="uid://74x1tkdy464n" path="res://scenes/actors/customers/normal_customer.tscn" id="14_3febt"]
 [ext_resource type="Texture2D" uid="uid://dh8erbvucosky" path="res://assets/sprites/exit_160x36.png" id="14_d4bsi"]
-[ext_resource type="Texture2D" uid="uid://chwjkk8rwsesp" path="res://assets/sprites/exit_160x40.png" id="15_pampg"]
 [ext_resource type="Script" uid="uid://dxxwvag7sl4f6" path="res://scripts/customer_spawner.gd" id="15_tp5si"]
 [ext_resource type="Script" path="res://scenes/casino_entrance.gd" id="16_gu02m"]
 [ext_resource type="PackedScene" uid="uid://dajgp7w0ug6wc" path="res://scenes/UI/UI.tscn" id="18_d4bsi"]
 [ext_resource type="PackedScene" uid="uid://cin8704d7kc3m" path="res://scenes/UI/TableUI.tscn" id="19_pampg"]
+[ext_resource type="PackedScene" uid="uid://dx5q3icf8ycuw" path="res://scenes/bar/bar.tscn" id="21_frn8k"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d4bsi"]
 
@@ -1984,8 +1984,10 @@ texture = ExtResource("14_d4bsi")
 8:1/0 = 0
 9:1/0 = 0
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_frn8k"]
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5f1gh"]
-texture = ExtResource("15_pampg")
+texture = SubResource("CompressedTexture2D_frn8k")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -2097,11 +2099,19 @@ sources/5 = SubResource("TileSetAtlasSource_5f1gh")
 size = Vector2(160, 2)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tp5si"]
-vertices = PackedVector2Array(1824.4609, 1068.8984, 236.38281, 1055.0938, 249.35938, 956.3281, 1819.5078, 971.6406, 120.85156, 1061.2422, 122.86719, 1079.3906, 2.9296875, 1083.6406, 82.859375, 1053.0391, -3.9296875, -16.4375, 84, 987.6797, 88.296875, 894.14844, 118.96094, 600.28906, 119.96875, 881.28125, 113.8125, 553.1172, 181.9375, 546.02344, 184.92969, 64.921875, 1823, 53.070313, 1823, 144, 1815.6016, 476.5, 1892.1406, 144, 1896.8594, 472.47656, 1820.3906, 591.60156, 183.07813, 604.65625, 180.07813, 954.28125, 1890.2109, 594.5781, 1898.7734, 966.6172, 86.72656, 188.21875, 119.84375, 191.14063, 83, 143.42188, 83, 29.9375, 126.578125, -9.4765625, 128.46875, 20.046875)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(7, 6, 8, 9), PackedInt32Array(10, 9, 8), PackedInt32Array(11, 12, 10, 8, 13), PackedInt32Array(14, 15, 16, 17, 18), PackedInt32Array(17, 19, 20, 18), PackedInt32Array(14, 18, 21, 3, 2, 22), PackedInt32Array(2, 23, 22), PackedInt32Array(24, 25, 3, 21), PackedInt32Array(14, 22, 11, 13), PackedInt32Array(26, 27, 13), PackedInt32Array(26, 13, 8, 28), PackedInt32Array(29, 28, 8), PackedInt32Array(29, 8, 30, 31)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(175, 55, 1833, 43, 1833, 134, 1902, 134, 1907, 482, 1826, 486, 1830, 582, 1900, 585, 1909, 976, 1830, 981, 1835, 1079, 225, 1065, 238, 966, 170, 964, 173, 614, 129, 611, 130, 888, 98, 901, 94, 988, 93, 1045, 130, 1053, 134, 1089, -7, 1094, -14, -27, 136, -19, 139, 28, 93, 38, 93, 143, 96, 179, 130, 182, 124, 542, 172, 537)])
+vertices = PackedVector2Array(14.1796875, 2.5390625, 102.59375, 7.25, 65, 15.4296875, 1803.1016, 608.8672, 1872.6094, 611.84375, 1880.3906, 949.75, 1800.6328, 954.7969, 1636.3984, 826.2031, 1636.3984, 681.39844, 1885.3906, 162, 1920.8516, 226.89063, 1918.0938, 363.0625, 1886.6484, 454.96094, 1796.8672, 459.39844, 1610, 407, 1610, 277, 1805, 162, 20.8125, 1064.9922, 65, 144.15625, 64.671875, 1063.4375, 70.046875, 204.82031, 66.00781, 987.1094, 1805.5234, 1050.7422, 256.8828, 1037.2734, 269.79688, 938.9219, 1419.6016, 826.2031, 70.85156, 881.8125, 101.92969, 869.1797, 95.47656, 573.1172, 451, 703, 451, 402, 1419.6016, 681.39844, 354, 703, 202.82031, 82.796875, 1805, 71.203125, 1420, 277, 198.22656, 936.8125, 201.22656, 587.8594, 354, 402, 101.5625, 207.59375, 100.890625, 581.02344, 199.84375, 562.25, 1420, 407)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12, 13, 14, 15, 16), PackedInt32Array(17, 0, 2, 18), PackedInt32Array(19, 17, 18, 20, 21), PackedInt32Array(7, 6, 22, 23, 24, 25), PackedInt32Array(26, 21, 20), PackedInt32Array(27, 26, 20, 28), PackedInt32Array(29, 30, 31, 25), PackedInt32Array(29, 25, 24, 32), PackedInt32Array(33, 34, 16, 15, 35), PackedInt32Array(32, 24, 36, 37, 38), PackedInt32Array(20, 39, 28), PackedInt32Array(40, 27, 28), PackedInt32Array(40, 28, 41, 37), PackedInt32Array(38, 37, 41, 33), PackedInt32Array(38, 33, 35, 30), PackedInt32Array(31, 30, 35, 42), PackedInt32Array(8, 31, 42, 14, 13, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(175, 55, 1833, 43, 1833, 134, 1902, 134, 1949, 220, 1946, 368, 1907, 482, 1826, 486, 1830, 582, 1900, 585, 1909, 976, 1830, 981, 1835, 1079, 225, 1065, 238, 966, 170, 964, 173, 614, 129, 611, 130, 888, 98, 901, 94, 988, 93, 1045, 130, 1053, 134, 1089, -7, 1094, -14, -27, 136, -19, 139, 28, 93, 38, 93, 143, 96, 179, 130, 182, 124, 542, 172, 537)])
+source_geometry_mode = 1
+agent_radius = 28.0
 
-[node name="CasinoFloor" type="Node2D" unique_id=1339453593]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_frn8k"]
+size = Vector2(32, 163)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1gx8"]
+size = Vector2(41, 245)
+
+[node name="CasinoFloor" type="Node2D" unique_id=1339453593 groups=["navigation_polygon_source_geometry_group"]]
 
 [node name="Floor" type="Node2D" parent="." unique_id=77351220]
 
@@ -2117,9 +2127,6 @@ layer_2/tile_data = PackedInt32Array(458757, 65556, 5, 589829, 65556, 7, 131078,
 layer_3/name = "kwiatki"
 layer_3/tile_data = PackedInt32Array(131187, 65555, 1, 196723, 65555, 2, 262259, 65555, 3, 65652, 131091, 0, 131188, 131091, 1, 196724, 131091, 2, 262260, 131091, 3, 327796, 131091, 4, 393332, 131091, 5, 65653, 196627, 0, 131189, 196627, 1, 196725, 196627, 2, 262261, 196627, 3, 327797, 196627, 4, 393333, 196627, 5, 131190, 262163, 1, 196726, 262163, 2, 262262, 262163, 3, 2031731, 65555, 1, 2097267, 65555, 2, 2162803, 65555, 3, 1966196, 131091, 0, 2031732, 131091, 1, 2097268, 131091, 2, 2162804, 131091, 3, 2228340, 131091, 4, 2293876, 131091, 5, 1966197, 196627, 0, 2031733, 196627, 1, 2097269, 196627, 2, 2162805, 196627, 3, 2228341, 196627, 4, 2293877, 196627, 5, 2031734, 262163, 1, 2097270, 262163, 2, 2162806, 262163, 3, 3997707, 65555, 1, 4063243, 65555, 2, 4128779, 65555, 3, 3932172, 131091, 0, 3997708, 131091, 1, 4063244, 131091, 2, 4128780, 131091, 3, 4194316, 131091, 4, 4259852, 131091, 5, 3932173, 196627, 0, 3997709, 196627, 1, 4063245, 196627, 2, 4128781, 196627, 3, 4194317, 196627, 4, 4259853, 196627, 5, 3997710, 262163, 1, 4063246, 262163, 2, 4128782, 262163, 3, 4063347, 65555, 1, 4128883, 65555, 2, 4194419, 65555, 3, 3997812, 131091, 0, 4063348, 131091, 1, 4128884, 131091, 2, 4194420, 131091, 3, 4259956, 131091, 4, 4325492, 131091, 5, 3997813, 196627, 0, 4063349, 196627, 1, 4128885, 196627, 2, 4194421, 196627, 3, 4259957, 196627, 4, 4325493, 196627, 5, 4063350, 262163, 1, 4128886, 262163, 2, 4194422, 262163, 3)
 layer_4/name = "cashier_desk"
-layer_4/tile_data = PackedInt32Array(1900564, 131103, 3, 1966100, 131103, 4, 2031636, 131103, 5, 2097172, 131103, 6, 2162708, 131103, 7, 2228244, 131103, 8, 1900565, 196639, 3, 1966101, 196639, 4, 2031637, 196639, 5, 2097173, 196639, 6, 2162709, 196639, 7, 2228245, 196639, 8, 2293781, 196639, 9, 2359317, 196639, 10, 2424853, 196639, 11, 2490389, 196639, 12, 2555925, 196639, 13, 2621461, 196639, 14, 2686997, 196639, 15, 1703958, 262175, 0, 1769494, 262175, 1, 1835030, 262175, 2, 1900566, 262175, 3, 1966102, 262175, 4, 2031638, 262175, 5, 2097174, 262175, 6, 2162710, 262175, 7, 2228246, 262175, 8, 2293782, 262175, 9, 2359318, 262175, 10, 2424854, 262175, 11, 2490390, 262175, 12, 2555926, 262175, 13, 2621462, 262175, 14, 2686998, 262175, 15, 1703959, 327711, 0, 1769495, 327711, 1, 1835031, 327711, 2, 1900567, 327711, 3, 1966103, 327711, 4, 2031639, 327711, 5, 2097175, 327711, 6, 2162711, 327711, 7, 2228247, 327711, 8, 2293783, 327711, 9, 2359319, 327711, 10, 2424855, 327711, 11, 2490391, 327711, 12, 2555927, 327711, 13, 2621463, 327711, 14, 2686999, 327711, 15, 1703960, 393247, 0, 1769496, 393247, 1, 1835032, 393247, 2, 1900568, 393247, 3, 1966104, 393247, 4, 2031640, 393247, 5, 2097176, 393247, 6, 2162712, 393247, 7, 2228248, 393247, 8, 2293784, 393247, 9, 2359320, 393247, 10, 2424856, 393247, 11, 2490392, 393247, 12, 2555928, 393247, 13, 2621464, 393247, 14, 2687000, 393247, 15)
-layer_5/name = "exit layer"
-layer_5/tile_data = PackedInt32Array(1507446, 589828, 1342177281, 1441910, 524292, 1342177281, 1376374, 458756, 1342177281, 1310838, 393220, 1342177281, 1245302, 327684, 1342177281, 1179766, 262148, 1342177281, 1114230, 196612, 1342177281, 1048694, 131076, 1342177281, 983158, 65540, 1342177281, 917622, 4, 1342177281, 1507447, 589828, 1342177280, 1441911, 524292, 1342177280, 1376375, 458756, 1342177280, 1310839, 393220, 1342177280, 1245303, 327684, 1342177280, 1179767, 262148, 1342177280, 1114231, 196612, 1342177280, 1048695, 131076, 1342177280, 983159, 65540, 1342177280, 917623, 4, 1342177280)
 
 [node name="Tables" type="Node2D" parent="." unique_id=1013377653]
 
@@ -2154,11 +2161,36 @@ position = Vector2(-1, -7)
 navigation_polygon = SubResource("NavigationPolygon_tp5si")
 use_edge_connections = false
 
-[node name="CashierDesk" type="Marker2D" parent="." unique_id=1547498045 groups=["cashier"]]
-position = Vector2(329, 551)
-
 [node name="Ui" parent="." unique_id=221227362 instance=ExtResource("18_d4bsi")]
 
 [node name="TableUi" parent="." unique_id=1830125835 instance=ExtResource("19_pampg")]
+visible = false
+
+[node name="Exit" type="Area2D" parent="." unique_id=502333939 groups=["exits"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="Exit" unique_id=344816905]
+position = Vector2(1901, 284)
+rotation = 1.5707964
+texture = ExtResource("14_d4bsi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit" unique_id=1055696843]
+position = Vector2(1902, 284.5)
+shape = SubResource("RectangleShape2D_frn8k")
+
+[node name="kasa" type="StaticBody2D" parent="." unique_id=1302950867 groups=["cashier"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="kasa" unique_id=330827078]
+position = Vector2(390, 544)
+texture = ExtResource("12_3febt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kasa" unique_id=541998798]
+position = Vector2(401.5, 545.5)
+shape = SubResource("RectangleShape2D_p1gx8")
+
+[node name="CashierDeskPoint" type="Marker2D" parent="kasa" unique_id=1547498045]
+position = Vector2(342, 557)
+
+[node name="Bar" parent="." unique_id=599524340 instance=ExtResource("21_frn8k")]
+position = Vector2(209, 248)
 
 [connection signal="body_entered" from="CasinoEntrance" to="CasinoEntrance" method="_on_body_entered"]
