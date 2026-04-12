@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var table_type: String = "roulette"
-@export var win_probability: float = 0.45
-@export var base_win_probability: float = 0.45
+@export var win_probability: float = 0.50
+@export var base_win_probability: float = 0.50
 @export var bet: int = 10
 @export var max_players: int = 5
 var prestige: int = 10
@@ -117,9 +117,15 @@ func open_table_menu():
 func get_prestige():
 	return prestige
 
+var prestige_bonus: int = 0
+
+func add_prestige_bonus(amount: int):
+	prestige_bonus += amount
+	update_prestige()
+
 func update_prestige():
 	var diff = abs(win_probability - base_win_probability)
 	
 	# im bardziej manipulujesz → tym gorzej
-	prestige = int(10 - diff * 100)
-	prestige = clamp(prestige, 0, 10)
+	prestige = int(10 - diff * 100) + prestige_bonus
+	prestige = max(0, prestige)
