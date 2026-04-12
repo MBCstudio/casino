@@ -15,6 +15,9 @@ func _ready():
 	randomize()
 	add_to_group("tables")
 	
+	if "input_pickable" in self:
+		set("input_pickable", true)
+	
 	seats = $Seats.get_children()
 
 # ====== GAME LOGIC ======
@@ -97,7 +100,7 @@ func play_with_client(client) -> bool:
 # ====== CLICK / UI ======
 
 func _input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.pressed:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		open_table_menu()
 
 func open_table_menu():

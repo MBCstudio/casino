@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://denpfn6fqi4ab" path="res://assets/sprites/bar_asset.png" id="1_iqaid"]
 
 [node name="Bar" type="StaticBody2D" unique_id=599524340 groups=["bars"]]
+position = Vector2(612, 427)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=48767173]
 rotation = 6.2831855
@@ -10,3 +11,17 @@ texture = ExtResource("1_iqaid")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=58663982]
 polygon = PackedVector2Array(-2, -173, -2, 178, 34, 178, 34, 13, 64, 13, 63, -120, 36, -120, 35, -176)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=2091901359]
+
+[node name="Seat1" type="Marker2D" parent="Node2D" unique_id=621366634]
+position = Vector2(89, -111)
+
+[node name="Seat2" type="Marker2D" parent="Node2D" unique_id=902322063]
+position = Vector2(90, -35)
+
+[node name="Seat3" type="Marker2D" parent="Node2D" unique_id=1497412773]
+position = Vector2(69, 74)
+
+[node name="Seat4" type="Marker2D" parent="Node2D" unique_id=1411079561]
+position = Vector2(91, 22)

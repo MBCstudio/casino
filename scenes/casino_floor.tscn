@@ -2099,8 +2099,8 @@ sources/5 = SubResource("TileSetAtlasSource_5f1gh")
 size = Vector2(160, 2)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tp5si"]
-vertices = PackedVector2Array(14.1796875, 2.5390625, 102.59375, 7.25, 65, 15.4296875, 1803.1016, 608.8672, 1872.6094, 611.84375, 1880.3906, 949.75, 1800.6328, 954.7969, 1636.3984, 826.2031, 1636.3984, 681.39844, 1885.3906, 162, 1920.8516, 226.89063, 1918.0938, 363.0625, 1886.6484, 454.96094, 1796.8672, 459.39844, 1610, 407, 1610, 277, 1805, 162, 20.8125, 1064.9922, 65, 144.15625, 64.671875, 1063.4375, 70.046875, 204.82031, 66.00781, 987.1094, 1805.5234, 1050.7422, 256.8828, 1037.2734, 269.79688, 938.9219, 1419.6016, 826.2031, 70.85156, 881.8125, 101.92969, 869.1797, 95.47656, 573.1172, 451, 703, 451, 402, 1419.6016, 681.39844, 354, 703, 202.82031, 82.796875, 1805, 71.203125, 1420, 277, 198.22656, 936.8125, 201.22656, 587.8594, 354, 402, 101.5625, 207.59375, 100.890625, 581.02344, 199.84375, 562.25, 1420, 407)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12, 13, 14, 15, 16), PackedInt32Array(17, 0, 2, 18), PackedInt32Array(19, 17, 18, 20, 21), PackedInt32Array(7, 6, 22, 23, 24, 25), PackedInt32Array(26, 21, 20), PackedInt32Array(27, 26, 20, 28), PackedInt32Array(29, 30, 31, 25), PackedInt32Array(29, 25, 24, 32), PackedInt32Array(33, 34, 16, 15, 35), PackedInt32Array(32, 24, 36, 37, 38), PackedInt32Array(20, 39, 28), PackedInt32Array(40, 27, 28), PackedInt32Array(40, 28, 41, 37), PackedInt32Array(38, 37, 41, 33), PackedInt32Array(38, 33, 35, 30), PackedInt32Array(31, 30, 35, 42), PackedInt32Array(8, 31, 42, 14, 13, 3)])
+vertices = PackedVector2Array(14.1796875, 2.5390625, 102.59375, 7.25, 65, 15.4296875, 1803.1016, 608.8672, 1872.6094, 611.84375, 1880.3906, 949.75, 1800.6328, 954.7969, 1636.3984, 826.2031, 1636.3984, 681.39844, 1885.3906, 162, 1920.8516, 226.89063, 1918.0938, 363.0625, 1886.6484, 454.96094, 1796.8672, 459.39844, 1610, 407, 1610, 277, 1805, 162, 20.8125, 1064.9922, 65, 144.15625, 64.671875, 1063.4375, 70.046875, 204.82031, 66.00781, 987.1094, 1805.5234, 1050.7422, 256.8828, 1037.2734, 269.79688, 938.9219, 1419.6016, 826.2031, 70.85156, 881.8125, 101.92969, 869.1797, 95.47656, 573.1172, 451, 692, 451, 402, 1419.6016, 681.39844, 356, 692, 273.5078, 107, 273.0625, 82.28906, 1805, 71.203125, 300.78906, 107, 1420, 277, 302.21094, 296, 1420, 407, 272, 461, 272, 296, 356, 402, 199.84375, 562.25, 200.46875, 461, 198.22656, 936.8125, 201.22656, 587.8594, 101.5625, 207.59375, 100.890625, 581.02344)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12, 13, 14, 15, 16), PackedInt32Array(17, 0, 2, 18), PackedInt32Array(19, 17, 18, 20, 21), PackedInt32Array(7, 6, 22, 23, 24, 25), PackedInt32Array(26, 21, 20), PackedInt32Array(27, 26, 20, 28), PackedInt32Array(29, 30, 31, 25), PackedInt32Array(29, 25, 24, 32), PackedInt32Array(33, 34, 35, 36), PackedInt32Array(36, 35, 16, 15, 37), PackedInt32Array(30, 38, 36, 37, 39, 31), PackedInt32Array(40, 41, 38, 42), PackedInt32Array(43, 44, 40), PackedInt32Array(32, 24, 45, 46, 42), PackedInt32Array(20, 47, 28), PackedInt32Array(48, 27, 28), PackedInt32Array(48, 28, 43, 46), PackedInt32Array(42, 46, 43, 40), PackedInt32Array(14, 13, 3, 8, 31, 39), PackedInt32Array(42, 38, 30)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(175, 55, 1833, 43, 1833, 134, 1902, 134, 1949, 220, 1946, 368, 1907, 482, 1826, 486, 1830, 582, 1900, 585, 1909, 976, 1830, 981, 1835, 1079, 225, 1065, 238, 966, 170, 964, 173, 614, 129, 611, 130, 888, 98, 901, 94, 988, 93, 1045, 130, 1053, 134, 1089, -7, 1094, -14, -27, 136, -19, 139, 28, 93, 38, 93, 143, 96, 179, 130, 182, 124, 542, 172, 537)])
 source_geometry_mode = 1
 agent_radius = 28.0
@@ -2109,7 +2109,7 @@ agent_radius = 28.0
 size = Vector2(32, 163)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1gx8"]
-size = Vector2(41, 245)
+size = Vector2(39, 234)
 
 [node name="CasinoFloor" type="Node2D" unique_id=1339453593 groups=["navigation_polygon_source_geometry_group"]]
 
@@ -2184,11 +2184,11 @@ position = Vector2(390, 544)
 texture = ExtResource("12_3febt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="kasa" unique_id=541998798]
-position = Vector2(401.5, 545.5)
+position = Vector2(402.5, 540)
 shape = SubResource("RectangleShape2D_p1gx8")
 
 [node name="CashierDeskPoint" type="Marker2D" parent="kasa" unique_id=1547498045]
-position = Vector2(342, 557)
+position = Vector2(334, 557)
 
 [node name="Bar" parent="." unique_id=599524340 instance=ExtResource("21_frn8k")]
 position = Vector2(209, 248)

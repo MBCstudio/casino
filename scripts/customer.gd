@@ -2,15 +2,18 @@ extends CharacterBody2D
 
 @export var speed = 100
 @export var enter_chance = 0.75
+@export var go_to_bar_chance: float = 0.5#jezeli wkurzenie jest między 50 a 75, to 50% na to czy idzie do baru czy wychodzi od razu
 
 @export var wait_time_cashier: float = 5.0
-@export var wait_time_table: float = 15.0
+@export var wait_time_table: float = 10.0
 
 @export var money: float = 100.0
 @export var base_bet: float = 10.0
 @export var status: String = "normal"
 
 @onready var nav_agent = $NavigationAgent2D
+
+var radius_playerow: float = 20.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
 
 var target_position: Vector2
 var target_table = null
@@ -132,6 +135,9 @@ func wait_at_cashier():
 	is_waiting = false
 	is_in_cashier_queue = false
 	
+	# dodanie klienta do UI (gdy faktycznie przeszedł przez kase i wchodzi na salę)
+	GameManager.add_customer()
+	
 	find_table()
 	
 	# Zablokowanie ruchu kolejki na 1 sekundę by gracz na spokojnie uciekł
@@ -230,6 +236,8 @@ func move_to_target():
 		nav_agent.set_velocity(Vector2.ZERO)
 		if not is_waiting:
 			if is_leaving_casino:
+				if has_visited_cashier:
+					GameManager.remove_customer()
 				queue_free()
 			elif is_going_to_bar:
 				wait_at_bar()
@@ -243,7 +251,7 @@ func move_to_target():
 	
 	is_moving = true
 	nav_agent.avoidance_priority = 0.5 # Idące postacie mają mniejszy priorytet – muszą ustępować stojącym
-	nav_agent.radius = 30.0 # Wracamy do pełnej strefy omijania na czas wędrówki
+	nav_agent.radius = radius_playerow # Znacznie mniejszy promień podczas marszu, żeby nie omijały się przesadnie szerokim łukiem
 	
 	var next_point = nav_agent.get_next_path_position()
 	var direction = (next_point - global_position).normalized()
@@ -408,16 +416,31 @@ func go_to_bar():
 	
 	var bars = get_tree().get_nodes_in_group("bars")
 	if bars.size() > 0:
-		var customers_at_bar = 0
-		for c in get_tree().get_nodes_in_group("customers"):
-			if c.get("is_going_to_bar"):
-				customers_at_bar += 1
-				
-		if customers_at_bar > 4:
-			go_to_exit()
-		else:
-			is_going_to_bar = true
-			set_target(bars[0].global_position + Vector2(randf_range(-40, 40), randf_range(20, 60)))
+		var bar = bars[0]
+		# Automatycznie znajduje wszystkie Marker2D wewnątrz Baru, niezależnie jak głęboko są schowane
+		var seats = bar.find_children("*", "Marker2D")
+		
+		if seats.size() > 0:
+			# Zbieramy zajęte miejsca przez klientów
+			var occupied_seats = []
+			for c in get_tree().get_nodes_in_group("customers"):
+				if c.is_going_to_bar and c.target_seat != null:
+					occupied_seats.append(c.target_seat)
+			
+			# Wybieramy tylko wolne miejsca
+			var free_seats = []
+			for s in seats:
+				if not s in occupied_seats:
+					free_seats.append(s)
+					
+			if free_seats.size() > 0:
+				is_going_to_bar = true
+				# Losujemy jedno z wolnych miejsc
+				target_seat = free_seats[randi() % free_seats.size()]
+				set_target(target_seat.global_position)
+			else:
+				go_to_exit() # Bar jet pełny
+
 	else:
 		go_to_exit()
 
@@ -427,17 +450,42 @@ func wait_at_bar():
 	var wait_t = randf_range(10.0, 15.0)
 	await get_tree().create_timer(wait_t).timeout
 	
-	anger = 0.0 # reset anger po wypiciu drinka
+	anger = anger*0.8 # zmniejszenie anger po wypiciu drinka
 	is_waiting = false
 	is_going_to_bar = false
+	target_seat = null # Opuść swoje wyznaczone miejsce u baru
+	has_decided_bar = false # Reset po wypiciu, by mógł znów podjąć decyzję
 	
 	find_table()
 
+var has_decided_bar: bool = false
+var decided_to_go_to_bar: bool = false
+
 func should_leave() -> bool:
-	return anger > 75.0
+	if anger > 75.0:
+		return true
+	
+	# Jeśli wkurzenie nakazuje odwiedziny baru, odpal rzut monetą (50%)
+	# Jeśli przegra ten rzut - po prostu idzie do wyjścia już przy 50 złości.
+	if anger >= 50.0 and anger <= 75.0:
+		if not has_decided_bar:
+			decided_to_go_to_bar = randf() < go_to_bar_chance
+			has_decided_bar = true
+		
+		# Jeśli wylosował wyjście, wyślij prawdę do should_leave
+		if not decided_to_go_to_bar:
+			return true
+			
+	return false
 
 func should_go_to_bar() -> bool:
-	return anger >= 50.0 and anger <= 75.0
+	if anger >= 50.0 and anger <= 75.0:
+		if not has_decided_bar:
+			decided_to_go_to_bar = randf() < go_to_bar_chance
+			has_decided_bar = true
+			
+		return decided_to_go_to_bar
+	return false
 
 func approach_table() -> float:
 	var drawn = randf_range(0.0, 1.0)
