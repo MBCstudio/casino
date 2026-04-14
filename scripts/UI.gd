@@ -10,5 +10,12 @@ func _ready():
 
 func update_ui():
 	money_label.text = "💰 $" + str(int(GameManager.money))
-	rep_label.text = "⭐ " + str(int(GameManager.reputation))
+	
+	var total_prestige = int(GameManager.get_total_prestige())
+	rep_label.text = "⭐ " + str(total_prestige)
+	if total_prestige < 0:
+		rep_label.add_theme_color_override("font_color", Color(0.8, 0.26, 0.26))
+	else:
+		rep_label.remove_theme_color_override("font_color")
+		
 	cust_label.text = "👥 " + str(GameManager.customers)

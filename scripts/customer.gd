@@ -6,14 +6,16 @@ extends CharacterBody2D
 
 @export var wait_time_cashier: float = 5.0
 @export var wait_time_table: float = 10.0
+@export var vip_enter_chance: float = 0.05 # Base chance for VIP
 
+var is_vip: bool = false
 @export var money: float = 100.0
 @export var base_bet: float = 10.0
 @export var status: String = "normal"
 
 @onready var nav_agent = $NavigationAgent2D
 
-var radius_playerow: float = 20.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
+var radius_playerow: float = 15.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
 
 var target_position: Vector2
 var target_table = null
@@ -56,6 +58,17 @@ func _ready():
 	addiction = randf_range(0.0, 10.0)
 	luck = randf_range(-0.05, 0.05)
 	experience = randf_range(0.0, 0.03)
+	
+	var total_vip_bonus = 0.0
+	for t in get_tree().get_nodes_in_group("tables"):
+		if "vip_chance_bonus" in t:
+			total_vip_bonus += t.vip_chance_bonus
+			
+	if randf() < (vip_enter_chance + total_vip_bonus):
+		is_vip = true
+		money *= 5.0 # VIPs bring 5x more money
+		base_bet *= 5.0
+		# Make them look slightly different or just keep it simple for now
 
 	# Podłączenie sygnału omijania z NavigationAgent2D
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
@@ -125,12 +138,12 @@ func wait_at_cashier():
 	has_visited_cashier = true
 	is_waiting = true
 	
-	await get_tree().create_timer(wait_time_cashier).timeout
+	await get_tree().create_timer(wait_time_cashier, false).timeout
 	
 
 	# Czekamy przy kasie aż zwolni się jakieś miejsce przy stolikach (jeśli kasyno jest pełne)
 	while _get_free_play_spots() <= 0:
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(1.0, false).timeout
 	
 	is_waiting = false
 	is_in_cashier_queue = false
@@ -162,7 +175,7 @@ func wait_at_random_place():
 	try_face_target(target_position)
 	
 	var wait_t = randf_range(10.0, 15.0)
-	await get_tree().create_timer(wait_t).timeout
+	await get_tree().create_timer(wait_t, false).timeout
 	
 	is_waiting = false
 	
@@ -292,7 +305,11 @@ func find_table():
 # ====== GAMEPLAY ======
 func try_play():
 	while target_table != null:
-		await get_tree().create_timer(wait_time_table).timeout
+		var current_play_time = 10.0
+		if "play_time" in target_table:
+			current_play_time = target_table.play_time
+			
+		await get_tree().create_timer(current_play_time, false).timeout
 			
 		if not target_table:
 			break
@@ -448,7 +465,7 @@ func wait_at_bar():
 	is_waiting = true
 	# Możesz dodać animację stania obróconego do baru
 	var wait_t = randf_range(10.0, 15.0)
-	await get_tree().create_timer(wait_t).timeout
+	await get_tree().create_timer(wait_t, false).timeout
 	
 	anger = anger*0.8 # zmniejszenie anger po wypiciu drinka
 	is_waiting = false

@@ -149,17 +149,6 @@ corner_radius_bottom_left = 6
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4w3o0"]
-bg_color = Color(0.73023564, 0.579869, 0.092435844, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-
 [node name="TableUi" type="CanvasLayer" unique_id=1830125835]
 process_mode = 3
 script = ExtResource("1_417wc")
@@ -293,13 +282,12 @@ theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_tab_unselected"
 theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_tab_hovered")
 theme_override_styles/tab_selected = SubResource("StyleBoxFlat_tab_selected")
 tab_alignment = 1
-current_tab = 1
+current_tab = 0
 tab_0/icon = ExtResource("3_cufid")
 tab_1/icon = ExtResource("4_kim4i")
 tab_2/icon = ExtResource("5_4w3o0")
 
 [node name="Stats" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=289039907]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 20
 metadata/_tab_index = 0
@@ -316,20 +304,67 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="BetInfo" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer" unique_id=276485423]
+[node name="StatsGrid" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer" unique_id=276485423]
 layout_mode = 2
+theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/BetInfo" unique_id=1511006314]
+[node name="BaseBetBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid" unique_id=1511006314]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid/BaseBetBox" unique_id=1511006315]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Maximum Bet"
+text = "Base Bet"
+horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/BetInfo" unique_id=219001695]
+[node name="Value" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid/BaseBetBox" unique_id=219001695]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.831373, 0.686275, 0.215686, 1)
-theme_override_font_sizes/font_size = 20
-text = "$ 100"
+theme_override_font_sizes/font_size = 24
+text = "$10"
+horizontal_alignment = 1
+
+[node name="PlayTimeBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid" unique_id=1511006316]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid/PlayTimeBox" unique_id=1511006317]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Play Time"
+horizontal_alignment = 1
+
+[node name="Value2" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid/PlayTimeBox" unique_id=219001696]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.831373, 0.686275, 0.215686, 1)
+theme_override_font_sizes/font_size = 24
+text = "10.0s"
+horizontal_alignment = 1
+
+[node name="VIPBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid" unique_id=1511006318]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid/VIPBox" unique_id=1511006319]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "VIP Attraction"
+horizontal_alignment = 1
+
+[node name="Value3" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats/StatsInfoPanel/MarginContainer/StatsGrid/VIPBox" unique_id=219001697]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.831373, 0.686275, 0.215686, 1)
+theme_override_font_sizes/font_size = 24
+text = "+0%"
+horizontal_alignment = 1
 
 [node name="WinProbPanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Stats" unique_id=1926450151]
 custom_minimum_size = Vector2(0, 140)
@@ -404,6 +439,7 @@ theme_override_font_sizes/font_size = 14
 text = "100%"
 
 [node name="Dealer Upgrade" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=1051378862]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_top = 40
@@ -435,19 +471,20 @@ alignment = 1
 [node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/SpeedTrainingPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=922488465]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Speed Training"
+text = "Speed Training / Fast Games"
 
 [node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/SpeedTrainingPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1009487831]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 theme_override_font_sizes/font_size = 14
-text = "+5 Prestige"
+text = "-2s Table Wait Time"
 
 [node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/SpeedTrainingPanel/MarginContainer/HBoxContainer" unique_id=701634406]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="BuySpeedBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/SpeedTrainingPanel/MarginContainer/HBoxContainer" unique_id=950133950]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 size_flags_vertical = 4
@@ -475,19 +512,20 @@ alignment = 1
 [node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/CharismaCoursePanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=182243289]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Charisma Course"
+text = "Charisma / Attract VIP"
 
 [node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/CharismaCoursePanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1565300688]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 theme_override_font_sizes/font_size = 14
-text = "+8 Prestige"
+text = "+5% VIP Chance"
 
 [node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/CharismaCoursePanel/MarginContainer/HBoxContainer" unique_id=1364545282]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="BuyCharismaBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/CharismaCoursePanel/MarginContainer/HBoxContainer" unique_id=404781059]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 size_flags_vertical = 4
@@ -515,19 +553,20 @@ alignment = 1
 [node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/MasterClassPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=368298457]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Master Class"
+text = "Master Dealer / Base Bet"
 
 [node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/MasterClassPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1068514304]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 theme_override_font_sizes/font_size = 14
-text = "+15 Prestige"
+text = "+$40 To Minimum Bet"
 
 [node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/MasterClassPanel/MarginContainer/HBoxContainer" unique_id=252790611]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="BuyMasterBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/MasterClassPanel/MarginContainer/HBoxContainer" unique_id=621849863]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 size_flags_vertical = 4
@@ -535,24 +574,270 @@ theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
 text = "$12,000  >"
 alignment = 2
 
-[node name="Table Upgrade" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=599276071]
+[node name="Table Upgrade" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer" unique_id=687110664]
 visible = false
+custom_minimum_size = Vector2(0, 350)
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 20
 metadata/_tab_index = 2
 
-[node name="TablleInfoLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade" unique_id=234608411]
-layout_mode = 0
-offset_left = 351.0
-offset_top = 16.0
-offset_right = 455.0
-offset_bottom = 39.0
-text = "Table Level: 1"
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade" unique_id=123668901]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="TableUpgradeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade" unique_id=2142634531]
-layout_mode = 0
-offset_left = 332.0
-offset_top = 424.0
-offset_right = 492.0
-offset_bottom = 455.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_4w3o0")
-text = "Upgrade Table"
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer" unique_id=609407041]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="VelvetFeltPanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer" unique_id=178543695]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel" unique_id=1528626652]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer" unique_id=272156723]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer/HBoxContainer" unique_id=665943549]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1796498935]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Velvet Felt Upgrade"
+
+[node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=2137589769]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "+60 Prestige"
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer/HBoxContainer" unique_id=1645249663]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BuyFeltBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer/HBoxContainer" unique_id=98400524]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
+text = "$10,000  >"
+alignment = 2
+
+[node name="LEDLightingPanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer" unique_id=2080714045]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel" unique_id=702146231]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer" unique_id=501701795]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer/HBoxContainer" unique_id=1137439174]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=982886579]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "LED Lighting System"
+
+[node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=213736517]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "+80 Prestige"
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer/HBoxContainer" unique_id=368138049]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BuyLEDBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer/HBoxContainer" unique_id=1243317058]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
+text = "$15,000  >"
+alignment = 2
+
+[node name="GoldChipRackPanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer" unique_id=202648331]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel" unique_id=772830789]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer" unique_id=1411151428]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer/HBoxContainer" unique_id=642746904]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=647088666]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Gold Chip Rack"
+
+[node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1263776193]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "+100 Prestige"
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer/HBoxContainer" unique_id=1995873076]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BuyChipRackBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer/HBoxContainer" unique_id=1539063144]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
+text = "$20,000  >"
+alignment = 2
+
+[node name="VIPSeatingPanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer" unique_id=849354741]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel" unique_id=451099111]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer" unique_id=402868200]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer/HBoxContainer" unique_id=1023007647]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=2145739077]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "VIP Seating"
+
+[node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=597604600]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "+120 Prestige"
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer/HBoxContainer" unique_id=1281525358]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BuyVIPBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer/HBoxContainer" unique_id=641915551]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
+text = "$35,000  >"
+alignment = 2
+
+[node name="ExtraTestPanel1" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer" unique_id=1588085365]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1" unique_id=1759978675]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer" unique_id=1415462588]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer/HBoxContainer" unique_id=2034776716]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer/HBoxContainer/VBoxContainer" unique_id=506973496]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Gold Plated Spinner"
+
+[node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1650122780]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "+150 Prestige"
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer/HBoxContainer" unique_id=1145162039]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestBtn1" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer/HBoxContainer" unique_id=1416191677]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
+text = "$50,000  >"
+alignment = 2
+
+[node name="ExtraTestPanel2" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer" unique_id=1877393109]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2" unique_id=2023361339]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer" unique_id=1962612251]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer/HBoxContainer" unique_id=1837433186]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1076830709]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Infinite Drinks"
+
+[node name="Desc" type="Label" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=88841610]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "+200 Prestige"
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer/HBoxContainer" unique_id=104183842]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestBtn2" type="Button" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer/HBoxContainer" unique_id=758281016]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
+text = "$100,000  >"
+alignment = 2

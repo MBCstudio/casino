@@ -1,6 +1,6 @@
 extends Node
 
-var money: float = 1000
+var money: float = 10000
 var reputation: float = 10
 var customers: int = 0
 
@@ -22,7 +22,16 @@ func remove_customer():
 	customers -= 1
 	emit_signal("stats_changed")
 
-func change_reputation(amount):
-	reputation += amount
-	reputation = clamp(reputation, 0, 100)
+func get_total_prestige() -> int:
+	var total = 0
+	for table in get_tree().get_nodes_in_group("tables"):
+		if table.has_method("get_prestige"):
+			total += table.get_prestige()
+	return total
+
+func update_global_prestige():
+	reputation = get_total_prestige()
 	emit_signal("stats_changed")
+
+func change_reputation(amount):
+	update_global_prestige()
