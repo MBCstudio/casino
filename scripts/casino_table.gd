@@ -1,11 +1,20 @@
 extends Node2D
 
 @export var table_type: String = "roulette"
-@export var win_probability: float = 0.45
-@export var base_win_probability: float = 0.45
+@export var win_probability: float = 0.50
+@export var base_win_probability: float = 0.50
 @export var bet: int = 10
 @export var max_players: int = 5
-var prestige: int = 10
+@export var play_time: float = 10.0
+@export var vip_chance_bonus: float = 0.0
+
+var prestige: int = 5
+var has_felt: bool = false
+var has_led: bool = false
+var has_chip_rack: bool = false
+var has_vip_seats: bool = false
+var has_spinner: bool = false
+var has_drinks: bool = false
 
 var current_players: Array = []
 var seats: Array = []
@@ -19,6 +28,9 @@ func _ready():
 		set("input_pickable", true)
 	
 	seats = $Seats.get_children()
+	
+	# Inicjalizujemy bazowe prestige od razu
+	update_prestige()
 
 # ====== GAME LOGIC ======
 
@@ -117,9 +129,21 @@ func open_table_menu():
 func get_prestige():
 	return prestige
 
+var prestige_bonus: int = 0
+
+func add_prestige_bonus(amount: int):
+	prestige_bonus += amount
+	update_prestige()
+
 func update_prestige():
-	var diff = abs(win_probability - base_win_probability)
+	# win_probability typically ranges from 0.45 to 0.55
+	# Middle point is 0.50 -> 0 prestige change.
+	# 0.45 -> +20 prestige
+	# 0.55 -> -20 prestige
+	var diff = win_probability - 0.50
+	var base_prestige = 5
+	var calculated_prestige = base_prestige + int(-diff * 100 * 4) + prestige_bonus
+	prestige = calculated_prestige
 	
-	# im bardziej manipulujesz → tym gorzej
-	prestige = int(10 - diff * 100)
-	prestige = clamp(prestige, 0, 10)
+	if GameManager.has_method("update_global_prestige"):
+		GameManager.update_global_prestige()
