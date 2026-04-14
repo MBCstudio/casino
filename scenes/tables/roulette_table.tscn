@@ -19,19 +19,19 @@ region_rect = Rect2(911.86273, 195.77155, 112.70575, 61.092865)
 [node name="Seats" type="Node2D" parent="." unique_id=1475944728]
 
 [node name="Seat1" type="Marker2D" parent="Seats" unique_id=1154681391]
-position = Vector2(-14, 62)
+position = Vector2(-14, 70)
 
 [node name="Seat2" type="Marker2D" parent="Seats" unique_id=683834875]
-position = Vector2(50, 62)
+position = Vector2(50, 70)
 
 [node name="Seat3" type="Marker2D" parent="Seats" unique_id=1563139686]
-position = Vector2(97, 1)
+position = Vector2(105, 1)
 
 [node name="Seat4" type="Marker2D" parent="Seats" unique_id=2060449998]
-position = Vector2(50, -67)
+position = Vector2(49, -70)
 
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=362652113]
-position = Vector2(-11, -67)
+position = Vector2(-11, -70)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1612867575]
 position = Vector2(0, -1)

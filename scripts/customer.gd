@@ -15,8 +15,8 @@ var is_vip: bool = false
 
 @onready var nav_agent = $NavigationAgent2D
 
-var radius_playerow: float = 15.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
-
+var radius_playerow: float = 22.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
+var stanie_przy_stoliku: float = 1.0#im więcej tym sztywniej stoją przy stoliku
 var target_position: Vector2
 var target_table = null
 var target_seat = null
@@ -34,6 +34,9 @@ var is_waiting_at_cashier = false
 var is_going_to_seat = false
 var is_going_to_bar = false
 var is_leaving_casino = false
+var is_at_intermediate_point = false
+var intermediate_seat: Node2D = null
+var coming_from_queue = false
 
 # ====== ANTI-STUCK ======
 var last_stuck_pos: Vector2
@@ -75,8 +78,8 @@ func _ready():
 	nav_agent.max_speed = speed * 1.0
 	
 	# Większa tolerancja na zaliczanie punktów ścieżki (zapobiega blokowaniu na rogach)
-	nav_agent.path_desired_distance = 25.0
-	nav_agent.target_desired_distance = 15.0
+	# nav_agent.path_desired_distance = 40.0#im wieksza tym szbycej gdy jest przekszoda zaczyna skrecasc
+	nav_agent.target_desired_distance = 3.0#precyzja z jaka staje na wylosowanym punkcie
 
 # ====== NAVIGATION ======
 func set_target(pos: Vector2):
@@ -102,13 +105,13 @@ func _physics_process(delta):
 				is_recovering = false
 		else:
 			stuck_check_timer += delta
-			if stuck_check_timer >= 2.5: # Sprawdzaj co 2.5 sekundy
-				if global_position.distance_to(last_stuck_pos) < 20.0:
+			if stuck_check_timer >= 0.5: # Szybkie sprawdzanie co 0.4 sekundy
+				if global_position.distance_to(last_stuck_pos) < 10.0:
 					is_recovering = true
-					recovery_timer = 1.2 # Obejście przeszkody potrwa około 1 sekundę
+					recovery_timer = 0.5 # Krótkie ominięcie (ślizgnięcie), żeby zeskoczyć z rogu kasy
 					var to_target = (target_position - global_position).normalized()
-					# Wektor obrócony o 90 do 270 stopni (idzie ostro w bok lub się cofa)
-					var angle = randf_range(90, 270)
+					# Wektor obracany o 70-110 stopni, czyli szarpnie w lewo lub w prawo względem celu
+					var angle = randf_range(70, 110) * (1 if randf() > 0.5 else -1)
 					recovery_dir = to_target.rotated(deg_to_rad(angle))
 				last_stuck_pos = global_position
 				stuck_check_timer = 0.0
@@ -151,6 +154,7 @@ func wait_at_cashier():
 	# dodanie klienta do UI (gdy faktycznie przeszedł przez kase i wchodzi na salę)
 	GameManager.add_customer()
 	
+	coming_from_queue = true
 	find_table()
 	
 	# Zablokowanie ruchu kolejki na 1 sekundę by gracz na spokojnie uciekł
@@ -186,8 +190,8 @@ func move_to_target():
 	is_moving = false
 	
 	if is_seated or is_waiting:
-		nav_agent.avoidance_priority = 1.0 # Jesteśmy stojącą ("ciężką") przeszkodą
-		nav_agent.radius = 10.0 # "Kurczymy się" w oczach RVO, by nie odpychać innych w ciasnocie
+		nav_agent.avoidance_priority = stanie_przy_stoliku # Jesteśmy stojącą ("ciężką") przeszkodą
+		nav_agent.radius = 22.0 # "Kurczymy się" w oczach RVO, by nie odpychać innych w ciasnocie
 		nav_agent.set_velocity(Vector2.ZERO)
 		return
 	
@@ -225,12 +229,12 @@ func move_to_target():
 			
 			# Ustaw się w szyku (oddalając się od kasy w osi X w lewo)
 			# Zwiększony odstęp z 60.0 na 80.0 px
-			var queue_spacing = 50.0
+			var queue_spacing = 55.0
 			var target_spot = c_pos + Vector2(-people_ahead * queue_spacing, 0)
 			set_target(target_spot)
 			
 			# Jeśli postać dotarła na swoje miejsce w kolejce
-			if global_position.distance_to(target_spot) < 15.0:
+			if global_position.distance_to(target_spot) < 25.0:
 				nav_agent.avoidance_priority = 1.0
 				nav_agent.radius = 10.0 # Mniejsza strefa RVO w kolejce
 				nav_agent.set_velocity(Vector2.ZERO)
@@ -242,9 +246,15 @@ func move_to_target():
 				
 				return # Zatrzymaj dalsze przesunięcia
 				
+	# INTERMEDIATE POINT CHECK (idę do punktu pośredniego przed stolikiem)
+	if is_at_intermediate_point == false and intermediate_seat != null and global_position.distance_to(target_position) < 30.0:
+		is_at_intermediate_point = true
+		set_target(intermediate_seat.global_position)
+		return
+	
 	# AUTOMATIC CASINO NAVIGATION (Z użyciem NavigationObstacle2D)
 	if nav_agent.is_navigation_finished():
-		nav_agent.avoidance_priority = 1.0
+		nav_agent.avoidance_priority = 0.6
 		nav_agent.radius = 15.0 # Mniejsza strefa po dotarciu do celu
 		nav_agent.set_velocity(Vector2.ZERO)
 		if not is_waiting:
@@ -263,8 +273,8 @@ func move_to_target():
 		return
 	
 	is_moving = true
-	nav_agent.avoidance_priority = 0.5 # Idące postacie mają mniejszy priorytet – muszą ustępować stojącym
-	nav_agent.radius = radius_playerow # Znacznie mniejszy promień podczas marszu, żeby nie omijały się przesadnie szerokim łukiem
+	nav_agent.avoidance_priority = 0.3 # Idące postacie mają mniejszy priorytet – muszą ustępować stojącym
+	nav_agent.radius = 10.0 # Znacznie mniejszy promień podczas marszu, żeby nie omijały się przesadnie szerokim łukiem
 	
 	var next_point = nav_agent.get_next_path_position()
 	var direction = (next_point - global_position).normalized()
@@ -290,14 +300,28 @@ func set_target_seat(seat, table):
 	target_seat = seat
 	target_table = table
 	
-	# Teraz nie ręcznie ustalamy trasy - NavigationAgent sam omija kasy i meble!
-	set_target(seat.global_position)
+	# Punkt pośredni (200px) tylko dla graczy wychodzących z kolejki
+	if coming_from_queue:
+		var intermediate_distance = 200.0
+		var direction_offset = Vector2.DOWN if walking_direction > 0 else Vector2.UP
+		var intermediate_pos = global_position + (direction_offset * intermediate_distance)
+		
+		intermediate_seat = seat
+		is_at_intermediate_point = false
+		set_target(intermediate_pos)
+	else:
+		# Bezpośrednio do stolika (np. powrót z baru)
+		intermediate_seat = null
+		is_at_intermediate_point = false
+		set_target(seat.global_position)
 		
 func find_table():
 	var tables = get_tree().get_nodes_in_group("tables")
 	
 	for table in tables:
 		if table.try_add_player(self):
+			# Ustaw kierunek ruchu na podstawie pozycji Y stolika
+			walking_direction = 1 if table.global_position.y > global_position.y else -1
 			return
 	
 	pick_random_target()
@@ -340,10 +364,12 @@ func try_play():
 	
 	if target_table:
 		target_table.remove_player(self)
-		
+	
 	is_seated = false
 	target_table = null
 	target_seat = null
+	is_at_intermediate_point = false
+	intermediate_seat = null
 	
 	if should_leave():
 		go_to_exit()
@@ -473,6 +499,7 @@ func wait_at_bar():
 	target_seat = null # Opuść swoje wyznaczone miejsce u baru
 	has_decided_bar = false # Reset po wypiciu, by mógł znów podjąć decyzję
 	
+	coming_from_queue = false
 	find_table()
 
 var has_decided_bar: bool = false
