@@ -154,13 +154,14 @@ wall_min_slide_angle = 0.18151425
 script = ExtResource("1_hsaiv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1294089300]
-position = Vector2(-1, 5)
+position = Vector2(0, -1)
 scale = Vector2(0.82812494, 0.71875)
 sprite_frames = SubResource("SpriteFrames_bolbq")
 animation = &"walk_right"
+frame_progress = 0.9519098
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1110807250]
-position = Vector2(0, -1)
+position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_o7yud")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=336824352]
