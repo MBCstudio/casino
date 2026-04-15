@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://c2igqu6tnojoq"]
+
+[ext_resource type="Script" uid="uid://dvxcy0bl4wx85" path="res://scripts/GameEndUI.gd" id="1_8w3k8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.15, 0.15, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98, 0.83, 0.24, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
+bg_color = Color(0.08, 0.08, 0.08, 0.5)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.98, 0.83, 0.24, 0.5)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="GameEndUI" type="CanvasLayer" unique_id=438778456]
+layer = 128
+offset = Vector2(700, 250)
+transform = Transform2D(1, 0, 0, 1, 700, 250)
+script = ExtResource("1_8w3k8")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=260217976]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 522.0
+offset_bottom = 422.0
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1700179018]
+custom_minimum_size = Vector2(520, 420)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=436059542]
+layout_mode = 1
+offset_left = 54.0
+offset_top = 31.0
+offset_right = 462.0
+offset_bottom = 383.0
+theme_override_constants/separation = 20
+
+[node name="Header" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=713502533]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2")
+
+[node name="HeaderLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1940901801]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.24, 1)
+theme_override_font_sizes/font_size = 32
+text = "🎉 YOU WIN 🎉"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsContainer" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=255169209]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Stat1" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/StatsContainer" unique_id=1731136719]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label1" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat1" unique_id=55047057]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "⏱️ game time:"
+
+[node name="PlayTimeLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat1" unique_id=158330086]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.24, 1)
+theme_override_font_sizes/font_size = 20
+text = "00:00"
+horizontal_alignment = 2
+
+[node name="Stat2" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/StatsContainer" unique_id=650267992]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label2" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat2" unique_id=1346011676]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🎰 tables bought:"
+
+[node name="TablesLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat2" unique_id=1472241171]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.24, 1)
+theme_override_font_sizes/font_size = 20
+text = "0"
+horizontal_alignment = 2
+
+[node name="Stat3" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/StatsContainer" unique_id=1297405307]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label3" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat3" unique_id=1245733401]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "👥 all clients:"
+
+[node name="CustomersLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat3" unique_id=2042094499]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.24, 1)
+theme_override_font_sizes/font_size = 20
+text = "0"
+horizontal_alignment = 2
+
+[node name="Stat4" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/StatsContainer" unique_id=786000055]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label4" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat4" unique_id=697775927]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "💰 earnings $:"
+
+[node name="MoneyLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat4" unique_id=2054562489]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.24, 1)
+theme_override_font_sizes/font_size = 20
+text = "$0"
+horizontal_alignment = 2
+
+[node name="Stat5" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/StatsContainer" unique_id=1993822909]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label5" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat5" unique_id=74433464]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "⭐ prestige points:"
+
+[node name="PrestigeLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat5" unique_id=1717121507]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.24, 1)
+theme_override_font_sizes/font_size = 20
+text = "0"
+horizontal_alignment = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1300556853]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayAgainButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonContainer" unique_id=734536739]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Play again"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonContainer" unique_id=1034260732]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Quit"

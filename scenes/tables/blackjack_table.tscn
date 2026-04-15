@@ -10,7 +10,6 @@ height = 110.0
 [node name="BlackjackTable" type="Area2D" unique_id=1956175211]
 script = ExtResource("1_n86pn")
 table_type = "blackjack"
-win_probability = 0.5
 bet = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=25864215]
