@@ -1,0 +1,124 @@
+[gd_scene format=3 uid="uid://c4hwog0aooc84"]
+
+[ext_resource type="Script" uid="uid://bjoxkiksdug1t" path="res://scripts/start_menu.gd" id="1_cxd72"]
+[ext_resource type="Texture2D" uid="uid://djaemnqw6xmwl" path="res://assets/sprites/welcome_graphics/welcome_1.png" id="2_ytd2a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_normal"]
+bg_color = Color(0.133333, 0.545098, 0.133333, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_pressed"]
+bg_color = Color(0.05, 0.4, 0.05, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_hover"]
+bg_color = Color(0.2, 0.7, 0.2, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.1, 0.1, 0.8)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="StartMenu" type="Control" unique_id=1510464469]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cxd72")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1647340763]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ytd2a")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1221829745]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=564534437]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Spacer" type="Control" parent="CenterContainer/VBoxContainer" unique_id=987285233]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1723423904]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_start_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_start_hover")
+text = "START GAME"
+
+[node name="DifficultyMenu" type="PanelContainer" parent="CenterContainer" unique_id=1305099957]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/DifficultyMenu" unique_id=762883667]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/DifficultyMenu/MarginContainer" unique_id=1002546500]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer" unique_id=2020156567]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "SELECT DIFFICULTY"
+horizontal_alignment = 1
+
+[node name="EasyButton" type="Button" parent="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer" unique_id=1801976021]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "EASY"
+
+[node name="MediumButton" type="Button" parent="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer" unique_id=1242405966]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "MEDIUM"
+
+[node name="HardButton" type="Button" parent="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer" unique_id=2079578279]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "HARD"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer/EasyButton" to="." method="_on_easy_button_pressed"]
+[connection signal="pressed" from="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer/MediumButton" to="." method="_on_medium_button_pressed"]
+[connection signal="pressed" from="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer/HardButton" to="." method="_on_hard_button_pressed"]
