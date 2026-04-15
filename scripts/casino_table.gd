@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var table_type: String = "roulette"
-@export var win_probability: float = 0.50
-@export var base_win_probability: float = 0.50
+@export var win_probability: float = 0.5#im to mniejsze to kasyno więcej zarabia
+@export var base_win_probability: float = 0.50#na samym poczatku przy inicjalizacji
 @export var bet: int = 10
 @export var max_players: int = 5
 @export var play_time: float = 10.0
@@ -142,7 +142,7 @@ func update_prestige():
 	# 0.55 -> -20 prestige
 	var diff = win_probability - 0.50
 	var base_prestige = 5
-	var calculated_prestige = base_prestige + int(-diff * 100 * 4) + prestige_bonus
+	var calculated_prestige = base_prestige + int(diff * 100 * 4) + prestige_bonus
 	prestige = calculated_prestige
 	
 	if GameManager.has_method("update_global_prestige"):

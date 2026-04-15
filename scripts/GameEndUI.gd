@@ -12,8 +12,11 @@ func _ready():
 	visible = false
 	add_to_group("game_end_ui")
 	
+	# Pozwól na działanie gdy gra jest paused
+	process_mode = PROCESS_MODE_WHEN_PAUSED
+	
 	print("GameEndUI: Connecting to GameManager.game_won signal")
-	GameManager.game_won.connect(_on_game_won)#zmienia że jest widoczny ekran koncowy
+	GameManager.game_won.connect(_on_game_won)
 	print("GameEndUI: Signal connected successfully")
 	
 	print("GameEndUI: play_again_button: ", play_again_button)

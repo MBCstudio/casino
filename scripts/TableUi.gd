@@ -196,7 +196,7 @@ func _on_HSlider_value_changed(value):
 	
 	var center_prob = 0.50
 	var change_percent = (value - center_prob)
-	var prestige_change = int(-change_percent * 100 * 4) # Decrease prestige if win probability is higher (left = more, right = less)
+	var prestige_change = int(change_percent * 100 * 4) # Decrease prestige if win probability is higher (left = less, right = more)
 	var sign_str = "+" if prestige_change > 0 else ""
 	var color_tag = "[color=#d4af37]" if prestige_change >= 0 else "[color=#cc4444]" # Gold for positive, red for negative
 	prestige_delta_label.text = "[right]" + color_tag + sign_str + str(prestige_change) + " ⭐[/color][/right]"
@@ -222,7 +222,6 @@ func _on_upgrade_table_pressed():
 
 func _on_upgrade_dealer_pressed():
 	pass
-
 func _on_buy_speed():
 	if current_table and GameManager.money >= 5000 and current_table.play_time > 8.0:
 		GameManager.remove_money(5000)

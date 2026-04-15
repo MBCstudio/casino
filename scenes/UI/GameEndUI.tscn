@@ -26,6 +26,22 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_mask"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Gradient" id="Gradient_bg"]
+offsets = PackedFloat32Array(0.01146789, 1)
+colors = PackedColorArray(0.032545865, 0.080064856, 0.027939172, 1, 0.2637608, 0.13586396, 0.0061284164, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bg"]
+gradient = SubResource("Gradient_bg")
+fill_from = Vector2(0, 0.18290599)
+fill_to = Vector2(0, 1)
+
 [node name="GameEndUI" type="CanvasLayer" unique_id=438778456]
 layer = 128
 offset = Vector2(700, 250)
@@ -42,6 +58,30 @@ offset_bottom = 422.0
 custom_minimum_size = Vector2(520, 420)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="GradientMask" type="Panel" parent="CenterContainer/Panel" unique_id=72633635]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_mask")
+
+[node name="GradientBg" type="TextureRect" parent="CenterContainer/Panel/GradientMask" unique_id=1878053044]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_bg")
+expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=436059542]
 layout_mode = 1

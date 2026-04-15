@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://pl2i388qfik7"]
 
 [ext_resource type="Texture2D" uid="uid://cx5o7pto7fadq" path="res://assets/sprites/floor_carpet_red_48x48.png" id="1_3j816"]
-[ext_resource type="PackedScene" uid="uid://cx60eap0j16e0" path="res://scenes/start_menu.tscn" id="99_startmenu"]
 [ext_resource type="PackedScene" uid="uid://8scqbqc7i2bl" path="res://scenes/tables/roulette_table.tscn" id="3_i2asg"]
 [ext_resource type="Texture2D" uid="uid://pdt0pqbar8hu" path="res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png" id="4_udrtw"]
 [ext_resource type="Texture2D" uid="uid://cuba4t03hhqwb" path="res://assets/sprites/floor_pavement_48x48.png" id="4_wqkjp"]
@@ -18,10 +17,11 @@
 [ext_resource type="PackedScene" uid="uid://74x1tkdy464n" path="res://scenes/actors/customers/normal_customer.tscn" id="14_3febt"]
 [ext_resource type="Texture2D" uid="uid://dh8erbvucosky" path="res://assets/sprites/exit_160x36.png" id="14_d4bsi"]
 [ext_resource type="Script" uid="uid://dxxwvag7sl4f6" path="res://scripts/customer_spawner.gd" id="15_tp5si"]
-[ext_resource type="Script" path="res://scenes/casino_entrance.gd" id="16_gu02m"]
+[ext_resource type="Script" uid="uid://dumvl3v56sleb" path="res://scenes/casino_entrance.gd" id="16_gu02m"]
 [ext_resource type="PackedScene" uid="uid://dajgp7w0ug6wc" path="res://scenes/UI/UI.tscn" id="18_d4bsi"]
 [ext_resource type="PackedScene" uid="uid://cin8704d7kc3m" path="res://scenes/UI/TableUI.tscn" id="19_pampg"]
 [ext_resource type="PackedScene" uid="uid://dx5q3icf8ycuw" path="res://scenes/bar/bar.tscn" id="21_frn8k"]
+[ext_resource type="PackedScene" uid="uid://c4hwog0aooc84" path="res://scenes/start_menu.tscn" id="99_startmenu"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d4bsi"]
 
@@ -2196,12 +2196,10 @@ position = Vector2(320, 557)
 [node name="Bar" parent="." unique_id=599524340 instance=ExtResource("21_frn8k")]
 position = Vector2(209, 248)
 
-
-
-[node name="StartMenuCanvas" type="CanvasLayer" parent="."]
-layer = 100
+[node name="StartMenuCanvas" type="CanvasLayer" parent="." unique_id=1509063894]
 process_mode = 3
+layer = 100
 
-[node name="StartMenu" parent="StartMenuCanvas" instance=ExtResource("99_startmenu")]
+[node name="StartMenu" parent="StartMenuCanvas" unique_id=2140404839 instance=ExtResource("99_startmenu")]
 
 [connection signal="body_entered" from="CasinoEntrance" to="CasinoEntrance" method="_on_body_entered"]

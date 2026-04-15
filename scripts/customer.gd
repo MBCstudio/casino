@@ -300,9 +300,12 @@ func set_target_seat(seat, table):
 	target_seat = seat
 	target_table = table
 	
+	# Ustaw kierunek ruchu na podstawie pozycji Y konkretnego siediska
+	walking_direction = 1 if seat.global_position.y > global_position.y else -1
+	
 	# Punkt pośredni (200px) tylko dla graczy wychodzących z kolejki
 	if coming_from_queue:
-		var intermediate_distance = 200.0
+		var intermediate_distance = 220.0
 		var direction_offset = Vector2.DOWN if walking_direction > 0 else Vector2.UP
 		var intermediate_pos = global_position + (direction_offset * intermediate_distance)
 		
@@ -320,8 +323,7 @@ func find_table():
 	
 	for table in tables:
 		if table.try_add_player(self):
-			# Ustaw kierunek ruchu na podstawie pozycji Y stolika
-			walking_direction = 1 if table.global_position.y > global_position.y else -1
+			# walking_direction będzie ustalony w set_target_seat() na podstawie konkretnego siediska
 			return
 	
 	pick_random_target()
