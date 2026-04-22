@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://dllfo4eygaocd"]
 
 [ext_resource type="PackedScene" uid="uid://pl2i388qfik7" path="res://scenes/casino_floor.tscn" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://cth9n2kpq8w0d" path="res://scenes/UI/GameEndUI.tscn" id="2_gameend"]
+[ext_resource type="PackedScene" uid="uid://c2igqu6tnojoq" path="res://scenes/UI/GameEndUI.tscn" id="2_gameend"]
 
 [node name="Main" type="Node2D" unique_id=1688178233]
 
 [node name="CasinoFloor" parent="." unique_id=1339453593 instance=ExtResource("1_o5qli")]
-position = Vector2(0, 0)
 
-[node name="GameEndUI" parent="." instance=ExtResource("2_gameend")]
+[node name="GameEndUI" parent="." unique_id=441051950 instance=ExtResource("2_gameend")]

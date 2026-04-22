@@ -7,7 +7,7 @@ var play_time: float = 0.0
 var tables_bought: int = 0
 var has_won: bool = false
 
-const WIN_CONDITION = 100010#specjalnie żeby gra się za szybko nie kończyła
+const WIN_CONDITION = 110000#specjalnie żeby gra się za szybko nie kończyła
 
 signal stats_changed
 signal game_won
