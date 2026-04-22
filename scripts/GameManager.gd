@@ -47,6 +47,9 @@ func get_total_prestige() -> int:
 	for table in get_tree().get_nodes_in_group("tables"):
 		if table.has_method("get_prestige"):
 			total += table.get_prestige()
+	for cashier in get_tree().get_nodes_in_group("cashier"):
+		if "prestige" in cashier:
+			total += cashier.prestige
 	return total
 
 func count_tables() -> int:

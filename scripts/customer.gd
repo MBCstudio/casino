@@ -66,6 +66,9 @@ func _ready():
 	for t in get_tree().get_nodes_in_group("tables"):
 		if "vip_chance_bonus" in t:
 			total_vip_bonus += t.vip_chance_bonus
+	for c in get_tree().get_nodes_in_group("cashier"):
+		if "vip_chance" in c:
+			total_vip_bonus += c.vip_chance
 			
 	if randf() < (vip_enter_chance + total_vip_bonus):
 		is_vip = true
@@ -141,12 +144,12 @@ func wait_at_cashier():
 	has_visited_cashier = true
 	is_waiting = true
 	
-	await get_tree().create_timer(wait_time_cashier, false).timeout
-	
-
-	# Czekamy przy kasie aż zwolni się jakieś miejsce przy stolikach (jeśli kasyno jest pełne)
-	while _get_free_play_spots() <= 0:
-		await get_tree().create_timer(1.0, false).timeout
+	var actual_wait_time = wait_time_cashier
+	var cashiers = get_tree().get_nodes_in_group("cashier")
+	if cashiers.size() > 0:
+		actual_wait_time = cashiers[0].wait_time
+		
+	await get_tree().create_timer(actual_wait_time, false).timeout
 	
 	is_waiting = false
 	is_in_cashier_queue = false
@@ -158,7 +161,7 @@ func wait_at_cashier():
 	find_table()
 	
 	# Zablokowanie ruchu kolejki na 1 sekundę by gracz na spokojnie uciekł
-	var cashiers = get_tree().get_nodes_in_group("cashier")
+	cashiers = get_tree().get_nodes_in_group("cashier")
 	if cashiers.size() > 0:
 		cashiers[0].set_meta("queue_cooldown", Time.get_ticks_msec() + 1000)
 
