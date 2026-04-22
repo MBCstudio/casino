@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://pl2i388qfik7"]
 
 [ext_resource type="Texture2D" uid="uid://cx5o7pto7fadq" path="res://assets/sprites/floor_carpet_red_48x48.png" id="1_3j816"]
+[ext_resource type="Script" uid="uid://b17a3muhq8ij6" path="res://scripts/CasinoFloor.gd" id="1_ytqcm"]
 [ext_resource type="PackedScene" uid="uid://8scqbqc7i2bl" path="res://scenes/tables/roulette_table.tscn" id="3_i2asg"]
 [ext_resource type="Texture2D" uid="uid://pdt0pqbar8hu" path="res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png" id="4_udrtw"]
 [ext_resource type="Texture2D" uid="uid://cuba4t03hhqwb" path="res://assets/sprites/floor_pavement_48x48.png" id="4_wqkjp"]
@@ -21,11 +22,11 @@
 [ext_resource type="PackedScene" uid="uid://dajgp7w0ug6wc" path="res://scenes/UI/UI.tscn" id="18_d4bsi"]
 [ext_resource type="PackedScene" uid="uid://cin8704d7kc3m" path="res://scenes/UI/TableUI.tscn" id="19_pampg"]
 [ext_resource type="PackedScene" uid="uid://dx5q3icf8ycuw" path="res://scenes/bar/bar.tscn" id="21_frn8k"]
-[ext_resource type="PackedScene" uid="uid://c4hwog0aooc84" path="res://scenes/start_menu.tscn" id="99_startmenu"]
 [ext_resource type="PackedScene" uid="uid://d3veed8fcg8k5" path="res://scenes/UI/CashierUI.tscn" id="23_uo4vu"]
+[ext_resource type="PackedScene" uid="uid://bi81aweablpwb" path="res://scenes/tables/TableSlot.tscn" id="26_n24re"]
 [ext_resource type="PackedScene" uid="uid://cm3bdeba5kjf8" path="res://scenes/UI/BarUI.tscn" id="26_ytqcm"]
 [ext_resource type="PackedScene" uid="uid://c4hwog0aooc84" path="res://scenes/start_menu.tscn" id="99_startmenu"]
-[ext_resource type="Script" uid="uid://diy384xkp2okf" path="res://scripts/cashier.gd" id="999_cashier_script"]
+[ext_resource type="Script" path="res://scripts/cashier.gd" id="999_cashier_script"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d4bsi"]
 
@@ -2117,6 +2118,7 @@ size = Vector2(32, 163)
 size = Vector2(43, 249)
 
 [node name="CasinoFloor" type="Node2D" unique_id=1339453593 groups=["navigation_polygon_source_geometry_group"]]
+script = ExtResource("1_ytqcm")
 
 [node name="Floor" type="Node2D" parent="." unique_id=77351220]
 
@@ -2213,5 +2215,25 @@ visible = false
 
 [node name="BarUi" parent="." unique_id=2118712899 instance=ExtResource("26_ytqcm")]
 visible = false
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1802735901]
+
+[node name="Area2D" parent="Node2D" unique_id=1092731767 instance=ExtResource("26_n24re")]
+position = Vector2(1194, 759)
+
+[node name="Area2D2" parent="Node2D" unique_id=1798965692 instance=ExtResource("26_n24re")]
+position = Vector2(901, 762)
+
+[node name="Area2D3" parent="Node2D" unique_id=751663921 instance=ExtResource("26_n24re")]
+position = Vector2(621, 770)
+
+[node name="Area2D4" parent="Node2D" unique_id=660489945 instance=ExtResource("26_n24re")]
+position = Vector2(1208, 332)
+
+[node name="Area2D5" parent="Node2D" unique_id=1617746665 instance=ExtResource("26_n24re")]
+position = Vector2(898, 332)
+
+[node name="Area2D6" parent="Node2D" unique_id=1345290359 instance=ExtResource("26_n24re")]
+position = Vector2(629, 334)
 
 [connection signal="body_entered" from="CasinoEntrance" to="CasinoEntrance" method="_on_body_entered"]
