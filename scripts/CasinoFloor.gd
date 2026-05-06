@@ -1,10 +1,13 @@
 extends Node2D
 
 # ── scene paths ──────────────────────────────────────────────────────────────
-const TABLE_SHOP_UI_SCRIPT := preload("res://scripts/TableShopUI.gd")
+const TABLE_SHOP_UI_SCENE := preload("res://scenes/UI/TableShopUI.tscn")
+const BAR_SHOP_UI_SCENE := preload("res://scenes/UI/BarShopUI.tscn")
 
 # ── internal ─────────────────────────────────────────────────────────────────
 var _shop_ui: CanvasLayer = null
+var _bar_shop_ui: CanvasLayer = null
+var _bar: Node2D = null
 
 
 # ============================================================
@@ -13,7 +16,9 @@ var _shop_ui: CanvasLayer = null
 
 func _ready() -> void:
 	_setup_shop_ui()
+	_setup_bar_shop_ui()
 	_connect_slots()
+	_connect_bar_spot()
 
 
 # ============================================================
@@ -21,10 +26,16 @@ func _ready() -> void:
 # ============================================================
 
 func _setup_shop_ui() -> void:
-	_shop_ui = CanvasLayer.new()
-	_shop_ui.set_script(TABLE_SHOP_UI_SCRIPT)
+	_shop_ui = TABLE_SHOP_UI_SCENE.instantiate()
 	add_child(_shop_ui)
 	_shop_ui.table_selected.connect(_on_table_selected)
+
+
+func _setup_bar_shop_ui() -> void:
+	_bar_shop_ui = BAR_SHOP_UI_SCENE.instantiate()
+	add_child(_bar_shop_ui)
+	_bar_shop_ui.bar_purchased.connect(_on_bar_purchased)
+	_bar = get_node_or_null("Bar")
 
 
 ## Podłącza sygnał slot_clicked do każdego TableSlot na scenie.
@@ -40,6 +51,18 @@ func _connect_slots() -> void:
 	# Fallback: jeśli sloty nie są jeszcze w grupie (nie miały _ready),
 	# podłączymy przez sygnał drzewa.
 	get_tree().node_added.connect(_on_node_added)
+
+
+func _connect_bar_spot() -> void:
+	"""Podłącz signal od PurchaseSpotOfBar"""
+	var bar_spot = get_node_or_null("PurchaseSpotOfBar")
+	if bar_spot and bar_spot.has_signal("area_entered"):
+		# Jeśli PurchaseSpotOfBar ma custom sygnał, podłącz go
+		if bar_spot.has_signal("bar_spot_clicked"):
+			bar_spot.bar_spot_clicked.connect(_on_bar_spot_clicked)
+		else:
+			# Fallback: podłącz przez Area2D input_event
+			bar_spot.input_event.connect(_on_bar_spot_input)
 
 
 func _connect_single_slot(slot: Node) -> void:
@@ -89,6 +112,46 @@ func _on_table_selected(table_type: String) -> void:
 
 	# Stwórz stół
 	_spawn_table(table_type, spawn_pos)
+
+
+## Gracz kliknął na spot baru
+func _on_bar_spot_clicked(spot: Area2D) -> void:
+	_bar_shop_ui.open(spot)
+
+
+## Gracz wpisz na spot baru (fallback dla input_event)
+func _on_bar_spot_input(viewport: Object, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var bar_spot = get_node_or_null("PurchaseSpotOfBar")
+		if bar_spot:
+			_bar_shop_ui.open(bar_spot)
+
+
+## Gracz zakupił bar
+func _on_bar_purchased() -> void:
+	var spot: Area2D = _bar_shop_ui.get_pending_spot()
+	if spot == null:
+		push_warning("CasinoFloor: bar_purchased ale pending_spot == null")
+		return
+
+	var price: int = _bar_shop_ui.get_bar_price()
+
+	# Sprawdzenie środków
+	if GameManager.money < price:
+		print("CasinoFloor: za mało pieniędzy (masz %d, potrzebujesz %d)" \
+				% [GameManager.money, price])
+		return
+
+	# Pobierz środki
+	GameManager.remove_money(price)
+
+	# Ukryj purchase spot
+	spot.visible = false
+	spot.input_pickable = false
+
+	# Pokaż bar
+	if _bar:
+		_bar.visible = true
 
 
 # ============================================================

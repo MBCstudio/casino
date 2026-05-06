@@ -24,6 +24,14 @@ func open(table):
 	
 	update_controls()
 	update_header()
+	
+	# Zaktualizuj tytuł na podstawie typu stołu
+	var title_lbl = $CenterContainer/Panel/VBoxContainer/Header/TitleBox/TitleLabel
+	if title_lbl:
+		if table.table_type == "blackjack":
+			title_lbl.text = "Blackjack Table"
+		else:
+			title_lbl.text = "Roulette Table"
 
 func close():
 	visible = false
@@ -76,7 +84,76 @@ func update_controls():
 	prestige_delta_label.text = "[right]" + color_tag + sign_str + str(prestige_change) + " ⭐[/color][/right]"
 	_updating_slider = false
 	
+	_update_upgrade_titles()
 	_update_upgrade_buttons()
+
+func _update_upgrade_titles() -> void:
+	"""Aktualizuj Label'e z nazwami ulepszeń"""
+	if current_table == null:
+		return
+	
+	# Dealer Upgrades
+	var title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/SpeedTrainingPanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("speed")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/CharismaCoursePanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("charisma")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Dealer Upgrade/VBoxContainer/MasterClassPanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("master")
+		title.text = info["name"]
+	
+	# Table Upgrades
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VelvetFeltPanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("felt")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/LEDLightingPanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("led")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/GoldChipRackPanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("chip_rack")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/VIPSeatingPanel/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("vip")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel1/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("test1")
+		title.text = info["name"]
+	
+	title = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Table Upgrade/ScrollContainer/VBoxContainer/ExtraTestPanel2/MarginContainer/HBoxContainer/VBoxContainer/Title")
+	if title:
+		var info = _get_upgrade_info("test2")
+		title.text = info["name"]
+
+func _get_upgrade_info(upgrade_id: String) -> Dictionary:
+	if current_table == null:
+		return {"name": "Unknown", "price": 999999}
+	var is_bj = (current_table.table_type == "blackjack")
+	match upgrade_id:
+		"speed": return {"name": "Fast Dealing" if is_bj else "Fast Spinning", "price": 4000 if is_bj else 6000}
+		"charisma": return {"name": "Professional" if is_bj else "Elegant Croupier", "price": 6000 if is_bj else 9000}
+		"master": return {"name": "Senior Dealer" if is_bj else "Master Croupier", "price": 10000 if is_bj else 15000}
+		"felt": return {"name": "Premium Felt" if is_bj else "Luxury Felt", "price": 8000 if is_bj else 12000}
+		"led": return {"name": "Brass Finish" if is_bj else "Gold Finish", "price": 12000 if is_bj else 18000}
+		"chip_rack": return {"name": "Wooden Rack" if is_bj else "Classic Rack", "price": 16000 if is_bj else 24000}
+		"vip": return {"name": "Leather Seats" if is_bj else "Velvet Seats", "price": 25000 if is_bj else 35000}
+		"test1": return {"name": "Vintage Cards" if is_bj else "Mahogany Wheel", "price": 40000 if is_bj else 60000}
+		"test2": return {"name": "Free Snacks" if is_bj else "Gourmet Snacks", "price": 80000 if is_bj else 120000}
+	return {"name": "Unknown", "price": 999999}
 
 func _update_upgrade_buttons():
 	if current_table == null:
@@ -84,107 +161,116 @@ func _update_upgrade_buttons():
 		
 	_update_details_label()
 		
-	# Speed Train
+	# Speed
 	if has_node("%BuySpeedBtn"):
 		var btn = get_node("%BuySpeedBtn")
+		var info = _get_upgrade_info("speed")
 		if current_table.play_time <= 8.0:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 5000
-			btn.text = "$5,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 			
 	# Charisma
 	if has_node("%BuyCharismaBtn"):
 		var btn = get_node("%BuyCharismaBtn")
+		var info = _get_upgrade_info("charisma")
 		if current_table.vip_chance_bonus > 0.04:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 8000
-			btn.text = "$8,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	# Master
 	if has_node("%BuyMasterBtn"):
 		var btn = get_node("%BuyMasterBtn")
-		if current_table.bet >= 50:
+		var info = _get_upgrade_info("master")
+		if current_table.bet >= 50: # upraszczam: bet limit zostaje jak był z wliczonym masterem (albo uzyto innej flagi)
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 12000
-			btn.text = "$12,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	# Table Upgrades
 	if has_node("%BuyFeltBtn"):
 		var btn = get_node("%BuyFeltBtn")
+		var info = _get_upgrade_info("felt")
 		if current_table.has_felt:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 10000
-			btn.text = "$10,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%BuyLEDBtn"):
 		var btn = get_node("%BuyLEDBtn")
+		var info = _get_upgrade_info("led")
 		if current_table.has_led:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 15000
-			btn.text = "$15,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%BuyChipRackBtn"):
 		var btn = get_node("%BuyChipRackBtn")
+		var info = _get_upgrade_info("chip_rack")
 		if current_table.has_chip_rack:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 20000
-			btn.text = "$20,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%BuyVIPBtn"):
 		var btn = get_node("%BuyVIPBtn")
+		var info = _get_upgrade_info("vip")
 		if current_table.has_vip_seats:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 35000
-			btn.text = "$35,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%TestBtn1"):
 		var btn = get_node("%TestBtn1")
+		var info = _get_upgrade_info("test1")
 		if current_table.has_spinner:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 50000
-			btn.text = "$50,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%TestBtn2"):
 		var btn = get_node("%TestBtn2")
+		var info = _get_upgrade_info("test2")
 		if current_table.has_drinks:
 			btn.disabled = true
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 100000
-			btn.text = "$100,000"
+			btn.disabled = GameManager.money < info.price
+			btn.text = "$%d" % info.price
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 func _on_HSlider_value_changed(value):
@@ -223,66 +309,75 @@ func _on_upgrade_table_pressed():
 func _on_upgrade_dealer_pressed():
 	pass
 func _on_buy_speed():
-	if current_table and GameManager.money >= 5000 and current_table.play_time > 8.0:
-		GameManager.remove_money(5000)
+	var info = _get_upgrade_info("speed")
+	if current_table and GameManager.money >= info.price and current_table.play_time > 8.0:
+		GameManager.remove_money(info.price)
 		current_table.play_time = 8.0
 		_update_upgrade_buttons()
 
 func _on_buy_charisma():
-	if current_table and GameManager.money >= 8000 and current_table.vip_chance_bonus <= 0.04:
-		GameManager.remove_money(8000)
+	var info = _get_upgrade_info("charisma")
+	if current_table and GameManager.money >= info.price and current_table.vip_chance_bonus <= 0.04:
+		GameManager.remove_money(info.price)
 		current_table.vip_chance_bonus += 0.05
 		_update_upgrade_buttons()
 
 func _on_buy_master():
-	if current_table and GameManager.money >= 12000 and current_table.bet < 50:
-		GameManager.remove_money(12000)
+	var info = _get_upgrade_info("master")
+	if current_table and GameManager.money >= info.price and current_table.bet < 50:
+		GameManager.remove_money(info.price)
 		current_table.bet += 40
 		_update_upgrade_buttons()
 
 func _on_buy_felt():
-	if current_table and GameManager.money >= 10000 and not current_table.has_felt:
-		GameManager.remove_money(10000)
+	var info = _get_upgrade_info("felt")
+	if current_table and GameManager.money >= info.price and not current_table.has_felt:
+		GameManager.remove_money(info.price)
 		current_table.has_felt = true
 		current_table.add_prestige_bonus(60)
 		_update_upgrade_buttons()
 		update_header()
 
 func _on_buy_led():
-	if current_table and GameManager.money >= 15000 and not current_table.has_led:
-		GameManager.remove_money(15000)
+	var info = _get_upgrade_info("led")
+	if current_table and GameManager.money >= info.price and not current_table.has_led:
+		GameManager.remove_money(info.price)
 		current_table.has_led = true
 		current_table.add_prestige_bonus(80)
 		_update_upgrade_buttons()
 		update_header()
 
 func _on_buy_chip_rack():
-	if current_table and GameManager.money >= 20000 and not current_table.has_chip_rack:
-		GameManager.remove_money(20000)
+	var info = _get_upgrade_info("chip_rack")
+	if current_table and GameManager.money >= info.price and not current_table.has_chip_rack:
+		GameManager.remove_money(info.price)
 		current_table.has_chip_rack = true
 		current_table.add_prestige_bonus(100)
 		_update_upgrade_buttons()
 		update_header()
 
 func _on_buy_vip():
-	if current_table and GameManager.money >= 35000 and not current_table.has_vip_seats:
-		GameManager.remove_money(35000)
+	var info = _get_upgrade_info("vip")
+	if current_table and GameManager.money >= info.price and not current_table.has_vip_seats:
+		GameManager.remove_money(info.price)
 		current_table.has_vip_seats = true
 		current_table.add_prestige_bonus(120)
 		_update_upgrade_buttons()
 		update_header()
 
 func _on_buy_spinner():
-	if current_table and GameManager.money >= 50000 and not current_table.has_spinner:
-		GameManager.remove_money(50000)
+	var info = _get_upgrade_info("test1")
+	if current_table and GameManager.money >= info.price and not current_table.has_spinner:
+		GameManager.remove_money(info.price)
 		current_table.has_spinner = true
 		current_table.add_prestige_bonus(150)
 		_update_upgrade_buttons()
 		update_header()
 
 func _on_buy_drinks():
-	if current_table and GameManager.money >= 100000 and not current_table.has_drinks:
-		GameManager.remove_money(100000)
+	var info = _get_upgrade_info("test2")
+	if current_table and GameManager.money >= info.price and not current_table.has_drinks:
+		GameManager.remove_money(info.price)
 		current_table.has_drinks = true
 		current_table.add_prestige_bonus(200)
 		_update_upgrade_buttons()

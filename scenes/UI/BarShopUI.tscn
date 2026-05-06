@@ -1,0 +1,263 @@
+[gd_scene format=3 uid="uid://fi8kigklifvs"]
+
+[ext_resource type="Script" uid="uid://bxkpwvagdsfu" path="res://scripts/BarShopUI.gd" id="1_barshopui"]
+[ext_resource type="Texture2D" uid="uid://cqte116vmsfy3" path="res://assets/sprites/Screenshot_2026-04-12_205943-removebg-preview.png" id="2_xlikm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Main"]
+bg_color = Color(0.05882353, 0.09411765, 0.0627451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83137256, 0.6862745, 0.21568628, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.7490196)
+shadow_size = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_mask"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="Gradient" id="Gradient_bg"]
+offsets = PackedFloat32Array(0.01146789, 1)
+colors = PackedColorArray(0.032545865, 0.080064856, 0.027939172, 1, 0.2637608, 0.13586396, 0.0061284164, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bg"]
+gradient = SubResource("Gradient_bg")
+fill_from = Vector2(0, 0.18290599)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_IconBg"]
+bg_color = Color(0.047, 0.075, 0.055, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9882353, 0.8352941, 0.24705882, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.15)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ButtonNormal"]
+bg_color = Color(0.65, 0.35, 0.10, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9882353, 0.8352941, 0.24705882, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ButtonHover"]
+bg_color = Color(0.75, 0.45, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.95, 0.4, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ButtonDisabled"]
+bg_color = Color(0.3, 0.15, 0.05, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.5, 0.5, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CancelBtn"]
+bg_color = Color(0.1, 0.05, 0.05, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9882353, 0.8352941, 0.24705882, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CancelHover"]
+bg_color = Color(0.15, 0.08, 0.08, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.95, 0.4, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="BarShopUI" type="CanvasLayer" unique_id=1830125836]
+layer = 10
+process_mode = 3
+script = ExtResource("1_barshopui")
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=1700000000]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+z_index = -1
+process_mode = 0
+color = Color(0, 0, 0, 0.5)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1968327875]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1785459075]
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_Main")
+
+[node name="GradientMask" type="Panel" parent="CenterContainer/Panel" unique_id=72633636]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_mask")
+
+[node name="GradientBg" type="TextureRect" parent="CenterContainer/Panel/GradientMask" unique_id=1878053045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_bg")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=864021132]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1994341269]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="IconBg" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1035118479]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_IconBg")
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/Header/IconBg" unique_id=44536890]
+layout_mode = 2
+texture = ExtResource("2_xlikm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=61142123]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header/TitleBox" unique_id=779180718]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.831373, 0.686275, 0.215686, 1)
+theme_override_font_sizes/font_size = 28
+text = "Open Bar"
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header/TitleBox" unique_id=21538537]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "Attract VIP customers"
+
+[node name="ClosePadding" type="Control" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1029384757]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=1122334456]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.3, 0.3, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_CancelBtn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_CancelHover")
+text = "X"
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=1700000001]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="ContentVBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/Margin" unique_id=1700000002]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="MoneyLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/Margin/ContentVBox" unique_id=1700000003]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.831373, 0.686275, 0.215686, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+text = "Your money: $0"
+
+[node name="Separator1" type="HSeparator" parent="CenterContainer/Panel/VBoxContainer/Margin/ContentVBox" unique_id=1700000004]
+layout_mode = 2
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/Margin/ContentVBox" unique_id=1700000005]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_vertical = 3
+
+[node name="BuyBarBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/Margin/ContentVBox/ButtonsVBox" unique_id=1700000006]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+process_mode = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_ButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ButtonHover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ButtonDisabled")
+text = "Open Bar  –  $10000"
+
+[node name="Separator2" type="HSeparator" parent="CenterContainer/Panel/VBoxContainer/Margin/ContentVBox" unique_id=1700000007]
+layout_mode = 2
+
+[node name="CancelBtn" type="Button" parent="CenterContainer/Panel/VBoxContainer/Margin/ContentVBox" unique_id=1700000008]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+process_mode = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_CancelBtn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_CancelHover")
+text = "Cancel"

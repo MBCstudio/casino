@@ -529,6 +529,11 @@ func should_leave() -> bool:
 	return false
 
 func should_go_to_bar() -> bool:
+	# Sprawdź czy bar istnieje i jest widoczny
+	var bars = get_tree().get_nodes_in_group("bars")
+	if bars.size() == 0 or not bars[0].visible:
+		return false
+	
 	if anger >= 50.0 and anger <= 75.0:
 		if not has_decided_bar:
 			decided_to_go_to_bar = randf() < go_to_bar_chance

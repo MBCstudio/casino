@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://nl01reyvqd26"]
+
+[ext_resource type="Texture2D" uid="uid://cokjqxyuhg50r" path="res://assets/sprites/plus_sign.png" id="1_k8wbl"]
+[ext_resource type="Script" uid="uid://cx3ati7ppfag1" path="res://scenes/other_stuff/purchaseSpotscript.gd" id="1_yhp3b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8wbl"]
+size = Vector2(100, 102)
+
+[node name="Area2D" type="Area2D" unique_id=1912551725]
+script = ExtResource("1_yhp3b")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=521602251]
+scale = Vector2(0.15039063, 0.14960937)
+texture = ExtResource("1_k8wbl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=363698989]
+modulate = Color(1, 1, 1, 0.5019608)
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_k8wbl")
+
+[node name="Label" type="Label" parent="." unique_id=446617556]
+offset_left = -41.0
+offset_top = 25.0
+offset_right = 43.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
