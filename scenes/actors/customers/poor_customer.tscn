@@ -1,0 +1,149 @@
+[gd_scene format=3 uid="uid://cbq6ynet1mcj1"]
+
+[ext_resource type="PackedScene" uid="uid://74x1tkdy464n" path="res://scenes/actors/customers/normal_customer.tscn" id="1_3b1y0"]
+[ext_resource type="Texture2D" uid="uid://b003ap8erolv0" path="res://assets/sprites/customer_poor.png" id="2_ok2x4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b1y0"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(0, 512, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ok2x4"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(64, 512, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0l2d2"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(128, 512, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54e6a"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(192, 512, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohaba"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(0, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2h4p7"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(64, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtvxi"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(128, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7u4u6"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(192, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67kj0"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(0, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_och2v"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(64, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxl04"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(128, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05bke"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(192, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q7y0"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(0, 640, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0cnc"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(64, 640, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uu84v"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(128, 640, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqy4u"]
+atlas = ExtResource("2_ok2x4")
+region = Rect2(192, 640, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0l2d2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b1y0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ok2x4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0l2d2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54e6a")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohaba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2h4p7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vtvxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7u4u6")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67kj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_och2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxl04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05bke")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q7y0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0cnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uu84v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqy4u")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[node name="Normal_customer" unique_id=1597932130 instance=ExtResource("1_3b1y0")]
+enter_chance = 0.85
+money = 30.0
+base_bet = 5.0
+
+[node name="AnimatedSprite2D" parent="." index="0" unique_id=1294089300]
+sprite_frames = SubResource("SpriteFrames_0l2d2")
+animation = &"walk_left"
+frame_progress = 0.55101544
