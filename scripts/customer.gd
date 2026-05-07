@@ -242,7 +242,18 @@ func move_to_target():
 				nav_agent.avoidance_priority = 1.0
 				nav_agent.radius = 10.0 # Mniejsza strefa RVO w kolejce
 				nav_agent.set_velocity(Vector2.ZERO)
-				$AnimatedSprite2D.stop() # Przerywa animację ("w miejscu")				try_face_target(c_pos) # Obróć postać przodem do kasy				
+				$AnimatedSprite2D.stop() # Przerywa animację ("w miejscu")
+				try_face_target(c_pos) # Obróć postać przodem do kasy
+				# Ktoś staje się pierwszym w kolejce i dochodzi do samej kasy
+				if people_ahead == 0 and global_position.distance_to(c_pos) < 30.0:
+					# Krótkie zatrzymanie 1s przy kasie (rejestracja) - działa dla nowych typów postaci
+					if not is_waiting:
+						is_waiting = true
+						await get_tree().create_timer(1.0, false).timeout
+						is_waiting = false
+					# Jeżeli klient jeszcze nie odwiedził kasy, wykonaj pełny flow rejestracji
+					if not has_visited_cashier and not is_waiting:
+						await wait_at_cashier()
 				# Ktoś staje się pierwszym w kolejce i dochodzi do samej kasy
 				if people_ahead == 0 and global_position.distance_to(c_pos) < 30.0:
 					if not has_visited_cashier and not is_waiting:
