@@ -154,6 +154,7 @@ wall_min_slide_angle = 0.18151425
 script = ExtResource("1_hsaiv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1294089300]
+z_index = 1
 position = Vector2(0, -1)
 scale = Vector2(0.82812494, 0.71875)
 sprite_frames = SubResource("SpriteFrames_bolbq")

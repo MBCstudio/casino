@@ -15,7 +15,7 @@ var is_vip: bool = false
 
 @onready var nav_agent = $NavigationAgent2D
 
-var radius_playerow: float = 22.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
+var radius_playerow: float = 28.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
 var stanie_przy_stoliku: float = 1.0#im więcej tym sztywniej stoją przy stoliku
 var target_position: Vector2
 var target_table = null
@@ -149,7 +149,8 @@ func wait_at_cashier():
 	if cashiers.size() > 0:
 		actual_wait_time = cashiers[0].wait_time
 		
-	await get_tree().create_timer(actual_wait_time, false).timeout
+	while _get_free_play_spots() <= 0:
+		await get_tree().create_timer(actual_wait_time, false).timeout
 	
 	is_waiting = false
 	is_in_cashier_queue = false
@@ -245,7 +246,7 @@ func move_to_target():
 				# Ktoś staje się pierwszym w kolejce i dochodzi do samej kasy
 				if people_ahead == 0 and global_position.distance_to(c_pos) < 30.0:
 					if not has_visited_cashier and not is_waiting:
-						wait_at_cashier()
+						await wait_at_cashier()
 				
 				return # Zatrzymaj dalsze przesunięcia
 				
