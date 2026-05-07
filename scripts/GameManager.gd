@@ -5,6 +5,7 @@ var prestige: int = 10
 var event_prestige_modifier: int = 0
 var customers: int = 0
 var play_time: float = 0.0
+var time_multiplier: float = 1.0
 var tables_bought: int = 0
 var has_won: bool = false
 var time_since_last_event: float = 0.0
@@ -398,6 +399,10 @@ func add_money(amount):
 	print("GameManager: Added $", amount, ", total: $", money)
 	emit_signal("stats_changed")
 	_check_win_condition()
+
+func set_time_multiplier(m: float):
+	time_multiplier = m
+	print("GameManager: time_multiplier set to", time_multiplier)
 
 func remove_money(amount):
 	money -= amount

@@ -2149,6 +2149,7 @@ position = Vector2(1514, 336)
 
 [node name="CustomerSpawner" type="Node2D" parent="." unique_id=8769380]
 script = ExtResource("15_tp5si")
+customer_scene = ExtResource("14_3febt")
 spawn_x_min = 10
 spawn_x_max = 90
 screen_height = 1100

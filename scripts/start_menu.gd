@@ -34,10 +34,10 @@ func _start_game_with_difficulty(starting_money: float):
 		queue_free()
 
 func _on_easy_button_pressed():
-	_start_game_with_difficulty(100000.0)
+	_start_game_with_difficulty(25000.0)
 
 func _on_medium_button_pressed():
-	_start_game_with_difficulty(20000.0)
+	_start_game_with_difficulty(15000.0)
 
 func _on_hard_button_pressed():
 	_start_game_with_difficulty(2000.0)

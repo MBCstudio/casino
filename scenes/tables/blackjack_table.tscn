@@ -4,44 +4,44 @@
 [ext_resource type="Script" uid="uid://bsm02eooh608o" path="res://scripts/casino_table.gd" id="1_n86pn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n86pn"]
-radius = 28.99997
-height = 110.0
+radius = 31.0
+height = 102.0
 
-[node name="BlackjackTable" type="Area2D" unique_id=1956175211]
+[node name="BlackjackTable" type="StaticBody2D" unique_id=1956175211]
+input_pickable = true
 script = ExtResource("1_n86pn")
 table_type = "blackjack"
 bet = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=25864215]
-position = Vector2(928, 498)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_dd4j5")
 region_enabled = true
 region_rect = Rect2(927.4036, 367.9104, 96.45599, 52.153503)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1194772494]
-position = Vector2(929, 494)
+position = Vector2(0, -4)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_n86pn")
 
 [node name="Seats" type="Node2D" parent="." unique_id=749987034]
 
 [node name="Seat1" type="Marker2D" parent="Seats" unique_id=1942081746]
-position = Vector2(930, 547)
+position = Vector2(0, 59)
 gizmo_extents = 0.0
 
 [node name="Seat2" type="Marker2D" parent="Seats" unique_id=175574132]
-position = Vector2(987, 536)
+position = Vector2(64, 41)
 gizmo_extents = 0.0
 
 [node name="Seat3" type="Marker2D" parent="Seats" unique_id=2117887096]
-position = Vector2(1009, 495)
+position = Vector2(90, -4)
 gizmo_extents = 0.0
 
 [node name="Seat4" type="Marker2D" parent="Seats" unique_id=964954766]
-position = Vector2(844, 492)
+position = Vector2(-92, -6)
 gizmo_extents = 0.0
 
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=1611987974]
-position = Vector2(863, 530)
+position = Vector2(-64, 41)
 gizmo_extents = 0.0

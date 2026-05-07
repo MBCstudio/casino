@@ -5,6 +5,7 @@ var current_bar = null
 @onready var passive_income_label = %Value
 @onready var prestige_label = %Value2
 @onready var vip_bonus_label = %Value3
+@onready var collect_btn = %CollectPassiveBtn
 
 func _ready():
 	add_to_group("bar_ui")
@@ -19,6 +20,10 @@ func _ready():
 	var band_btn = get_node_or_null("%BuyBandBtn")
 	if band_btn:
 		band_btn.pressed.connect(_on_buy_band)
+
+	var cbtn = get_node_or_null("%CollectPassiveBtn")
+	if cbtn:
+		cbtn.pressed.connect(_on_collect_passive)
 
 	var close_btn = find_child("CloseButton", true, false)
 	var top_prestige = %PrestigeLabel if has_node("%PrestigeLabel") else get_node_or_null("%PrestigeLabel")
@@ -67,6 +72,14 @@ func _update_details_label():
 func update_controls():
 	_update_details_label()
 	_update_upgrade_buttons()
+	# show collect button when passive income is ready
+	var cbtn = get_node_or_null("%CollectPassiveBtn")
+	if cbtn:
+		var ready = false
+		if current_bar and current_bar.get("passive_ready") != null:
+			ready = current_bar.get("passive_ready")
+		cbtn.visible = ready
+		cbtn.disabled = not ready
 
 func _update_upgrade_buttons():
 	if current_bar == null:
@@ -129,6 +142,10 @@ func _on_buy_cashier():
 		current_bar.set("cashier_upgraded", true)
 		if current_bar.get("passive_income") != null:
 			current_bar.set("passive_income", current_bar.get("passive_income") + 50)
+		# cashier purchased — start passive cycle
+		# start passive income cycle after buying cashier upgrade
+		if current_bar.has_method("start_passive_timer"):
+			current_bar.start_passive_timer()
 			
 		update_controls()
 
@@ -156,4 +173,66 @@ func _on_buy_band():
 		current_bar.set("live_band_upgraded", true)
 		if current_bar.get("vip_percentage") != null:
 			current_bar.set("vip_percentage", current_bar.get("vip_percentage") + 0.05)
+		update_controls()
+
+func _on_collect_passive():
+	if current_bar == null:
+		return
+	var ready = current_bar.get("passive_ready") if current_bar.get("passive_ready") != null else false
+	if not ready:
+		return
+
+	var amount = 0
+	if current_bar.get("passive_income") != null:
+		amount = current_bar.passive_income
+
+	if amount > 0:
+		if GameManager.has_method("add_money"):
+			GameManager.add_money(amount)
+		elif "money" in GameManager:
+			GameManager.money += amount
+
+	current_bar.set("passive_ready", false)
+	# restart the passive timer for the next cycle
+	if current_bar.has_method("start_passive_timer"):
+		current_bar.start_passive_timer()
+
+	update_controls()
+
+func _show_passive_bubble_world(bar):
+	# show a short top-center bubble in the Bar UI for 1s
+	# remove existing bubble
+	if has_node("PassiveWorldBubble"):
+		get_node("PassiveWorldBubble").queue_free()
+
+	var lbl = Label.new()
+	lbl.name = "PassiveWorldBubble"
+	lbl.text = "Passive income ready!"
+	lbl.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24))
+	lbl.custom_minimum_size = Vector2(260, 36)
+	lbl.horizontal_alignment = HorizontalAlignment.HORIZONTAL_ALIGNMENT_CENTER
+	# add into header container so layout positions it safely at top-center
+	var header = get_node_or_null("CenterContainer/Panel/VBoxContainer/Header")
+	if header:
+		header.add_child(lbl)
+	else:
+		add_child(lbl)
+
+	var t = Timer.new()
+	t.one_shot = true
+	t.wait_time = 1.0
+	add_child(t)
+	t.timeout.connect(func():
+		if lbl and lbl.is_inside_tree():
+			lbl.queue_free()
+		if t and t.is_inside_tree():
+			t.queue_free()
+	)
+	t.start()
+
+func on_bar_passive_ready(bar):
+	# called by a Bar when its passive_income becomes ready
+	if visible and current_bar == bar:
+		# show bubble and update controls immediately
+		_show_passive_bubble_world(bar)
 		update_controls()
