@@ -69,13 +69,9 @@ func _ready():
 	for c in get_tree().get_nodes_in_group("cashier"):
 		if "vip_chance" in c:
 			total_vip_bonus += c.vip_chance
-			
-	if randf() < (vip_enter_chance + total_vip_bonus):
-		is_vip = true
-		money *= 5.0 # VIPs bring 5x more money
-		base_bet *= 5.0
-		# Make them look slightly different or just keep it simple for now
 
+	# Zostawiamy status i statystyki nadane przez Scenę i Spawner!
+	
 	# Podłączenie sygnału omijania z NavigationAgent2D
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
 	nav_agent.max_speed = speed * 1.0
