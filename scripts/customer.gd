@@ -392,8 +392,38 @@ func try_play():
 		find_table()
 
 # ====== ENTRY ======
+func get_dynamic_enter_chance() -> float:
+	var p = float(GameManager.prestige)
+	if p < 0:
+		return 0.0
+
+	if status == "poor":
+		if p <= 0: return 1.0
+		elif p >= 100: return 0.0
+		else: return 1.0 - (p / 100.0)
+
+	elif status == "normal":
+		if p <= 0: return 0.75
+		elif p <= 100: return 0.75 + (0.25 * (p / 100.0))
+		elif p <= 250: return 1.0 - ((p - 100.0) / 150.0)
+		else: return 0.0
+
+	elif status == "rich":
+		if p <= 0: return 0.05
+		elif p <= 500: return 0.05 + (0.95 * (p / 500.0))
+		elif p <= 2000: return 1.0 - ((p - 500.0) / 1500.0)
+		else: return 0.0
+
+	elif status == "vip":
+		if p < 200: return 0.0
+		elif p <= 1500: return 0.02 + (0.98 * ((p - 200.0) / 1300.0))
+		else: return 1.0
+
+	return enter_chance
+
 func decide_enter_casino():
-	if randf() < enter_chance:
+	var dynamic_chance = get_dynamic_enter_chance()
+	if randf() < dynamic_chance:
 		# Ile osób max przy stołach
 		var total_seats = 0
 		for t in get_tree().get_nodes_in_group("tables"):
