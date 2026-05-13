@@ -3,9 +3,12 @@ extends CanvasLayer
 @onready var money_label = $HBoxContainer/Money
 @onready var rep_label = $HBoxContainer/Reputation
 @onready var cust_label = $HBoxContainer/Customers
+@onready var settings_btn = $HBoxContainer/SettingsButton
+@onready var settings_menu = $SettingsMenu
 
 func _ready():
 	GameManager.stats_changed.connect(update_ui)
+	settings_btn.pressed.connect(settings_menu.toggle_menu)
 	update_ui()
 
 func update_ui():

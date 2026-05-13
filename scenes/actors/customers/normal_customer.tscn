@@ -145,7 +145,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o7yud"]
 radius = 17.0
-height = 58.0
+height = 52.0
 
 [node name="Normal_customer" type="CharacterBody2D" unique_id=1597932130]
 motion_mode = 1
@@ -162,7 +162,7 @@ animation = &"walk_right"
 frame_progress = 0.9519098
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1110807250]
-position = Vector2(0, -2)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_o7yud")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=336824352]

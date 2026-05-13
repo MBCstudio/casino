@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://cih8epmliajrg"]
+[gd_scene format=3 uid="uid://c3eonpr531oi4"]
 
-[ext_resource type="Script" uid="uid://d2khfics26atl" path="res://scripts/CashierUi.gd" id="1_417wc"]
+[ext_resource type="Script" path="res://scripts/CashierUi.gd" id="1_417wc"]
 [ext_resource type="Texture2D" uid="uid://cqte116vmsfy3" path="res://assets/sprites/Screenshot_2026-04-12_205943-removebg-preview.png" id="2_xlikm"]
 [ext_resource type="Texture2D" uid="uid://cjfplp85jscbs" path="res://assets/sprites/level-up (1).png" id="3_cufid"]
 [ext_resource type="Texture2D" uid="uid://ccpgute50pas0" path="res://assets/sprites/casino-dealer (1).png" id="4_kim4i"]
@@ -455,16 +455,6 @@ custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
 
-
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
-
-
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
-
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Upgrades/VBoxContainer/CashierUpdatePanel" unique_id=752908449]
 layout_mode = 2
 theme_override_constants/margin_left = 25
@@ -501,18 +491,7 @@ theme_override_colors/font_color = Color(0.988235, 0.835294, 0.247059, 1)
 text = "$5,000  >"
 alignment = 2
 
-
 [node name="PrestigeUpdatePanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Upgrades/VBoxContainer" unique_id=698439670]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
-
-
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
-
-
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
@@ -522,18 +501,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 
-
 [node name="VipUpdatePanel" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Upgrades/VBoxContainer" unique_id=698449670]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
-
-
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
-
-
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
@@ -542,4 +510,3 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xlikm")
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
-

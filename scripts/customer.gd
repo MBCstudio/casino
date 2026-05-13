@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var wait_time_cashier: float = 5.0
 @export var wait_time_table: float = 10.0
 @export var vip_enter_chance: float = 0.05 # Base chance for VIP
+@export var recovery_distance: float = 1.0 # Jak daleko postać sie odsuwał w recovery (w sekundach)
 
 var is_vip: bool = false
 @export var money: float = 100.0
@@ -15,7 +16,7 @@ var is_vip: bool = false
 
 @onready var nav_agent = $NavigationAgent2D
 
-var radius_playerow: float = 28.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
+var radius_playerow: float = 24.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
 var stanie_przy_stoliku: float = 1.0#im więcej tym sztywniej stoją przy stoliku
 var target_position: Vector2
 var target_table = null
@@ -78,7 +79,7 @@ func _ready():
 	
 	# Większa tolerancja na zaliczanie punktów ścieżki (zapobiega blokowaniu na rogach)
 	# nav_agent.path_desired_distance = 40.0#im wieksza tym szbycej gdy jest przekszoda zaczyna skrecasc
-	nav_agent.target_desired_distance = 3.0#precyzja z jaka staje na wylosowanym punkcie
+	nav_agent.target_desired_distance = 2.0#precyzja z jaka staje na wylosowanym punkcie
 
 # ====== NAVIGATION ======
 func set_target(pos: Vector2):
@@ -104,10 +105,10 @@ func _physics_process(delta):
 				is_recovering = false
 		else:
 			stuck_check_timer += delta
-			if stuck_check_timer >= 0.5: # Szybkie sprawdzanie co 0.4 sekundy
+			if stuck_check_timer >= 0.3: # Szybkie sprawdzanie co 0.4 sekundy
 				if global_position.distance_to(last_stuck_pos) < 10.0:
 					is_recovering = true
-					recovery_timer = 0.5 # Krótkie ominięcie (ślizgnięcie), żeby zeskoczyć z rogu kasy
+					recovery_timer = recovery_distance # Jak daleko sie odsuwać
 					var to_target = (target_position - global_position).normalized()
 					# Wektor obracany o 70-110 stopni, czyli szarpnie w lewo lub w prawo względem celu
 					var angle = randf_range(70, 110) * (1 if randf() > 0.5 else -1)
@@ -236,7 +237,7 @@ func move_to_target():
 			# Jeśli postać dotarła na swoje miejsce w kolejce
 			if global_position.distance_to(target_spot) < 25.0:
 				nav_agent.avoidance_priority = 1.0
-				nav_agent.radius = 10.0 # Mniejsza strefa RVO w kolejce
+				nav_agent.radius = 7.0 # Mniejsza strefa RVO w kolejce
 				nav_agent.set_velocity(Vector2.ZERO)
 				$AnimatedSprite2D.stop() # Przerywa animację ("w miejscu")
 				try_face_target(c_pos) # Obróć postać przodem do kasy
