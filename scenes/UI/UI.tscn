@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dajgp7w0ug6wc"]
 
 [ext_resource type="Script" uid="uid://bu2mtahgta2q6" path="res://scripts/UI.gd" id="1_0wsoe"]
+[ext_resource type="PackedScene" uid="uid://d3klh8ukgeo1b" path="res://scenes/UI/settings_menu.tscn" id="2_settings"]
 
 [node name="Ui" type="CanvasLayer" unique_id=488884624]
 script = ExtResource("1_0wsoe")
@@ -23,3 +24,18 @@ layout_mode = 2
 
 [node name="Customers" type="Label" parent="HBoxContainer" unique_id=648516869]
 layout_mode = 2
+
+[node name="SettingsButton" type="Button" parent="HBoxContainer" unique_id=1896954321]
+layout_mode = 2
+text = "⚙"
+
+[node name="SettingsMenu" parent="." unique_id=2054321789 instance=ExtResource("2_settings")]
+anchors_preset = -1
+anchor_left = 0.84400004
+anchor_right = 0.84400004
+anchor_bottom = 0.0
+offset_left = 299.5199
+offset_top = 185.0
+offset_right = 299.5199
+grow_horizontal = 0
+grow_vertical = 1

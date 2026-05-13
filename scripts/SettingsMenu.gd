@@ -1,0 +1,169 @@
+extends Control
+
+## SettingsMenu – elegancki sidebar wysuwany z prawej strony
+## Użycie: podłącz SettingsButton.pressed -> toggle_menu()
+## Węzeł powinien być dzieckiem CanvasLayer (layer >= 10)
+
+# ── Stałe animacji ──────────────────────────────────────────────────────────
+const SLIDE_DURATION := 0.32
+const EASE_IN  := Tween.EASE_IN_OUT
+const TRANS    := Tween.TRANS_CUBIC
+
+# ── Referencje do node'ów ────────────────────────────────────────────────────
+@onready var _overlay:       ColorRect   = $Overlay
+@onready var _panel:         PanelContainer = $SidebarPanel
+@onready var _close_btn:     Button      = $SidebarPanel/MarginContainer/VBoxContainer/HeaderRow/CloseButton
+@onready var _pause_btn:     Button      = $SidebarPanel/MarginContainer/VBoxContainer/PauseButton
+@onready var _speed_label:   Label       = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedLabel
+@onready var _btn_x1:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX1
+@onready var _btn_x2:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX2
+@onready var _btn_x4:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX4
+
+# ── Stan wewnętrzny ──────────────────────────────────────────────────────────
+var _is_open:   bool = false
+var _tween:     Tween
+
+# ── Rozmiar panelu (szerokość sidebar'a) ─────────────────────────────────────
+const PANEL_WIDTH := 300.0
+
+# ────────────────────────────────────────────────────────────────────────────
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# Panel startuje poza ekranem po prawej stronie
+	_panel.anchor_left   = 1.0
+	_panel.anchor_right  = 1.0
+	_panel.anchor_top    = 0.0
+	_panel.anchor_bottom = 1.0
+	_panel.offset_left   = PANEL_WIDTH
+	_panel.offset_right  = 0.0
+
+	_overlay.visible = false
+	_overlay.modulate.a = 0.0
+
+	# Połącz sygnały przycisków
+	_close_btn.pressed.connect(close_menu)
+	_pause_btn.pressed.connect(_on_pause_pressed)
+	_btn_x1.pressed.connect(func(): _set_speed(1.0))
+	_btn_x2.pressed.connect(func(): _set_speed(2.0))
+	_btn_x4.pressed.connect(func(): _set_speed(4.0))
+	_overlay.gui_input.connect(_on_overlay_input)
+
+	_update_pause_button()
+	_highlight_active_speed()
+
+# ── Obsługa klawiatury (Escape zamyka menu) ──────────────────────────────────
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") and _is_open:
+		close_menu()
+		get_viewport().set_input_as_handled()
+
+# ── Publiczne API ─────────────────────────────────────────────────────────────
+func toggle_menu() -> void:
+	if _is_open:
+		close_menu()
+	else:
+		open_menu()
+
+func open_menu() -> void:
+	if _is_open:
+		return
+	_is_open = true
+	_overlay.visible = true
+	_panel.visible = true
+	_animate(true)
+	_update_pause_button()
+	_highlight_active_speed()
+
+func close_menu() -> void:
+	if not _is_open:
+		return
+	_is_open = false
+	_animate(false)
+	# Ukryj panel na koniec animacji (w _animate callback)
+
+
+# ── Animacja Tween ────────────────────────────────────────────────────────────
+func _animate(opening: bool) -> void:
+	if _tween and _tween.is_running():
+		_tween.kill()
+
+	_tween = create_tween()
+	_tween.set_parallel(true)
+
+	var viewport_w: float = get_viewport_rect().size.x
+
+	if opening:
+		# Przesuń panel do widocznej pozycji (offset_left = -PANEL_WIDTH)
+		_tween.tween_property(_panel, "offset_left", -PANEL_WIDTH, SLIDE_DURATION)\
+			.set_ease(EASE_IN).set_trans(TRANS)
+		_tween.tween_property(_overlay, "modulate:a", 0.45, SLIDE_DURATION)\
+			.set_ease(EASE_IN).set_trans(TRANS)
+	else:
+		# Wysuń panel z powrotem za prawą krawędź
+		_tween.tween_property(_panel, "offset_left", 0.0, SLIDE_DURATION)\
+			.set_ease(EASE_IN).set_trans(TRANS)
+		_tween.tween_property(_overlay, "modulate:a", 0.0, SLIDE_DURATION)\
+			.set_ease(EASE_IN).set_trans(TRANS)
+		# Po zakończeniu ukryj overlay i panel
+		_tween.chain().tween_callback(func(): 
+			_overlay.visible = false
+			_panel.visible = false
+		)
+
+# ── Logika gry ────────────────────────────────────────────────────────────────
+func _on_pause_pressed() -> void:
+	get_tree().paused = not get_tree().paused
+	_update_pause_button()
+
+func _update_pause_button() -> void:
+	if get_tree().paused:
+		_pause_btn.text = "▶  Resume"
+	else:
+		_pause_btn.text = "⏸  Pause"
+
+func _set_speed(value: float) -> void:
+	Engine.time_scale = value
+	_speed_label.text = "Current: %.1fx" % value
+	_highlight_active_speed()
+
+func _highlight_active_speed() -> void:
+	var current := Engine.time_scale
+	_set_speed_active(_btn_x1, is_equal_approx(current, 1.0))
+	_set_speed_active(_btn_x2, is_equal_approx(current, 2.0))
+	_set_speed_active(_btn_x4, is_equal_approx(current, 4.0))
+
+func _set_speed_active(btn: Button, active: bool) -> void:
+	if active:
+		btn.add_theme_color_override("font_color",            Color(0.05, 0.05, 0.05))
+		btn.add_theme_color_override("font_hover_color",      Color(0.05, 0.05, 0.05))
+		btn.add_theme_color_override("font_pressed_color",    Color(0.05, 0.05, 0.05))
+		btn.add_theme_stylebox_override("normal",  _active_stylebox())
+		btn.add_theme_stylebox_override("hover",   _active_stylebox())
+		btn.add_theme_stylebox_override("pressed", _active_stylebox())
+	else:
+		btn.remove_theme_color_override("font_color")
+		btn.remove_theme_color_override("font_hover_color")
+		btn.remove_theme_color_override("font_pressed_color")
+		btn.remove_theme_stylebox_override("normal")
+		btn.remove_theme_stylebox_override("hover")
+		btn.remove_theme_stylebox_override("pressed")
+
+func _active_stylebox() -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color        = Color(0.95, 0.78, 0.20)   # złoto
+	sb.corner_radius_top_left     = 8
+	sb.corner_radius_top_right    = 8
+	sb.corner_radius_bottom_left  = 8
+	sb.corner_radius_bottom_right = 8
+	sb.content_margin_left   = 10
+	sb.content_margin_right  = 10
+	sb.content_margin_top    = 6
+	sb.content_margin_bottom = 6
+	return sb
+
+# ── Overlay – kliknięcie poza panelem zamknij menu ────────────────────────────
+func _on_overlay_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed \
+			and event.button_index == MOUSE_BUTTON_LEFT:
+		close_menu()

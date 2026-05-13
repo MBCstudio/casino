@@ -27,21 +27,21 @@ shape = SubResource("CapsuleShape2D_n86pn")
 [node name="Seats" type="Node2D" parent="." unique_id=749987034]
 
 [node name="Seat1" type="Marker2D" parent="Seats" unique_id=1942081746]
-position = Vector2(0, 59)
+position = Vector2(0, 52)
 gizmo_extents = 0.0
 
 [node name="Seat2" type="Marker2D" parent="Seats" unique_id=175574132]
-position = Vector2(64, 41)
+position = Vector2(59, 38)
 gizmo_extents = 0.0
 
 [node name="Seat3" type="Marker2D" parent="Seats" unique_id=2117887096]
-position = Vector2(90, -4)
+position = Vector2(84, -6)
 gizmo_extents = 0.0
 
 [node name="Seat4" type="Marker2D" parent="Seats" unique_id=964954766]
-position = Vector2(-92, -6)
+position = Vector2(-83, -7)
 gizmo_extents = 0.0
 
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=1611987974]
-position = Vector2(-64, 41)
+position = Vector2(-58, 35)
 gizmo_extents = 0.0
