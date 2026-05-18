@@ -18,6 +18,11 @@ const TRANS    := Tween.TRANS_CUBIC
 @onready var _btn_x1:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX1
 @onready var _btn_x2:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX2
 @onready var _btn_x4:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX4
+@onready var _music_vibe_label: Label    = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicVibeLabel
+@onready var _music_prev_btn: Button     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicPrevButton
+@onready var _music_next_btn: Button     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicNextButton
+@onready var _music_label:   Label       = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/MusicLabel
+@onready var _music_slider:  HSlider     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/MusicSlider
 
 # ── Stan wewnętrzny ──────────────────────────────────────────────────────────
 var _is_open:   bool = false
@@ -47,8 +52,14 @@ func _ready() -> void:
 	_btn_x1.pressed.connect(func(): _set_speed(1.0))
 	_btn_x2.pressed.connect(func(): _set_speed(2.0))
 	_btn_x4.pressed.connect(func(): _set_speed(4.0))
+	_music_prev_btn.pressed.connect(func(): _change_music_vibe(-1))
+	_music_next_btn.pressed.connect(func(): _change_music_vibe(1))
+	_music_slider.value_changed.connect(_on_music_slider_changed)
 	_overlay.gui_input.connect(_on_overlay_input)
 
+	_music_slider.value = GameManager.get_music_volume()
+	_update_music_label(_music_slider.value)
+	_update_music_vibe_label()
 	_update_pause_button()
 	_highlight_active_speed()
 
@@ -69,16 +80,21 @@ func open_menu() -> void:
 	if _is_open:
 		return
 	_is_open = true
+	GameManager.play_ui_open_sound()
 	_overlay.visible = true
 	_panel.visible = true
 	_animate(true)
 	_update_pause_button()
 	_highlight_active_speed()
+	_music_slider.value = GameManager.get_music_volume()
+	_update_music_label(_music_slider.value)
+	_update_music_vibe_label()
 
 func close_menu() -> void:
 	if not _is_open:
 		return
 	_is_open = false
+	GameManager.play_ui_open_sound()
 	_animate(false)
 	# Ukryj panel na koniec animacji (w _animate callback)
 
@@ -132,6 +148,26 @@ func _highlight_active_speed() -> void:
 	_set_speed_active(_btn_x1, is_equal_approx(current, 1.0))
 	_set_speed_active(_btn_x2, is_equal_approx(current, 2.0))
 	_set_speed_active(_btn_x4, is_equal_approx(current, 4.0))
+
+func _on_music_slider_changed(value: float) -> void:
+	GameManager.set_music_volume(value)
+	_update_music_label(value)
+
+func _update_music_label(value: float) -> void:
+	if value <= 0.0:
+		_music_label.text = "Music: Off"
+	else:
+		_music_label.text = "Music Volume: %d%%" % int(round(value))
+
+func _change_music_vibe(direction: int) -> void:
+	GameManager.change_music_vibe(direction)
+	_update_music_vibe_label()
+
+func _update_music_vibe_label() -> void:
+	_music_vibe_label.text = "%d/%d" % [
+		GameManager.get_music_vibe_index() + 1,
+		GameManager.get_music_vibe_count()
+	]
 
 func _set_speed_active(btn: Button, active: bool) -> void:
 	if active:

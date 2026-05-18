@@ -11,11 +11,24 @@ var has_won: bool = false
 var time_since_last_event: float = 0.0
 var next_event_time: float = randf_range(120.0, 180.0) # between 2 and 3 minutes
 var event_ui_instance = null
+const MUSIC_PLAYLIST := [
+	"res://assets/music/Best Relaxing Jazz Classics _ Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald [0_tGe7KNJhU].mp3",
+	"res://assets/music/Las Vegas Casino Music Video_ For Night Game of Poker, Blackjack, Roulette Wheel & Slots.mp3",
+	"res://assets/music/2010 Throwback DJ Set (Rihanna, Kesha, David Guetta, Taio Cruz, etc.) - DJ MADEINRIKA Debut [u-jcRpOA514].mp3",
+]
+const UI_OPEN_SOUND_PATH := "res://assets/sounds_effects/litupsubway-ui-close-sfx-513359.mp3"
+const DEFAULT_MUSIC_VOLUME := 65.0
+const UI_OPEN_SOUND_VOLUME_DB := 6.0
 
 const WIN_CONDITION = 110000#specjalnie żeby gra się za szybko nie kończyła
 
 signal stats_changed
 signal game_won
+
+var music_volume: float = DEFAULT_MUSIC_VOLUME
+var music_vibe_index: int = 0
+var _music_player: AudioStreamPlayer
+var _ui_open_sound_player: AudioStreamPlayer
 
 var possible_events = [
 	{
@@ -386,6 +399,8 @@ var possible_events = [
 func _ready():
 	add_to_group("game_manager")
 	print("GameManager: Initialized with $", money, " (target: $", WIN_CONDITION, ")")
+	_setup_background_music()
+	_setup_ui_open_sound()
 	
 	# Instantiate EventUI
 	var event_ui_scene = load("res://scenes/UI/EventUI.tscn")
@@ -393,6 +408,86 @@ func _ready():
 		event_ui_instance = event_ui_scene.instantiate()
 		add_child(event_ui_instance)
 		event_ui_instance.event_resolved.connect(_on_event_resolved)
+
+func _setup_background_music() -> void:
+	_music_player = AudioStreamPlayer.new()
+	_music_player.name = "BackgroundMusic"
+	_music_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_music_player)
+	_load_current_music()
+	set_music_volume(music_volume)
+
+func _setup_ui_open_sound() -> void:
+	var stream: AudioStream = load(UI_OPEN_SOUND_PATH)
+	if stream == null:
+		push_warning("GameManager: Could not load UI open sound: " + UI_OPEN_SOUND_PATH)
+		return
+
+	var mp3_stream := stream as AudioStreamMP3
+	if mp3_stream:
+		mp3_stream.loop = false
+
+	_ui_open_sound_player = AudioStreamPlayer.new()
+	_ui_open_sound_player.name = "UiOpenSound"
+	_ui_open_sound_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	_ui_open_sound_player.stream = stream
+	_ui_open_sound_player.volume_db = UI_OPEN_SOUND_VOLUME_DB
+	add_child(_ui_open_sound_player)
+
+func play_ui_open_sound() -> void:
+	if _ui_open_sound_player == null:
+		return
+
+	_ui_open_sound_player.stop()
+	_ui_open_sound_player.play()
+
+func _load_current_music() -> void:
+	if _music_player == null or MUSIC_PLAYLIST.is_empty():
+		return
+
+	music_vibe_index = wrapi(music_vibe_index, 0, MUSIC_PLAYLIST.size())
+	var music_path: String = MUSIC_PLAYLIST[music_vibe_index]
+	var stream: AudioStream = load(music_path)
+	if stream == null:
+		push_warning("GameManager: Could not load background music: " + music_path)
+		return
+
+	var mp3_stream := stream as AudioStreamMP3
+	if mp3_stream:
+		mp3_stream.loop = true
+
+	_music_player.stream = stream
+	if music_volume > 0.0:
+		_music_player.play()
+
+func set_music_volume(value: float) -> void:
+	music_volume = clampf(value, 0.0, 100.0)
+	if _music_player == null:
+		return
+
+	var volume_linear := music_volume / 100.0
+	_music_player.volume_db = linear_to_db(maxf(volume_linear, 0.0001))
+	_music_player.stream_paused = music_volume <= 0.0
+
+	if music_volume > 0.0 and not _music_player.playing:
+		_music_player.play()
+
+func get_music_volume() -> float:
+	return music_volume
+
+func change_music_vibe(direction: int) -> void:
+	set_music_vibe(music_vibe_index + direction)
+
+func set_music_vibe(index: int) -> void:
+	music_vibe_index = wrapi(index, 0, MUSIC_PLAYLIST.size())
+	_load_current_music()
+	set_music_volume(music_volume)
+
+func get_music_vibe_index() -> int:
+	return music_vibe_index
+
+func get_music_vibe_count() -> int:
+	return MUSIC_PLAYLIST.size()
 
 func add_money(amount):
 	money += amount

@@ -39,6 +39,7 @@ func _ready() -> void:
 
 func open(slot: Area2D) -> void:
 	_pending_slot = slot
+	GameManager.play_ui_open_sound()
 	_refresh_money()
 	_refresh_buttons()
 	show()
@@ -46,6 +47,7 @@ func open(slot: Area2D) -> void:
 
 
 func close() -> void:
+	GameManager.play_ui_open_sound()
 	_pending_slot = null
 	hide()
 	get_tree().paused = false

@@ -35,12 +35,14 @@ func open(bar):
 		print("ERROR: bar is null")
 		return
 		
+	GameManager.play_ui_open_sound()
 	visible = true
 	current_bar = bar
 	
 	update_controls()
 
 func close():
+	GameManager.play_ui_open_sound()
 	visible = false
 	get_tree().paused = false
 
@@ -134,6 +136,7 @@ func _on_buy_cashier():
 	var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 		
 	if player_money >= cost:
+		GameManager.play_ui_open_sound()
 		if GameManager.has_method("remove_money"):
 			GameManager.remove_money(cost)
 		elif "money" in GameManager:
@@ -153,6 +156,7 @@ func _on_buy_drinks():
 	var cost = 8000
 	var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 	if player_money >= cost:
+		GameManager.play_ui_open_sound()
 		if GameManager.has_method("remove_money"):
 			GameManager.remove_money(cost)
 		elif "money" in GameManager:
@@ -166,6 +170,7 @@ func _on_buy_band():
 	var cost = 12000
 	var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 	if player_money >= cost:
+		GameManager.play_ui_open_sound()
 		if GameManager.has_method("remove_money"):
 			GameManager.remove_money(cost)
 		elif "money" in GameManager:

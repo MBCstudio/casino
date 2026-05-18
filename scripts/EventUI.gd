@@ -58,6 +58,8 @@ func show_event(event_data: Dictionary):
 	get_tree().paused = true # Optional: pause game during event
 
 func _on_choice_made(choice: Dictionary):
+	GameManager.play_ui_open_sound()
+
 	# If a choice has an immediate outcome, process it first
 	if choice.has("outcome"):
 		event_resolved.emit(choice["outcome"])

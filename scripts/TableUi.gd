@@ -19,6 +19,7 @@ func open(table):
 		print("ERROR: table is null")
 		return
 		
+	GameManager.play_ui_open_sound()
 	visible = true
 	current_table = table
 	
@@ -34,6 +35,7 @@ func open(table):
 			title_lbl.text = "Roulette Table"
 
 func close():
+	GameManager.play_ui_open_sound()
 	visible = false
 	get_tree().paused = false
 
@@ -301,6 +303,7 @@ func _on_Close_pressed():
 	
 func _on_upgrade_table_pressed():
 	if GameManager.money >= 100:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(100)
 		current_table.bet += 5
 		#update_stats()
@@ -311,6 +314,7 @@ func _on_upgrade_dealer_pressed():
 func _on_buy_speed():
 	var info = _get_upgrade_info("speed")
 	if current_table and GameManager.money >= info.price and current_table.play_time > 8.0:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.play_time = 8.0
 		_update_upgrade_buttons()
@@ -318,6 +322,7 @@ func _on_buy_speed():
 func _on_buy_charisma():
 	var info = _get_upgrade_info("charisma")
 	if current_table and GameManager.money >= info.price and current_table.vip_chance_bonus <= 0.04:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.vip_chance_bonus += 0.05
 		_update_upgrade_buttons()
@@ -325,6 +330,7 @@ func _on_buy_charisma():
 func _on_buy_master():
 	var info = _get_upgrade_info("master")
 	if current_table and GameManager.money >= info.price and current_table.bet < 50:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.bet += 40
 		_update_upgrade_buttons()
@@ -332,6 +338,7 @@ func _on_buy_master():
 func _on_buy_felt():
 	var info = _get_upgrade_info("felt")
 	if current_table and GameManager.money >= info.price and not current_table.has_felt:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.has_felt = true
 		current_table.add_prestige_bonus(60)
@@ -341,6 +348,7 @@ func _on_buy_felt():
 func _on_buy_led():
 	var info = _get_upgrade_info("led")
 	if current_table and GameManager.money >= info.price and not current_table.has_led:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.has_led = true
 		current_table.add_prestige_bonus(80)
@@ -350,6 +358,7 @@ func _on_buy_led():
 func _on_buy_chip_rack():
 	var info = _get_upgrade_info("chip_rack")
 	if current_table and GameManager.money >= info.price and not current_table.has_chip_rack:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.has_chip_rack = true
 		current_table.add_prestige_bonus(100)
@@ -359,6 +368,7 @@ func _on_buy_chip_rack():
 func _on_buy_vip():
 	var info = _get_upgrade_info("vip")
 	if current_table and GameManager.money >= info.price and not current_table.has_vip_seats:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.has_vip_seats = true
 		current_table.add_prestige_bonus(120)
@@ -368,6 +378,7 @@ func _on_buy_vip():
 func _on_buy_spinner():
 	var info = _get_upgrade_info("test1")
 	if current_table and GameManager.money >= info.price and not current_table.has_spinner:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.has_spinner = true
 		current_table.add_prestige_bonus(150)
@@ -377,6 +388,7 @@ func _on_buy_spinner():
 func _on_buy_drinks():
 	var info = _get_upgrade_info("test2")
 	if current_table and GameManager.money >= info.price and not current_table.has_drinks:
+		GameManager.play_ui_open_sound()
 		GameManager.remove_money(info.price)
 		current_table.has_drinks = true
 		current_table.add_prestige_bonus(200)

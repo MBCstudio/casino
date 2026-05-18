@@ -33,6 +33,7 @@ func _ready() -> void:
 
 func open(spot: Area2D) -> void:
 	_pending_spot = spot
+	GameManager.play_ui_open_sound()
 	BAR_PRICE = spot.price
 	_refresh_money()
 	_refresh_button()
@@ -41,6 +42,7 @@ func open(spot: Area2D) -> void:
 
 
 func close() -> void:
+	GameManager.play_ui_open_sound()
 	_pending_spot = null
 	hide()
 	get_tree().paused = false
