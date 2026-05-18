@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://dx5q3icf8ycuw"]
 
 [ext_resource type="Texture2D" uid="uid://denpfn6fqi4ab" path="res://assets/sprites/bar_asset.png" id="1_iqaid"]
-[ext_resource type="Script" path="res://scripts/bar.gd" id="2_bar_script"]
+[ext_resource type="Script" uid="uid://cuqe5s0ckkjj2" path="res://scripts/bar.gd" id="2_bar_script"]
+[ext_resource type="Texture2D" uid="uid://ciqctxyn7pamv" path="res://assets/sprites/welcome_graphics/coin_64.png" id="3_tcu61"]
 
 [node name="Bar" type="StaticBody2D" unique_id=599524340 groups=["bars"]]
 position = Vector2(612, 427)
@@ -28,3 +29,16 @@ position = Vector2(69, 74)
 
 [node name="Seat4" type="Marker2D" parent="Node2D" unique_id=1411079561]
 position = Vector2(91, 22)
+
+[node name="CollectIndicator" type="Node2D" parent="." unique_id=1768497766]
+position = Vector2(0, -200)
+scale = Vector2(1.5, 1.5)
+
+[node name="Icon" type="Sprite2D" parent="CollectIndicator" unique_id=2003167639]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_tcu61")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CollectIndicator" unique_id=2062886348]
+speed_scale = 2.5
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="CollectIndicator" unique_id=403673667]

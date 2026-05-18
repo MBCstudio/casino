@@ -182,20 +182,25 @@ func _on_collect_passive():
 	if not ready:
 		return
 
-	var amount = 0
-	if current_bar.get("passive_income") != null:
-		amount = current_bar.passive_income
+	# Use the bar's collect method if available (for consistency)
+	if current_bar.has_method("_collect_passive_income"):
+		current_bar._collect_passive_income()
+	else:
+		# Fallback to old logic
+		var amount = 0
+		if current_bar.get("passive_income") != null:
+			amount = current_bar.passive_income
 
-	if amount > 0:
-		if GameManager.has_method("add_money"):
-			GameManager.add_money(amount)
-		elif "money" in GameManager:
-			GameManager.money += amount
+		if amount > 0:
+			if GameManager.has_method("add_money"):
+				GameManager.add_money(amount)
+			elif "money" in GameManager:
+				GameManager.money += amount
 
-	current_bar.set("passive_ready", false)
-	# restart the passive timer for the next cycle
-	if current_bar.has_method("start_passive_timer"):
-		current_bar.start_passive_timer()
+		current_bar.set("passive_ready", false)
+		# restart the passive timer for the next cycle
+		if current_bar.has_method("start_passive_timer"):
+			current_bar.start_passive_timer()
 
 	update_controls()
 

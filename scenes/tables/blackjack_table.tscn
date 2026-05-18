@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n86pn"]
 radius = 31.0
-height = 102.0
+height = 110.0
 
 [node name="BlackjackTable" type="StaticBody2D" unique_id=1956175211]
 input_pickable = true
@@ -27,21 +27,21 @@ shape = SubResource("CapsuleShape2D_n86pn")
 [node name="Seats" type="Node2D" parent="." unique_id=749987034]
 
 [node name="Seat1" type="Marker2D" parent="Seats" unique_id=1942081746]
-position = Vector2(0, 52)
+position = Vector2(1, 53)
 gizmo_extents = 0.0
 
 [node name="Seat2" type="Marker2D" parent="Seats" unique_id=175574132]
-position = Vector2(59, 38)
+position = Vector2(63, 37)
 gizmo_extents = 0.0
 
 [node name="Seat3" type="Marker2D" parent="Seats" unique_id=2117887096]
-position = Vector2(84, -6)
+position = Vector2(81, -5)
 gizmo_extents = 0.0
 
 [node name="Seat4" type="Marker2D" parent="Seats" unique_id=964954766]
-position = Vector2(-83, -7)
+position = Vector2(-80, -6)
 gizmo_extents = 0.0
 
 [node name="Seat5" type="Marker2D" parent="Seats" unique_id=1611987974]
-position = Vector2(-58, 35)
+position = Vector2(-61, 38)
 gizmo_extents = 0.0

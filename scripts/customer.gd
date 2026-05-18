@@ -16,7 +16,7 @@ var is_vip: bool = false
 
 @onready var nav_agent = $NavigationAgent2D
 
-var radius_playerow: float = 24.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
+var radius_playerow: float = 20.0#jak uwazasz że za mało os siebie postacie sie obijają to zwiększyc to
 var stanie_przy_stoliku: float = 1.0#im więcej tym sztywniej stoją przy stoliku
 var target_position: Vector2
 var target_table = null
@@ -192,8 +192,12 @@ func move_to_target():
 	
 	if is_seated or is_waiting:
 		nav_agent.avoidance_priority = stanie_przy_stoliku # Jesteśmy stojącą ("ciężką") przeszkodą
-		nav_agent.radius = 22.0 # "Kurczymy się" w oczach RVO, by nie odpychać innych w ciasnocie
+		nav_agent.radius = 15.0 # "Kurczymy się" w oczach RVO, by nie odpychać innych w ciasnocie
 		nav_agent.set_velocity(Vector2.ZERO)
+		# Wyłącz collision gdy siedzi, aby uniemożliwić innym pchanie
+		if is_seated:
+			if $CollisionShape2D:
+				$CollisionShape2D.disabled = true
 		return
 	
 	# SIDEWALK (unchanged)
@@ -267,7 +271,7 @@ func move_to_target():
 	# AUTOMATIC CASINO NAVIGATION (Z użyciem NavigationObstacle2D)
 	if nav_agent.is_navigation_finished():
 		nav_agent.avoidance_priority = 0.6
-		nav_agent.radius = 15.0 # Mniejsza strefa po dotarciu do celu
+		nav_agent.radius = 18.0 # Mniejsza strefa po dotarciu do celu
 		nav_agent.set_velocity(Vector2.ZERO)
 		if not is_waiting:
 			if is_leaving_casino:
@@ -278,6 +282,7 @@ func move_to_target():
 				wait_at_bar()
 			elif target_table != null and not is_seated:
 				is_seated = true
+				
 				face_table()
 				try_play()
 			elif target_table == null:
@@ -286,7 +291,7 @@ func move_to_target():
 	
 	is_moving = true
 	nav_agent.avoidance_priority = 0.3 # Idące postacie mają mniejszy priorytet – muszą ustępować stojącym
-	nav_agent.radius = 10.0 # Znacznie mniejszy promień podczas marszu, żeby nie omijały się przesadnie szerokim łukiem
+	nav_agent.radius = 18.0 # Znacznie mniejszy promień podczas marszu, żeby nie omijały się przesadnie szerokim łukiem
 	
 	var next_point = nav_agent.get_next_path_position()
 	var direction = (next_point - global_position).normalized()
@@ -380,6 +385,9 @@ func try_play():
 		target_table.remove_player(self)
 	
 	is_seated = false
+	# Włącz collision gdy wstaje
+	if $CollisionShape2D:
+		$CollisionShape2D.disabled = false
 	target_table = null
 	target_seat = null
 	is_at_intermediate_point = false
@@ -485,6 +493,9 @@ func update_animation():
 # ====== LOGIC ======
 func go_to_exit():
 	is_seated = false
+	# Włącz collision gdy wstaje
+	if $CollisionShape2D:
+		$CollisionShape2D.disabled = false
 	target_table = null
 	target_seat = null
 	is_leaving_casino = true
@@ -498,6 +509,9 @@ func go_to_exit():
 
 func go_to_bar():
 	is_seated = false
+	# Włącz collision gdy wstaje
+	if $CollisionShape2D:
+		$CollisionShape2D.disabled = false
 	target_table = null
 	target_seat = null
 	

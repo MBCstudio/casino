@@ -14,18 +14,6 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
-bg_color = Color(0.08, 0.08, 0.08, 0.5)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.98, 0.83, 0.24, 0.5)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_mask"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 10
@@ -41,6 +29,18 @@ colors = PackedColorArray(0.032545865, 0.080064856, 0.027939172, 1, 0.2637608, 0
 gradient = SubResource("Gradient_bg")
 fill_from = Vector2(0, 0.18290599)
 fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
+bg_color = Color(0.08, 0.08, 0.08, 0.5)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.98, 0.83, 0.24, 0.5)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="GameEndUI" type="CanvasLayer" unique_id=438778456]
 layer = 128
