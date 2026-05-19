@@ -15,6 +15,7 @@ var _bar: Node2D = null
 # ============================================================
 
 func _ready() -> void:
+	add_to_group("casino_floor")
 	_setup_shop_ui()
 	_setup_bar_shop_ui()
 	_connect_slots()
