@@ -123,6 +123,70 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_normal"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.12, 0.28, 0.52, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.6, 0.95, 0.65)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_hover"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.18, 0.38, 0.68, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.72, 1.0, 0.85)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_load_normal"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.28, 0.18, 0.48, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.4, 0.95, 0.65)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_load_hover"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.38, 0.24, 0.62, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.55, 1.0, 0.85)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="SettingsMenu" type="Control" unique_id=820812515]
 process_mode = 3
 layout_mode = 3
@@ -267,6 +331,52 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_speed_normal")
 text = "x 4"
 
+[node name="Sep3" type="HSeparator" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=2019283741]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="SaveLoadSection" type="VBoxContainer" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=1744382019]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SectionLabelSaveLoad" type="Label" parent="SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection" unique_id=1655392810]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.65, 1)
+theme_override_font_sizes/font_size = 11
+text = "SAVE / LOAD"
+
+[node name="SaveButton" type="Button" parent="SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection" unique_id=1388442251]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.92, 1.0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_save_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_save_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_save_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_save_normal")
+text = "💾  Save Game"
+
+[node name="LoadButton" type="Button" parent="SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection" unique_id=1033482954]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.85, 1.0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_load_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_load_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_load_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_load_normal")
+text = "📂  Load Game"
+
+[node name="ToastLabel" type="Label" parent="SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection" unique_id=1948271633]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = ""
+horizontal_alignment = 1
+
 [node name="Spacer" type="Control" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=1492798031]
 layout_mode = 2
 size_flags_vertical = 3
@@ -275,5 +385,5 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_colors/font_color = Color(0.35, 0.35, 0.45, 1)
 theme_override_font_sizes/font_size = 10
-text = "Casino Tycoon  v0.1"
+text = "Casino Manager  v 0.0"
 horizontal_alignment = 1
