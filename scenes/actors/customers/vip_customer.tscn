@@ -142,7 +142,6 @@ animations = [{
 enter_chance = 0.7
 money = 10000.0
 base_bet = 500.0
-is_vip = true
 status = "vip"
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=1294089300]

@@ -242,15 +242,20 @@ theme_override_font_sizes/font_size = 22
 text = "Settings"
 
 [node name="CloseButton" type="Button" parent="SidebarPanel/MarginContainer/VBoxContainer/HeaderRow" unique_id=2006926479]
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0.55, 0.55, 0.65, 1)
 theme_override_colors/font_hover_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_focus_color = Color(0.55, 0.55, 0.65, 1)
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_close_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_close_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_close_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_close_normal")
 text = "X"
+alignment = 1
 
 [node name="Sep1" type="HSeparator" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=851727472]
 layout_mode = 2
@@ -376,6 +381,74 @@ theme_override_colors/font_color = Color(0.2, 0.75, 0.35, 1)
 theme_override_font_sizes/font_size = 12
 text = ""
 horizontal_alignment = 1
+[node name="Sep3" type="HSeparator" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=1992148523]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="MusicSection" type="VBoxContainer" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=2040776387]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SectionLabelMusic" type="Label" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection" unique_id=480636235]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.65, 1)
+theme_override_font_sizes/font_size = 11
+text = "MUSIC"
+
+[node name="MusicVibeTitle" type="Label" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection" unique_id=524707714]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "Music Vibe"
+
+[node name="VibeRow" type="HBoxContainer" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection" unique_id=902714198]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MusicPrevButton" type="Button" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow" unique_id=348289029]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.88, 0.88, 0.95, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_speed_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_speed_normal")
+text = "<"
+
+[node name="MusicVibeLabel" type="Label" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow" unique_id=1005483890]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.2, 1)
+theme_override_font_sizes/font_size = 15
+text = "1/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicNextButton" type="Button" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow" unique_id=1755406799]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.88, 0.88, 0.95, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_speed_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_speed_normal")
+text = ">"
+
+[node name="MusicLabel" type="Label" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection" unique_id=1758862396]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "Music Volume: 65%"
+
+[node name="MusicSlider" type="HSlider" parent="SidebarPanel/MarginContainer/VBoxContainer/MusicSection" unique_id=2050797447]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+step = 1.0
+value = 65.0
 
 [node name="Spacer" type="Control" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=1492798031]
 layout_mode = 2

@@ -19,6 +19,7 @@ func open(cashier):
 		print("ERROR: cashier is null")
 		return
 		
+	GameManager.play_ui_open_sound()
 	visible = true
 	current_cashier = cashier
 	
@@ -26,6 +27,7 @@ func open(cashier):
 	update_header()
 
 func close():
+	GameManager.play_ui_open_sound()
 	visible = false
 	get_tree().paused = false
 
@@ -154,6 +156,7 @@ func _on_buy_cashier_update():
 	if current_cashier and GameManager.money >= 5000:
 		var w_time = current_cashier.wait_time if current_cashier.get("wait_time") != null else 5.0
 		if w_time > 2.0:
+			GameManager.play_ui_open_sound()
 			GameManager.remove_money(5000)
 			current_cashier.wait_time = w_time - 1.0
 			_update_upgrade_buttons()
@@ -161,6 +164,7 @@ func _on_buy_cashier_update():
 func _on_buy_prestige_update():
 	if current_cashier and GameManager.money >= 10000:
 		if current_cashier.prestige < 10:
+			GameManager.play_ui_open_sound()
 			GameManager.remove_money(10000)
 			current_cashier.prestige += 1
 			if current_cashier.has_method("update_prestige"):
@@ -173,6 +177,7 @@ func _on_buy_prestige_update():
 func _on_buy_vip_update():
 	if current_cashier and GameManager.money >= 20000:
 		if current_cashier.vip_chance < 0.10:
+			GameManager.play_ui_open_sound()
 			GameManager.remove_money(20000)
 			current_cashier.vip_chance += 0.01
 			_update_upgrade_buttons()

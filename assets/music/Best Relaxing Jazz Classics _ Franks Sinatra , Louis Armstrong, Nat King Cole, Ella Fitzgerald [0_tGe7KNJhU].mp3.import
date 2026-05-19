@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b0hq5euaqti0s"
+path="res://.godot/imported/Best Relaxing Jazz Classics _ Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald [0_tGe7KNJhU].mp3-11be4d53f657878c3de034ed189d95a9.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Best Relaxing Jazz Classics _ Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald [0_tGe7KNJhU].mp3"
+dest_files=["res://.godot/imported/Best Relaxing Jazz Classics _ Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald [0_tGe7KNJhU].mp3-11be4d53f657878c3de034ed189d95a9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
