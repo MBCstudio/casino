@@ -21,12 +21,6 @@ const TRANS    := Tween.TRANS_CUBIC
 @onready var _save_btn:      Button         = $SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection/SaveButton
 @onready var _load_btn:      Button         = $SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection/LoadButton
 @onready var _toast_label:   Label          = $SidebarPanel/MarginContainer/VBoxContainer/SaveLoadSection/ToastLabel
-@onready var _close_btn:     Button      = $SidebarPanel/MarginContainer/VBoxContainer/HeaderRow/CloseButton
-@onready var _pause_btn:     Button      = $SidebarPanel/MarginContainer/VBoxContainer/PauseButton
-@onready var _speed_label:   Label       = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedLabel
-@onready var _btn_x1:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX1
-@onready var _btn_x2:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX2
-@onready var _btn_x4:        Button      = $SidebarPanel/MarginContainer/VBoxContainer/SpeedSection/SpeedRow/BtnX4
 @onready var _music_vibe_label: Label    = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicVibeLabel
 @onready var _music_prev_btn: Button     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicPrevButton
 @onready var _music_next_btn: Button     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicNextButton
@@ -44,6 +38,7 @@ const PANEL_WIDTH := 300.0
 # ────────────────────────────────────────────────────────────────────────────
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 
 	# Panel startuje poza ekranem po prawej stronie
 	_panel.anchor_left   = 1.0
@@ -52,6 +47,7 @@ func _ready() -> void:
 	_panel.anchor_bottom = 1.0
 	_panel.offset_left   = PANEL_WIDTH
 	_panel.offset_right  = 0.0
+	_panel.offset_top    = 200.0
 
 	_overlay.visible = false
 	_overlay.modulate.a = 0.0

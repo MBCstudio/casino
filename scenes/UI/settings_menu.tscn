@@ -336,7 +336,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_speed_normal")
 text = "x 4"
 
-[node name="Sep3" type="HSeparator" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=2019283741]
+[node name="SepSaveLoad" type="HSeparator" parent="SidebarPanel/MarginContainer/VBoxContainer" unique_id=2019283741]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 
