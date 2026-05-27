@@ -2,6 +2,7 @@ extends Control
 
 @onready var main_menu       = $CenterContainer/VBoxContainer
 @onready var difficulty_menu = $CenterContainer/DifficultyMenu
+@onready var nickname_menu   = $CenterContainer/NicknameMenu
 @onready var file_dialog     = $LoadFileDialog
 
 func _ready():
@@ -12,6 +13,7 @@ func _ready():
 
 	main_menu.show()
 	difficulty_menu.hide()
+	nickname_menu.hide()
 
 	# Skonfiguruj FileDialog
 	file_dialog.file_mode   = FileDialog.FILE_MODE_OPEN_FILE
@@ -37,8 +39,18 @@ func _ready():
 
 
 func _on_start_button_pressed():
-	# Hide the main button and show difficulty options
+	# Show nickname input before difficulty selection
 	main_menu.hide()
+	nickname_menu.show()
+	var nick_field = $CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/NicknameLineEdit
+	nick_field.text = ""
+	nick_field.grab_focus()
+
+
+func _on_nickname_confirmed():
+	var nick_field = $CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/NicknameLineEdit
+	GameManager.player_nickname = nick_field.text.strip_edges()
+	nickname_menu.hide()
 	difficulty_menu.show()
 
 

@@ -85,6 +85,79 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_size = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nickname_panel"]
+bg_color = Color(0.08, 0.08, 0.12, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.45, 1.0, 0.6)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lineedit"]
+bg_color = Color(0.14, 0.14, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.4, 0.9, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_confirm_normal"]
+bg_color = Color(0.38, 0.18, 0.72, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_confirm_hover"]
+bg_color = Color(0.52, 0.28, 0.9, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_confirm_pressed"]
+bg_color = Color(0.28, 0.12, 0.55, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skip_normal"]
+bg_color = Color(0.18, 0.18, 0.18, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skip_hover"]
+bg_color = Color(0.28, 0.28, 0.28, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skip_pressed"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="StartMenu" type="Control" unique_id=1510464469]
 layout_mode = 3
 anchors_preset = 15
@@ -140,6 +213,70 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_load_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_load_hover")
 text = "📂  LOAD GAME"
 
+[node name="NicknameMenu" type="PanelContainer" parent="CenterContainer" unique_id=1111111111]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nickname_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/NicknameMenu" unique_id=1111111112]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/NicknameMenu/MarginContainer" unique_id=1111111113]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer" unique_id=1111111114]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+theme_override_colors/font_color = Color(0.85, 0.72, 1.0, 1)
+text = "🎰  ENTER YOUR NICKNAME"
+horizontal_alignment = 1
+
+[node name="SubLabel" type="Label" parent="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer" unique_id=1111111118]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.65, 0.65, 0.75, 1)
+text = "Your nickname will be used as the save file name.\nLeave blank to use the default."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="NicknameLineEdit" type="LineEdit" parent="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer" unique_id=1111111115]
+custom_minimum_size = Vector2(460, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_lineedit")
+theme_override_styles/focus = SubResource("StyleBoxFlat_lineedit")
+placeholder_text = "e.g. CasinoKing"
+max_length = 32
+
+[node name="HBoxButtons" type="HBoxContainer" parent="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer" unique_id=1111111116]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ConfirmButton" type="Button" parent="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/HBoxButtons" unique_id=1111111117]
+custom_minimum_size = Vector2(200, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_confirm_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_confirm_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_confirm_pressed")
+text = "✔  CONFIRM"
+
+[node name="SkipButton" type="Button" parent="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/HBoxButtons" unique_id=1111111119]
+custom_minimum_size = Vector2(160, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_skip_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skip_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skip_pressed")
+text = "SKIP"
+
 [node name="DifficultyMenu" type="PanelContainer" parent="CenterContainer" unique_id=1305099957]
 visible = false
 layout_mode = 2
@@ -192,6 +329,9 @@ show_hidden_files = false
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/HBoxButtons/ConfirmButton" to="." method="_on_nickname_confirmed"]
+[connection signal="pressed" from="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/HBoxButtons/SkipButton" to="." method="_on_nickname_confirmed"]
+[connection signal="text_submitted" from="CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/NicknameLineEdit" to="." method="_on_nickname_confirmed"]
 [connection signal="pressed" from="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer/EasyButton" to="." method="_on_easy_button_pressed"]
 [connection signal="pressed" from="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer/MediumButton" to="." method="_on_medium_button_pressed"]
 [connection signal="pressed" from="CenterContainer/DifficultyMenu/MarginContainer/VBoxContainer/HardButton" to="." method="_on_hard_button_pressed"]

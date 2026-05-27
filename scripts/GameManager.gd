@@ -8,8 +8,10 @@ var play_time: float = 0.0
 var time_multiplier: float = 1.0
 var tables_bought: int = 0
 var has_won: bool = false
+var has_lost: bool = false
 var time_since_last_event: float = 0.0
 var next_event_time: float = randf_range(120.0, 180.0) # between 2 and 3 minutes
+var player_nickname: String = ""
 var event_ui_instance = null
 const MUSIC_PLAYLIST := [
 	"res://assets/music/Best Relaxing Jazz Classics _ Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald [0_tGe7KNJhU].mp3",
@@ -17,13 +19,14 @@ const MUSIC_PLAYLIST := [
 	"res://assets/music/2010 Throwback DJ Set (Rihanna, Kesha, David Guetta, Taio Cruz, etc.) - DJ MADEINRIKA Debut [u-jcRpOA514].mp3",
 ]
 const UI_OPEN_SOUND_PATH := "res://assets/sounds_effects/litupsubway-ui-close-sfx-513359.mp3"
-const DEFAULT_MUSIC_VOLUME := 65.0
+const DEFAULT_MUSIC_VOLUME := 5.0
 const UI_OPEN_SOUND_VOLUME_DB := 6.0
 
 const WIN_CONDITION = 110000#specjalnie żeby gra się za szybko nie kończyła
 
 signal stats_changed
 signal game_won
+signal game_lost
 
 var music_volume: float = DEFAULT_MUSIC_VOLUME
 var music_vibe_index: int = 0
@@ -494,6 +497,7 @@ func add_money(amount):
 	print("GameManager: Added $", amount, ", total: $", money)
 	emit_signal("stats_changed")
 	_check_win_condition()
+	_check_lose_condition()
 
 func set_time_multiplier(m: float):
 	time_multiplier = m
@@ -502,14 +506,24 @@ func set_time_multiplier(m: float):
 func remove_money(amount):
 	money -= amount
 	emit_signal("stats_changed")
+	_check_lose_condition()
 
 func _check_win_condition():
-	if money >= WIN_CONDITION and not has_won:
+	if money >= WIN_CONDITION and not has_won and not has_lost:
 		print("GameManager: WIN CONDITION REACHED! Money: ", money, " Target: ", WIN_CONDITION)
 		has_won = true
 		get_tree().paused = true
 		await get_tree().process_frame  # Wait one frame to ensure GameEndUI is ready
 		emit_signal("game_won")
+
+func _check_lose_condition():
+	if money < 0 and not has_lost and not has_won:
+		print("GameManager: LOSE CONDITION REACHED! Money: ", money)
+		has_lost = true
+		# Use call_deferred so the signal fires AFTER the current call stack
+		# finishes (e.g. EventUI calling get_tree().paused = false on line 73
+		# of EventUI.gd). show_end_screen() will then re-pause correctly.
+		emit_signal.call_deferred("game_lost")
 
 func add_customer():
 	customers += 1
@@ -541,7 +555,7 @@ func change_reputation(amount):
 	update_global_prestige()
 
 func _process(delta):
-	if not get_tree().paused and not has_won:
+	if not get_tree().paused and not has_won and not has_lost:
 		play_time += delta
 		time_since_last_event += delta
 		

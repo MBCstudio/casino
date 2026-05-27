@@ -1,0 +1,44 @@
+{
+	"bar": {
+		"cashier_upgraded": false,
+		"drinks_upgraded": false,
+		"live_band_upgraded": false,
+		"passive_income": 0,
+		"position_x": 209.0,
+		"position_y": 248.0,
+		"prestige": 0,
+		"purchased": true,
+		"vip_percentage": 0.0
+	},
+	"customers": 0,
+	"event_prestige_modifier": 0,
+	"has_won": false,
+	"money": 15000.0,
+	"next_event_time": 136.952931463771,
+	"npcs": [
+		{
+			"anger": 0.0,
+			"has_visited_cashier": false,
+			"is_going_to_bar": false,
+			"is_in_cashier_queue": false,
+			"is_leaving_casino": false,
+			"is_seated": false,
+			"money": 100.0,
+			"on_sidewalk": true,
+			"position_x": 79.9119644165039,
+			"position_y": 866.666564941406,
+			"seat_index": -1,
+			"status": "normal",
+			"table_index": -1,
+			"walking_direction": -1
+		}
+	],
+	"play_time": 9.38333333333338,
+	"player_nickname": "Piotr",
+	"prestige": 10,
+	"saved_at": "2026-05-27T22:42:43",
+	"tables": [],
+	"tables_bought": 0,
+	"time_multiplier": 1.0,
+	"time_since_last_event": 9.38333333333338
+}

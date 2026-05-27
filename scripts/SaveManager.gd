@@ -27,6 +27,7 @@ func save_game() -> bool:
 	data["has_won"]                 = GameManager.has_won
 	data["time_since_last_event"]   = GameManager.time_since_last_event
 	data["next_event_time"]         = GameManager.next_event_time
+	data["player_nickname"]         = GameManager.player_nickname
 
 	# ── 2. Stoliki ───────────────────────────────────────────────────────────
 	var tables_list: Array = _get_tree().get_nodes_in_group("tables")
@@ -159,6 +160,7 @@ func load_game() -> bool:
 	if "has_won"                 in data: GameManager.has_won                 = bool(data["has_won"])
 	if "time_since_last_event"   in data: GameManager.time_since_last_event   = float(data["time_since_last_event"])
 	if "next_event_time"         in data: GameManager.next_event_time         = float(data["next_event_time"])
+	if "player_nickname"         in data: GameManager.player_nickname         = str(data["player_nickname"])
 
 	# ── 2. Stoliki ───────────────────────────────────────────────────────────
 	var restored_tables: Array = []
@@ -256,7 +258,16 @@ func _write_last_save(json_str: String) -> void:
 	# Timestampowana nazwa pliku (zastąp ":" i spację by uniknąć problemów z FS)
 	var ts: String = Time.get_datetime_string_from_system()\
 		.replace(":", "-").replace(" ", "_")
-	var path := LAST_SAVES_DIR + "/save_%s.json" % ts
+
+	# Prefiks: nickname gracza lub fallback "save"
+	var prefix: String = GameManager.player_nickname.strip_edges()
+	if prefix.is_empty():
+		prefix = "save"
+	else:
+		# Usuń znaki niedozwolone w nazwach plików
+		prefix = prefix.replace("/", "").replace("\\", "").replace(":", "").replace("*", "") \
+				.replace("?", "").replace("\"", "").replace("<", "").replace(">", "").replace("|", "")
+	var path := LAST_SAVES_DIR + "/%s_%s.json" % [prefix, ts]
 
 	if _write_file(path, json_str):
 		print("SaveManager: kopia → ", path)
