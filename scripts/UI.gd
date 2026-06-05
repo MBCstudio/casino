@@ -21,4 +21,4 @@ func update_ui():
 	else:
 		rep_label.remove_theme_color_override("font_color")
 		
-	cust_label.text = "👥 " + str(GameManager.customers)
+	cust_label.text = "👥 " + str(GameManager.total_customers)

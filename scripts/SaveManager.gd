@@ -21,6 +21,7 @@ func save_game() -> bool:
 	data["prestige"]                = GameManager.prestige
 	data["event_prestige_modifier"] = GameManager.event_prestige_modifier
 	data["customers"]               = GameManager.customers
+	data["total_customers"]         = GameManager.total_customers
 	data["play_time"]               = GameManager.play_time
 	data["time_multiplier"]         = GameManager.time_multiplier
 	data["tables_bought"]           = GameManager.tables_bought
@@ -154,6 +155,7 @@ func load_game() -> bool:
 	if "prestige"                in data: GameManager.prestige                = int(data["prestige"])
 	if "event_prestige_modifier" in data: GameManager.event_prestige_modifier = int(data["event_prestige_modifier"])
 	if "customers"               in data: GameManager.customers               = int(data["customers"])
+	if "total_customers"         in data: GameManager.total_customers         = int(data["total_customers"])
 	if "play_time"               in data: GameManager.play_time               = float(data["play_time"])
 	if "time_multiplier"         in data: GameManager.time_multiplier         = float(data["time_multiplier"])
 	if "tables_bought"           in data: GameManager.tables_bought           = int(data["tables_bought"])
@@ -301,7 +303,7 @@ func _restore_tables(tables_data: Array) -> Array:
 		var table: Node2D = packed.instantiate()
 		casino_floor.add_child(table)
 		table.global_position = Vector2(float(t_data.get("position_x", 0.0)),
-		                                float(t_data.get("position_y", 0.0)))
+										float(t_data.get("position_y", 0.0)))
 
 		if "win_probability"  in t_data: table.win_probability  = float(t_data["win_probability"])
 		if "bet"              in t_data: table.bet              = int(t_data["bet"])
@@ -409,7 +411,7 @@ func _restore_npcs(npcs_data: Array, restored_tables: Array) -> void:
 			_get_tree().current_scene.add_child(npc)
 
 		npc.global_position = Vector2(float(n_data.get("position_x", 100.0)),
-		                              float(n_data.get("position_y", 100.0)))
+									  float(n_data.get("position_y", 100.0)))
 
 		if "money"             in n_data: npc.set("money",             float(n_data["money"]))
 		if "anger"             in n_data: npc.set("anger",             float(n_data["anger"]))

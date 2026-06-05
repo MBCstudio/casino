@@ -98,8 +98,8 @@ func _update_upgrade_buttons():
 			btn.text = "Bought"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 5000
-			btn.text = "$5,000"
+			btn.disabled = GameManager.money < UpgradeCosts.CASHIER_SPEED
+			btn.text = "$%d" % UpgradeCosts.CASHIER_SPEED
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%BuyPrestigeBtn"):
@@ -110,8 +110,8 @@ func _update_upgrade_buttons():
 			btn.text = "Maxed"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 10000
-			btn.text = "$10,000"
+			btn.disabled = GameManager.money < UpgradeCosts.CASHIER_PRESTIGE
+			btn.text = "$%d" % UpgradeCosts.CASHIER_PRESTIGE
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	if has_node("%BuyVipBtn"):
@@ -122,8 +122,8 @@ func _update_upgrade_buttons():
 			btn.text = "Maxed"
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
-			btn.disabled = GameManager.money < 20000
-			btn.text = "$20,000"
+			btn.disabled = GameManager.money < UpgradeCosts.CASHIER_VIP
+			btn.text = "$%d" % UpgradeCosts.CASHIER_VIP
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 func _on_HSlider_value_changed(value):
@@ -153,19 +153,19 @@ func _on_Close_pressed():
 	close()
 	
 func _on_buy_cashier_update():
-	if current_cashier and GameManager.money >= 5000:
+	if current_cashier and GameManager.money >= UpgradeCosts.CASHIER_SPEED:
 		var w_time = current_cashier.wait_time if current_cashier.get("wait_time") != null else 5.0
 		if w_time > 2.0:
 			GameManager.play_ui_open_sound()
-			GameManager.remove_money(5000)
+			GameManager.remove_money(UpgradeCosts.CASHIER_SPEED)
 			current_cashier.wait_time = w_time - 1.0
 			_update_upgrade_buttons()
 
 func _on_buy_prestige_update():
-	if current_cashier and GameManager.money >= 10000:
+	if current_cashier and GameManager.money >= UpgradeCosts.CASHIER_PRESTIGE:
 		if current_cashier.prestige < 10:
 			GameManager.play_ui_open_sound()
-			GameManager.remove_money(10000)
+			GameManager.remove_money(UpgradeCosts.CASHIER_PRESTIGE)
 			current_cashier.prestige += 1
 			if current_cashier.has_method("update_prestige"):
 				current_cashier.update_prestige()
@@ -175,10 +175,10 @@ func _on_buy_prestige_update():
 			update_header()
 
 func _on_buy_vip_update():
-	if current_cashier and GameManager.money >= 20000:
+	if current_cashier and GameManager.money >= UpgradeCosts.CASHIER_VIP:
 		if current_cashier.vip_chance < 0.10:
 			GameManager.play_ui_open_sound()
-			GameManager.remove_money(20000)
+			GameManager.remove_money(UpgradeCosts.CASHIER_VIP)
 			current_cashier.vip_chance += 0.01
 			_update_upgrade_buttons()
 
@@ -210,3 +210,11 @@ func _ready():
 	if has_node("%BuyVipBtn"):
 		%BuyVipBtn.pressed.connect(_on_buy_vip_update)
 	
+	_init_prestige_descs()
+
+
+func _init_prestige_descs() -> void:
+	"""Ustawia opisy prestiżu w panelach ulepszeń na podstawie UpgradeCosts."""
+	var lbl = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Upgrades/VBoxContainer/PrestigeUpdatePanel/MarginContainer/HBoxContainer/VBoxContainer/Desc")
+	if lbl:
+		lbl.text = "+%d ⭐ Prestige" % UpgradeCosts.PRESTIGE_CASHIER_PER_LEVEL

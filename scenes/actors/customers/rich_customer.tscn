@@ -139,8 +139,8 @@ animations = [{
 }]
 
 [node name="Normal_customer" unique_id=1597932130 instance=ExtResource("1_hnsc2")]
-money = 1000.0
-base_bet = 50.0
+money = 25000.0
+base_bet = 500.0
 status = "rich"
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=1294089300]

@@ -10,8 +10,8 @@ extends CharacterBody2D
 @export var recovery_distance: float = 1.0 # Jak daleko postać sie odsuwał w recovery (w sekundach)
 
 var is_vip: bool = false
-@export var money: float = 100.0
-@export var base_bet: float = 10.0
+@export var money: float = 700.0
+@export var base_bet: float = 35.0
 @export var status: String = "normal"
 
 @onready var nav_agent = $NavigationAgent2D
@@ -360,27 +360,21 @@ func try_play():
 		var could_play = target_table.play_with_client(self)
 		
 		if not could_play:
-			# Brak pieniędzy lub inny powód braku możliwości gry też może złościć / zmuszać do wyjścia
-			if should_leave():
-				target_table.remove_player(self)
-				go_to_exit()
-				return
-			elif should_go_to_bar():
-				target_table.remove_player(self)
-				go_to_bar()
-				return
-			break
+			# Brak pieniędzy - frustracja rośnie, ale gracz NIE wstaje od stolika
+			anger = clamp(anger + 10.0, 0.0, 100.0)
 		
+		# Po każdej rundzie (zagranej lub nie) sprawdzamy progi złości
 		if should_leave():
 			target_table.remove_player(self)
 			go_to_exit()
 			return
-		
 		elif should_go_to_bar():
 			target_table.remove_player(self)
 			go_to_bar()
 			return
+		# Żaden próg nie osiągnięty → gracz zostaje przy stoliku i czeka na kolejną rundę
 	
+	# Pętla zakończona bo target_table == null (stolik usunięty z gry itp.)
 	if target_table:
 		target_table.remove_player(self)
 	
@@ -393,12 +387,13 @@ func try_play():
 	is_at_intermediate_point = false
 	intermediate_seat = null
 	
+	# Jeśli pętla urwała się z zewnątrz (np. stolik usunięty) - wychodzi z kasyna
 	if should_leave():
 		go_to_exit()
 	elif should_go_to_bar():
 		go_to_bar()
 	else:
-		find_table()
+		go_to_exit() # Domyślnie wychodzi - nie szuka stolika bez powodu
 
 # ====== ENTRY ======
 func get_dynamic_enter_chance() -> float:
@@ -551,7 +546,7 @@ func wait_at_bar():
 	var wait_t = randf_range(10.0, 15.0)
 	await get_tree().create_timer(wait_t, false).timeout
 	
-	anger = anger*0.8 # zmniejszenie anger po wypiciu drinka
+	anger = anger*0.7 # zmniejszenie anger po wypiciu drinka
 	is_waiting = false
 	is_going_to_bar = false
 	target_seat = null # Opuść swoje wyznaczone miejsce u baru
@@ -608,11 +603,11 @@ func play_round(win_probability: float) -> bool:
 	
 func on_win(bet: float) -> void:
 	money += bet
-	anger = clamp(anger - 20.0, 0.0, 100.0)
+	anger = clamp(anger - 15.0, 0.0, 100.0)
 
 func on_loss(bet: float) -> void:
 	money -= bet
-	anger = clamp(anger + 20.0 - addiction, 0.0, 100.0)
+	anger = clamp(anger + 13.0 - addiction, 0.0, 100.0)
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	if not is_moving:

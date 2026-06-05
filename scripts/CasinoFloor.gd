@@ -105,6 +105,7 @@ func _on_table_selected(table_type: String) -> void:
 	# Pobierz środki
 	GameManager.remove_money(price)
 
+
 	# Zapamiętaj pozycję przed usunięciem slotu
 	var spawn_pos: Vector2 = slot.global_position
 
@@ -145,6 +146,9 @@ func _on_bar_purchased() -> void:
 
 	# Pobierz środki
 	GameManager.remove_money(price)
+
+	# Przyznaj prestiż za zakup baru
+	GameManager.change_reputation(UpgradeCosts.PRESTIGE_BUY_BAR)
 
 	# Ukryj purchase spot
 	spot.visible = false

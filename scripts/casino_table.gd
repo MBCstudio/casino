@@ -1,14 +1,15 @@
 extends Node2D
 
 @export var table_type: String = "roulette"
-@export var win_probability: float = 0.5#im to mniejsze to kasyno więcej zarabia
-@export var base_win_probability: float = 0.50#na samym poczatku przy inicjalizacji
+@export var win_probability: float = 0.40      # centrum suwaka; im mniejsze tym kasyno więcej zarabia
+@export var base_win_probability: float = 0.40  # wartość startowa przy inicjalizacji
 @export var bet: int = 10
 @export var max_players: int = 5
 @export var play_time: float = 10.0
 @export var vip_chance_bonus: float = 0.0
 
 var prestige: int = 5
+
 var has_felt: bool = false
 var has_led: bool = false
 var has_chip_rack: bool = false
@@ -136,12 +137,11 @@ func add_prestige_bonus(amount: int):
 	update_prestige()
 
 func update_prestige():
-	# win_probability typically ranges from 0.45 to 0.55
-	# Middle point is 0.50 -> 0 prestige change.
-	# 0.45 -> +20 prestige
-	# 0.55 -> -20 prestige
-	var diff = win_probability - 0.50
-	var base_prestige = 5
+	# Centrum suwaka = 0.40 (WIN_PROB_CENTER z TableUi)
+	# 1 krok w prawo (+1%) = +4 pkt prestiżu (korzystne dla gracza)
+	# 1 krok w lewo  (-1%) = -4 pkt prestiżu
+	var diff = win_probability - 0.40
+	var base_prestige = 10
 	var calculated_prestige = base_prestige + int(diff * 100 * 4) + prestige_bonus
 	prestige = calculated_prestige
 	

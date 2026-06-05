@@ -4,6 +4,7 @@ var money: float = 9950
 var prestige: int = 10
 var event_prestige_modifier: int = 0
 var customers: int = 0
+var total_customers: int = 0
 var play_time: float = 0.0
 var time_multiplier: float = 1.0
 var tables_bought: int = 0
@@ -19,8 +20,9 @@ const MUSIC_PLAYLIST := [
 	"res://assets/music/2010 Throwback DJ Set (Rihanna, Kesha, David Guetta, Taio Cruz, etc.) - DJ MADEINRIKA Debut [u-jcRpOA514].mp3",
 ]
 const UI_OPEN_SOUND_PATH := "res://assets/sounds_effects/litupsubway-ui-close-sfx-513359.mp3"
-const DEFAULT_MUSIC_VOLUME := 5.0
-const UI_OPEN_SOUND_VOLUME_DB := 6.0
+const DEFAULT_MUSIC_VOLUME := 2.0
+const DEFAULT_SFX_VOLUME    := 40.0
+const UI_OPEN_SOUND_VOLUME_DB := 2.0
 
 const WIN_CONDITION = 110000#specjalnie żeby gra się za szybko nie kończyła
 
@@ -29,6 +31,7 @@ signal game_won
 signal game_lost
 
 var music_volume: float = DEFAULT_MUSIC_VOLUME
+var sfx_volume: float   = DEFAULT_SFX_VOLUME
 var music_vibe_index: int = 0
 var _music_player: AudioStreamPlayer
 var _ui_open_sound_player: AudioStreamPlayer
@@ -434,7 +437,7 @@ func _setup_ui_open_sound() -> void:
 	_ui_open_sound_player.name = "UiOpenSound"
 	_ui_open_sound_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	_ui_open_sound_player.stream = stream
-	_ui_open_sound_player.volume_db = UI_OPEN_SOUND_VOLUME_DB
+	_apply_sfx_volume()
 	add_child(_ui_open_sound_player)
 
 func play_ui_open_sound() -> void:
@@ -477,6 +480,19 @@ func set_music_volume(value: float) -> void:
 
 func get_music_volume() -> float:
 	return music_volume
+
+func set_sfx_volume(value: float) -> void:
+	sfx_volume = clampf(value, 0.0, 100.0)
+	_apply_sfx_volume()
+
+func get_sfx_volume() -> float:
+	return sfx_volume
+
+func _apply_sfx_volume() -> void:
+	if _ui_open_sound_player == null:
+		return
+	var linear := sfx_volume / 100.0
+	_ui_open_sound_player.volume_db = linear_to_db(maxf(linear, 0.0001)) + UI_OPEN_SOUND_VOLUME_DB
 
 func change_music_vibe(direction: int) -> void:
 	set_music_vibe(music_vibe_index + direction)
@@ -527,6 +543,7 @@ func _check_lose_condition():
 
 func add_customer():
 	customers += 1
+	total_customers += 1
 	emit_signal("stats_changed")
 
 func remove_customer():

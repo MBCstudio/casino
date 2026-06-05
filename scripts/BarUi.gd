@@ -30,6 +30,15 @@ func _ready():
 	if close_btn:
 		close_btn.pressed.connect(close)
 
+	_init_prestige_descs()
+
+
+func _init_prestige_descs() -> void:
+	"""Ustawia opisy prestiżu w panelach ulepszeń na podstawie UpgradeCosts."""
+	var lbl = get_node_or_null("CenterContainer/Panel/VBoxContainer/TabContainer/Upgrades/VBoxContainer/DrinksPanel/MarginContainer/HBoxContainer/VBoxContainer/Desc")
+	if lbl:
+		lbl.text = "Adds +%d ⭐ Prestige" % UpgradeCosts.PRESTIGE_BAR_DRINKS
+
 func open(bar):
 	if bar == null:
 		print("ERROR: bar is null")
@@ -92,7 +101,7 @@ func _update_upgrade_buttons():
 	var btn = get_node_or_null("%BuySpeedBtn")
 	if btn:
 		var is_upgraded = current_bar.get("cashier_upgraded") if current_bar.get("cashier_upgraded") != null else false
-		var cost = 5000
+		var cost = UpgradeCosts.BAR_CASHIER
 		var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 		if is_upgraded:
 			btn.disabled = true
@@ -100,13 +109,13 @@ func _update_upgrade_buttons():
 			btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
 			btn.disabled = player_money < cost
-			btn.text = "$5,000"
+			btn.text = "$%d" % cost
 			btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not btn.disabled else Color(0.4, 0.4, 0.4))
 
 	var drinks_btn = get_node_or_null("%BuyDrinksBtn")
 	if drinks_btn:
 		var is_upgraded = current_bar.get("drinks_upgraded") if current_bar.get("drinks_upgraded") != null else false
-		var cost = 8000
+		var cost = UpgradeCosts.BAR_DRINKS
 		var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 		if is_upgraded:
 			drinks_btn.disabled = true
@@ -114,13 +123,13 @@ func _update_upgrade_buttons():
 			drinks_btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
 			drinks_btn.disabled = player_money < cost
-			drinks_btn.text = "$8,000"
+			drinks_btn.text = "$%d" % cost
 			drinks_btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not drinks_btn.disabled else Color(0.4, 0.4, 0.4))
 
 	var band_btn = get_node_or_null("%BuyBandBtn")
 	if band_btn:
 		var is_upgraded = current_bar.get("live_band_upgraded") if current_bar.get("live_band_upgraded") != null else false
-		var cost = 12000
+		var cost = UpgradeCosts.BAR_LIVE_BAND
 		var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 		if is_upgraded:
 			band_btn.disabled = true
@@ -128,11 +137,11 @@ func _update_upgrade_buttons():
 			band_btn.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 		else:
 			band_btn.disabled = player_money < cost
-			band_btn.text = "$12,000"
+			band_btn.text = "$%d" % cost
 			band_btn.add_theme_color_override("font_color", Color(0.98, 0.83, 0.24) if not band_btn.disabled else Color(0.4, 0.4, 0.4))
 
 func _on_buy_cashier():
-	var cost = 5000
+	var cost = UpgradeCosts.BAR_CASHIER
 	var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 		
 	if player_money >= cost:
@@ -153,7 +162,7 @@ func _on_buy_cashier():
 		update_controls()
 
 func _on_buy_drinks():
-	var cost = 8000
+	var cost = UpgradeCosts.BAR_DRINKS
 	var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 	if player_money >= cost:
 		GameManager.play_ui_open_sound()
@@ -163,11 +172,11 @@ func _on_buy_drinks():
 			GameManager.money -= cost
 		current_bar.set("drinks_upgraded", true)
 		if current_bar.get("prestige") != null:
-			current_bar.set("prestige", current_bar.get("prestige") + 150)
+			current_bar.set("prestige", current_bar.get("prestige") + UpgradeCosts.PRESTIGE_BAR_DRINKS)
 		update_controls()
 
 func _on_buy_band():
-	var cost = 12000
+	var cost = UpgradeCosts.BAR_LIVE_BAND
 	var player_money = GameManager.get("money") if GameManager and GameManager.get("money") != null else 0
 	if player_money >= cost:
 		GameManager.play_ui_open_sound()

@@ -106,7 +106,7 @@ func show_end_screen(is_win: bool) -> void:
 
 	if customers_label:
 		customers_label.add_theme_color_override("font_color", accent)
-		customers_label.text = str(GameManager.customers)
+		customers_label.text = str(GameManager.total_customers)
 
 	if money_label:
 		money_label.add_theme_color_override("font_color", accent)

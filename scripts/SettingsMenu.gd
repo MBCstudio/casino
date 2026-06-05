@@ -28,6 +28,8 @@ const TRANS    := Tween.TRANS_CUBIC
 @onready var _music_next_btn: Button     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/VibeRow/MusicNextButton
 @onready var _music_label:   Label       = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/MusicLabel
 @onready var _music_slider:  HSlider     = $SidebarPanel/MarginContainer/VBoxContainer/MusicSection/MusicSlider
+@onready var _sfx_label:     Label       = $SidebarPanel/MarginContainer/VBoxContainer/SoundSection/SfxLabel
+@onready var _sfx_slider:    HSlider     = $SidebarPanel/MarginContainer/VBoxContainer/SoundSection/SfxSlider
 
 # ── Stan wewnętrzny ──────────────────────────────────────────────────────────
 var _is_open:   bool = false
@@ -52,7 +54,7 @@ func _ready() -> void:
 	_panel.anchor_bottom = 1.0
 	_panel.offset_left   = PANEL_WIDTH
 	_panel.offset_right  = 0.0
-	_panel.offset_top    = 200.0
+	_panel.offset_top    = 580.0
 
 	_overlay.visible = false
 	_overlay.modulate.a = 0.0
@@ -68,6 +70,7 @@ func _ready() -> void:
 	_music_prev_btn.pressed.connect(func(): _change_music_vibe(-1))
 	_music_next_btn.pressed.connect(func(): _change_music_vibe(1))
 	_music_slider.value_changed.connect(_on_music_slider_changed)
+	_sfx_slider.value_changed.connect(_on_sfx_slider_changed)
 	_overlay.gui_input.connect(_on_overlay_input)
 
 	_save_btn.pressed.connect(_on_save_pressed)
@@ -80,6 +83,8 @@ func _ready() -> void:
 	_music_slider.value = GameManager.get_music_volume()
 	_update_music_label(_music_slider.value)
 	_update_music_vibe_label()
+	_sfx_slider.value = GameManager.get_sfx_volume()
+	_update_sfx_label(_sfx_slider.value)
 	_update_pause_button()
 	_highlight_active_speed()
 
@@ -113,6 +118,8 @@ func open_menu() -> void:
 	_music_slider.value = GameManager.get_music_volume()
 	_update_music_label(_music_slider.value)
 	_update_music_vibe_label()
+	_sfx_slider.value = GameManager.get_sfx_volume()
+	_update_sfx_label(_sfx_slider.value)
 
 func close_menu() -> void:
 	if not _is_open:
@@ -282,16 +289,16 @@ func _populate_tutorial_content(parent: VBoxContainer) -> void:
 	_add_tutorial_text(parent, "[color=#f2c733][b]Goal[/b][/color]\nBuild a profitable casino and reach [b]$110000[/b]. Money, prestige, customers, upgrades and special events all pull on each other, so every choice changes the run.")
 
 	_add_tutorial_header(parent, "Customers")
-	_add_tutorial_card(parent, "Poor Customer", _atlas_texture("res://assets/sprites/customer_poor.png", Rect2(0, 0, 64, 128)), "Money: $30\nBase bet: $5\n⭐ Prestige: Low\nRole: Enters most often when prestige is low. Small bets are safer, but they will not grow the casino quickly.")
-	_add_tutorial_card(parent, "Normal Customer", _atlas_texture("res://assets/sprites/customer.png", Rect2(0, 0, 64, 128)), "Money: $100\nBase bet: $10\n⭐ Prestige: Low to Medium\nRole: Your steady early-game visitor. Better prestige makes them more willing to enter, but very high prestige shifts attention toward richer guests.")
-	_add_tutorial_card(parent, "Rich Customer", _atlas_texture("res://assets/sprites/customer_rich.png", Rect2(0, 0, 64, 128)), "Money: $1000\nBase bet: $50\n⭐ Prestige: Medium to High\nRole: Strong profit source. They need enough prestige to care about the casino and enough table space to sit down.")
-	_add_tutorial_card(parent, "VIP Customer", _atlas_texture("res://assets/sprites/customer_vip.png", Rect2(0, 0, 64, 128)), "Money: $10000\nBase bet: $500\n⭐ Prestige: High\nRole: High risk, high reward. VIPs start appearing reliably only after the casino earns serious prestige and VIP bonuses.")
+	_add_tutorial_card(parent, "Poor Customer", _atlas_texture("res://assets/sprites/customer_poor.png", Rect2(0, 0, 64, 128)), "Money: $1000\nBase bet: $50\n⭐ Prestige: Low\nRole: Enters most often when prestige is low. Small bets are safer, but they will not grow the casino quickly.")
+	_add_tutorial_card(parent, "Normal Customer", _atlas_texture("res://assets/sprites/customer.png", Rect2(0, 0, 64, 128)), "Money: $7500\nBase bet: $150\n⭐ Prestige: Low to Medium\nRole: Your steady early-game visitor. Better prestige makes them more willing to enter, but very high prestige shifts attention toward richer guests.")
+	_add_tutorial_card(parent, "Rich Customer", _atlas_texture("res://assets/sprites/customer_rich.png", Rect2(0, 0, 64, 128)), "Money: $25000\nBase bet: $500\n⭐ Prestige: Medium to High\nRole: Strong profit source. They need enough prestige to care about the casino and enough table space to sit down.")
+	_add_tutorial_card(parent, "VIP Customer", _atlas_texture("res://assets/sprites/customer_vip.png", Rect2(0, 0, 64, 128)), "Money: $100000\nBase bet: $2500\n⭐ Prestige: High\nRole: High risk, high reward. VIPs start appearing reliably only after the casino earns serious prestige and VIP bonuses.")
 
 	_add_tutorial_header(parent, "Objects And Upgrades")
 	_add_tutorial_card(parent, "Roulette Table", _atlas_texture("res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png", Rect2(911.86273, 195.77155, 112.70575, 61.092865)), "Cost: $1000\nBase round: about 10s\nRole: Customers sit, place bets and either pay the casino or win money from it. Lower customer win chance gives more house edge, but can hurt ⭐ prestige.")
-	_add_tutorial_card(parent, "Blackjack Table", _atlas_texture("res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png", Rect2(927.4036, 367.9104, 96.45599, 52.153503)), "Cost: $1500\nBase bet: $20\nRole: Similar economy loop to roulette, with its own cheaper upgrade prices. Dealer upgrades can speed rounds, improve VIP attraction or raise bets.")
-	_add_tutorial_card(parent, "Cashier", "res://assets/sprites/prop_cashier_desk_side_144x256.png", "Upgrade: $5000 per speed step\n⭐ Prestige: $10000 per point\nVIP bonus: $20000 per +1%\nRole: Customers queue here before playing. Faster service gets guests to tables sooner and keeps the casino flowing.")
-	_add_tutorial_card(parent, "Bar", "res://assets/sprites/bar_asset.png", "Cost: $10000\nPassive income upgrade: +$50/min\nDrinks upgrade: +150 ⭐ prestige\nLive band: +5% VIP attraction\nRole: Angry customers can go here instead of leaving. After a drink, their anger drops and they return to play.")
+	_add_tutorial_card(parent, "Blackjack Table", _atlas_texture("res://assets/sprites/2D_TopDown_Tileset_Casino_1024x512.png", Rect2(927.4036, 367.9104, 96.45599, 52.153503)), "Cost: $1500\nRole: Similar economy loop to roulette, with its own cheaper upgrade prices. Dealer upgrades can speed rounds, improve VIP attraction or raise bets.")
+	_add_tutorial_card(parent, "Cashier", "res://assets/sprites/prop_cashier_desk_side_144x256.png", "Upgrade: $5000 per speed step\n⭐ Prestige: many upgrades.\nRole: Customers queue here before playing. Faster service gets guests to tables sooner and keeps the casino flowing.")
+	_add_tutorial_card(parent, "Bar", "res://assets/sprites/bar_asset.png", "Cost: $10000\nPassive income upgrade: +$50/min\n⭐ Prestige many upgrades.\nRole: Angry customers can go here instead of leaving. After a drink, their anger drops and they return to play.")
 
 	_add_tutorial_header(parent, "Core Systems")
 	_add_tutorial_card(parent, "Money", "res://assets/sprites/welcome_graphics/coin_64.png", "You gain money when customers lose at tables and when bar passive income is collected. You lose money when customers win, when buying objects/upgrades, and when events have a cost.")
@@ -451,6 +458,16 @@ func _update_music_label(value: float) -> void:
 		_music_label.text = "Music: Off"
 	else:
 		_music_label.text = "Music Volume: %d%%" % int(round(value))
+
+func _on_sfx_slider_changed(value: float) -> void:
+	GameManager.set_sfx_volume(value)
+	_update_sfx_label(value)
+
+func _update_sfx_label(value: float) -> void:
+	if value <= 0.0:
+		_sfx_label.text = "SFX: Off"
+	else:
+		_sfx_label.text = "SFX Volume: %d%%" % int(round(value))
 
 func _change_music_vibe(direction: int) -> void:
 	GameManager.change_music_vibe(direction)

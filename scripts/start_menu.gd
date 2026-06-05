@@ -101,7 +101,7 @@ func _on_easy_button_pressed():
 	_start_game_with_difficulty(25000.0)
 
 func _on_medium_button_pressed():
-	_start_game_with_difficulty(15000.0)
+	_start_game_with_difficulty(12000.0)
 
 func _on_hard_button_pressed():
-	_start_game_with_difficulty(2000.0)
+	_start_game_with_difficulty(5000.0)
