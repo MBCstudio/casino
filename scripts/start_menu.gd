@@ -138,12 +138,6 @@ func _on_easy_button_pressed():
 	_start_game_with_difficulty("easy")
 
 func _on_medium_button_pressed():
-<<<<<<< Updated upstream
-	_start_game_with_difficulty(12000.0)
-
-func _on_hard_button_pressed():
-	_start_game_with_difficulty(5000.0)
-=======
 	_start_game_with_difficulty("medium")
 
 func _on_hard_button_pressed():
@@ -332,4 +326,3 @@ func _make_panel_style() -> StyleBoxFlat:
 	style.shadow_color = Color(0.0, 0.0, 0.0, 0.45)
 	style.shadow_size = 18
 	return style
->>>>>>> Stashed changes

@@ -4,11 +4,8 @@ var money: float = 9950
 var prestige: int = 10
 var event_prestige_modifier: int = 0
 var customers: int = 0
-<<<<<<< Updated upstream
 var total_customers: int = 0
-=======
 var total_customers_visited: int = 0
->>>>>>> Stashed changes
 var play_time: float = 0.0
 var time_multiplier: float = 1.0
 var tables_bought: int = 0
@@ -25,17 +22,12 @@ const MUSIC_PLAYLIST := [
 	"res://assets/music/2010 Throwback DJ Set (Rihanna, Kesha, David Guetta, Taio Cruz, etc.) - DJ MADEINRIKA Debut [u-jcRpOA514].mp3",
 ]
 const UI_OPEN_SOUND_PATH := "res://assets/sounds_effects/litupsubway-ui-close-sfx-513359.mp3"
-<<<<<<< Updated upstream
-const DEFAULT_MUSIC_VOLUME := 2.0
-const DEFAULT_SFX_VOLUME    := 40.0
-const UI_OPEN_SOUND_VOLUME_DB := 2.0
-=======
 const DEFAULT_MUSIC_VOLUME := 5.0
 const UI_OPEN_SOUND_VOLUME_DB := 6.0
 const STATS_SAMPLE_INTERVAL := 60.0
->>>>>>> Stashed changes
+const DEFAULT_SFX_VOLUME    := 40.0
 
-const WIN_CONDITION = 110000#specjalnie żeby gra się za szybko nie kończyła
+const WIN_CONDITION = 1000000#specjalnie żeby gra się za szybko nie kończyła
 
 signal stats_changed
 signal game_won
@@ -560,11 +552,8 @@ func _check_lose_condition():
 
 func add_customer():
 	customers += 1
-<<<<<<< Updated upstream
 	total_customers += 1
-=======
 	total_customers_visited += 1
->>>>>>> Stashed changes
 	emit_signal("stats_changed")
 
 func remove_customer():
