@@ -48,7 +48,7 @@ function createPanel(name, niceName, desc, btnName, uidOffset) {
     return newPanel;
 }
 
-const prestigePanel = createPanel('PrestigeUpdatePanel', 'Golden Register', '+1 Prestige', 'BuyPrestigeBtn', 10000);
+const prestigePanel = createPanel('PrestigeUpdatePanel', 'Golden Register', '+10 Prestige', 'BuyPrestigeBtn', 10000);
 const vipPanel = createPanel('VipUpdatePanel', 'Red Carpet', '+1% VIP Chance', 'BuyVipBtn', 20000);
 
 text += '\n\n' + prestigePanel + '\n\n' + vipPanel;

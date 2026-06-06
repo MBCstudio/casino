@@ -104,7 +104,7 @@ func _update_upgrade_buttons():
 
 	if has_node("%BuyPrestigeBtn"):
 		var btn = get_node("%BuyPrestigeBtn")
-		var maxed = current_cashier.get("prestige") != null and current_cashier.prestige >= 10
+		var maxed = current_cashier.get("prestige") != null and current_cashier.prestige >= UpgradeCosts.PRESTIGE_CASHIER_PER_LEVEL
 		if maxed:
 			btn.disabled = true
 			btn.text = "Maxed"
@@ -163,10 +163,10 @@ func _on_buy_cashier_update():
 
 func _on_buy_prestige_update():
 	if current_cashier and GameManager.money >= UpgradeCosts.CASHIER_PRESTIGE:
-		if current_cashier.prestige < 10:
+		if current_cashier.prestige < UpgradeCosts.PRESTIGE_CASHIER_PER_LEVEL:
 			GameManager.play_ui_open_sound()
 			GameManager.remove_money(UpgradeCosts.CASHIER_PRESTIGE)
-			current_cashier.prestige += 1
+			current_cashier.prestige += UpgradeCosts.PRESTIGE_CASHIER_PER_LEVEL
 			if current_cashier.has_method("update_prestige"):
 				current_cashier.update_prestige()
 			else:

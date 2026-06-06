@@ -27,7 +27,7 @@ for (let i = startIdx; i < lines.length; i++) {
 // since SpeedTrainingPanel is the LAST element currently, we can just grab everything from startIdx to the end!
 let originalPanel = panelLines.join('\n');
 
-let panelDrinks = createPanel('Drinks', 'Premium Drinks', 'Adds +150 Prestige', 'BuyDrinksBtn', '8,000', originalPanel);
+let panelDrinks = createPanel('Drinks', 'Premium Drinks', 'Adds +40 Prestige', 'BuyDrinksBtn', '20,000', originalPanel);
 let panelBand = createPanel('Band', 'Live Band', 'Adds +5% VIP Attraction', 'BuyBandBtn', '12,000', originalPanel);
 
 lines.push('');

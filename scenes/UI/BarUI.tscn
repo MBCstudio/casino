@@ -424,7 +424,7 @@ text = "Premium Drinks"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 theme_override_font_sizes/font_size = 14
-text = "Adds +150 Prestige"
+text = "Adds +40 Prestige"
 
 [node name="Spacer" type="Control" parent="CenterContainer/Panel/VBoxContainer/TabContainer/Upgrades/VBoxContainer/DrinksPanel/MarginContainer/HBoxContainer" unique_id=1742312686]
 layout_mode = 2

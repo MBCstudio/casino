@@ -28,7 +28,7 @@ def create_panel(name, nice_name, desc, btn_name, uid_offset):
     new_panel = re.sub(r'unique_id=(\d+)', offset_uid, new_panel)
     return new_panel
 
-prestige_panel = create_panel('PrestigeUpdatePanel', 'Golden Register', '+1 Prestige', 'BuyPrestigeBtn', 10000)
+prestige_panel = create_panel('PrestigeUpdatePanel', 'Golden Register', '+10 Prestige', 'BuyPrestigeBtn', 10000)
 vip_panel = create_panel('VipUpdatePanel', 'Red Carpet', '+1% VIP Chance', 'BuyVipBtn', 20000)
 
 new_text = text.replace(panel_text, panel_text + "\n" + prestige_panel + "\n" + vip_panel)

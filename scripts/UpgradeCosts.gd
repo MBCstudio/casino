@@ -9,7 +9,7 @@ class_name UpgradeCosts
 #  BAR – ulepszenia
 # ============================================================
 const BAR_CASHIER   := 3000     # Szybka kasa barowa
-const BAR_DRINKS    := 15000    # Ulepszenie drinków
+const BAR_DRINKS    := 20000    # Ulepszenie drinków
 const BAR_LIVE_BAND := 50000    # Żywy zespół
 
 # ============================================================
@@ -54,14 +54,14 @@ const PRESTIGE_BUY_BAR   := 10   # Za zakup baru
 # ============================================================
 #  PRESTIŻ – ulepszenia BARU
 # ============================================================
-const PRESTIGE_BAR_DRINKS := 100  # Ulepszenie drinków
+const PRESTIGE_BAR_DRINKS := 40   # Ulepszenie drinków
 # BAR_CASHIER i BAR_LIVE_BAND nie dają prestiżu bezpośrednio
 # (cashier → passive_income, band → vip_percentage)
 
 # ============================================================
 #  PRESTIŻ – ulepszenia KASY
 # ============================================================
-const PRESTIGE_CASHIER_PER_LEVEL := 50  # Za każdy poziom ulepszenia prestiżu kasjera
+const PRESTIGE_CASHIER_PER_LEVEL := 10  # Za każdy poziom ulepszenia prestiżu kasjera
 
 # ============================================================
 #  PRESTIŻ – ulepszenia STOLIKA

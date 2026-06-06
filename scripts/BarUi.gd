@@ -173,6 +173,7 @@ func _on_buy_drinks():
 		current_bar.set("drinks_upgraded", true)
 		if current_bar.get("prestige") != null:
 			current_bar.set("prestige", current_bar.get("prestige") + UpgradeCosts.PRESTIGE_BAR_DRINKS)
+		GameManager.update_global_prestige()
 		update_controls()
 
 func _on_buy_band():

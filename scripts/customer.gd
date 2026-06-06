@@ -62,14 +62,6 @@ func _ready():
 	addiction = randf_range(0.0, 10.0)
 	luck = randf_range(-0.05, 0.05)
 	experience = randf_range(0.0, 0.03)
-	
-	var total_vip_bonus = 0.0
-	for t in get_tree().get_nodes_in_group("tables"):
-		if "vip_chance_bonus" in t:
-			total_vip_bonus += t.vip_chance_bonus
-	for c in get_tree().get_nodes_in_group("cashier"):
-		if "vip_chance" in c:
-			total_vip_bonus += c.vip_chance
 
 	# Zostawiamy status i statystyki nadane przez Scenę i Spawner!
 	
@@ -81,17 +73,26 @@ func _ready():
 	# nav_agent.path_desired_distance = 40.0#im wieksza tym szbycej gdy jest przekszoda zaczyna skrecasc
 	nav_agent.target_desired_distance = 2.0#precyzja z jaka staje na wylosowanym punkcie
 
+func _get_total_vip_bonus() -> float:
+	var total_vip_bonus = 0.0
+
+	for t in get_tree().get_nodes_in_group("tables"):
+		if "vip_chance_bonus" in t:
+			total_vip_bonus += t.vip_chance_bonus
+
+	return total_vip_bonus
+
 # ====== NAVIGATION ======
 func set_target(pos: Vector2):
 	target_position = pos
 	nav_agent.target_position = pos
 
 # ====== DEBUG ======
-func _draw():
-	if target_position != Vector2.ZERO:
-		# Grubsza, bardziej widoczna czerwona kropka wskazująca cel
-		draw_circle(to_local(target_position), 5, Color.RED)
-	draw_circle(Vector2.ZERO, 5, Color.GREEN)
+# func _draw():
+# 	if target_position != Vector2.ZERO:
+# 		# Grubsza, bardziej widoczna czerwona kropka wskazująca cel
+# 		draw_circle(to_local(target_position), 5, Color.RED)
+# 	draw_circle(Vector2.ZERO, 5, Color.GREEN)
 
 # ====== MAIN LOOP ======
 func _physics_process(delta):
@@ -419,11 +420,22 @@ func get_dynamic_enter_chance() -> float:
 		else: return 0.0
 
 	elif status == "vip":
-		if p < 200: return 0.0
-		elif p <= 1500: return 0.02 + (0.98 * ((p - 200.0) / 1300.0))
-		else: return 1.0
+		var vip_chance = vip_enter_chance
+		var calculated_chance = 0.0
+		
+		if p <= 1500:
+			calculated_chance = 0.02 + (0.98 * (p / 1500.0))
+		else:
+			calculated_chance = 1.0
+				
+		# Sumujemy bazową szansę z ulepszeń (vip_chance) oraz wyliczoną szansę z punktów
+		var total_chance = vip_chance + calculated_chance
+		
+		# Dodajemy bonusy i ograniczamy wynik do przedziału od 0.0 do 1.0 (max 100%)
+		return clamp(total_chance + _get_total_vip_bonus(), 0.0, 1.0)
 
-	return enter_chance
+	else:
+		return 0.0
 
 func decide_enter_casino():
 	var dynamic_chance = get_dynamic_enter_chance()

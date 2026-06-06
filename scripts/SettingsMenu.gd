@@ -286,7 +286,7 @@ func _separator_stylebox() -> StyleBoxFlat:
 
 
 func _populate_tutorial_content(parent: VBoxContainer) -> void:
-	_add_tutorial_text(parent, "[color=#f2c733][b]Goal[/b][/color]\nBuild a profitable casino and reach [b]$110000[/b]. Money, prestige, customers, upgrades and special events all pull on each other, so every choice changes the run.")
+	_add_tutorial_text(parent, "[color=#f2c733][b]Goal[/b][/color]\nBuild a profitable casino and reach [b]$1000000[/b]. Money, prestige, customers, upgrades and special events all pull on each other, so every choice changes the run.")
 
 	_add_tutorial_header(parent, "Customers")
 	_add_tutorial_card(parent, "Poor Customer", _atlas_texture("res://assets/sprites/customer_poor.png", Rect2(0, 0, 64, 128)), "Money: $1000\nBase bet: $50\n⭐ Prestige: Low\nRole: Enters most often when prestige is low. Small bets are safer, but they will not grow the casino quickly.")
