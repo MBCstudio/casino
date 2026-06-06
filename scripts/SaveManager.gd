@@ -21,7 +21,12 @@ func save_game() -> bool:
 	data["prestige"]                = GameManager.prestige
 	data["event_prestige_modifier"] = GameManager.event_prestige_modifier
 	data["customers"]               = GameManager.customers
+<<<<<<< Updated upstream
 	data["total_customers"]         = GameManager.total_customers
+=======
+	data["total_customers_visited"] = GameManager.total_customers_visited
+	data["stats_history"]           = GameManager.stats_history
+>>>>>>> Stashed changes
 	data["play_time"]               = GameManager.play_time
 	data["time_multiplier"]         = GameManager.time_multiplier
 	data["tables_bought"]           = GameManager.tables_bought
@@ -29,6 +34,7 @@ func save_game() -> bool:
 	data["time_since_last_event"]   = GameManager.time_since_last_event
 	data["next_event_time"]         = GameManager.next_event_time
 	data["player_nickname"]         = GameManager.player_nickname
+	data["current_difficulty"]      = GameManager.current_difficulty
 
 	# ── 2. Stoliki ───────────────────────────────────────────────────────────
 	var tables_list: Array = _get_tree().get_nodes_in_group("tables")
@@ -155,7 +161,16 @@ func load_game() -> bool:
 	if "prestige"                in data: GameManager.prestige                = int(data["prestige"])
 	if "event_prestige_modifier" in data: GameManager.event_prestige_modifier = int(data["event_prestige_modifier"])
 	if "customers"               in data: GameManager.customers               = int(data["customers"])
+<<<<<<< Updated upstream
 	if "total_customers"         in data: GameManager.total_customers         = int(data["total_customers"])
+=======
+	if "total_customers_visited" in data: GameManager.total_customers_visited = int(data["total_customers_visited"])
+	if "stats_history"           in data:
+		GameManager.stats_history.clear()
+		for sample in data["stats_history"]:
+			if sample is Dictionary:
+				GameManager.stats_history.append(sample)
+>>>>>>> Stashed changes
 	if "play_time"               in data: GameManager.play_time               = float(data["play_time"])
 	if "time_multiplier"         in data: GameManager.time_multiplier         = float(data["time_multiplier"])
 	if "tables_bought"           in data: GameManager.tables_bought           = int(data["tables_bought"])
@@ -163,6 +178,7 @@ func load_game() -> bool:
 	if "time_since_last_event"   in data: GameManager.time_since_last_event   = float(data["time_since_last_event"])
 	if "next_event_time"         in data: GameManager.next_event_time         = float(data["next_event_time"])
 	if "player_nickname"         in data: GameManager.player_nickname         = str(data["player_nickname"])
+	GameManager.current_difficulty = str(data.get("current_difficulty", ""))
 
 	# ── 2. Stoliki ───────────────────────────────────────────────────────────
 	var restored_tables: Array = []
@@ -187,6 +203,11 @@ func load_game() -> bool:
 				and visited != null and bool(visited):
 			casino_count += 1
 	GameManager.customers = casino_count
+	if not data.has("total_customers_visited"):
+		GameManager.total_customers_visited = max(GameManager.total_customers_visited, casino_count)
+	if GameManager.stats_history.is_empty():
+		GameManager.record_stats_sample(GameManager.play_time)
+	GameManager.sync_next_stats_sample_time()
 
 	GameManager.update_global_prestige()
 	GameManager.emit_signal("stats_changed")

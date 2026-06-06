@@ -159,7 +159,7 @@ alignment = 1
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "👥 all clients:"
+text = "👥 all guests:"
 
 [node name="CustomersLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer/StatsContainer/Stat3" unique_id=2042094499]
 unique_name_in_owner = true

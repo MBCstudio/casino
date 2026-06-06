@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 GameManager="*res://scripts/GameManager.gd"
 SaveManager="*res://scripts/SaveManager.gd"
+LeaderboardManager="*res://scripts/LeaderboardManager.gd"
 
 [display]
 

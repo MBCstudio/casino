@@ -4,7 +4,11 @@ var money: float = 9950
 var prestige: int = 10
 var event_prestige_modifier: int = 0
 var customers: int = 0
+<<<<<<< Updated upstream
 var total_customers: int = 0
+=======
+var total_customers_visited: int = 0
+>>>>>>> Stashed changes
 var play_time: float = 0.0
 var time_multiplier: float = 1.0
 var tables_bought: int = 0
@@ -13,6 +17,7 @@ var has_lost: bool = false
 var time_since_last_event: float = 0.0
 var next_event_time: float = randf_range(120.0, 180.0) # between 2 and 3 minutes
 var player_nickname: String = ""
+var current_difficulty: String = ""
 var event_ui_instance = null
 const MUSIC_PLAYLIST := [
 	"res://assets/music/Best Relaxing Jazz Classics _ Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald [0_tGe7KNJhU].mp3",
@@ -20,9 +25,15 @@ const MUSIC_PLAYLIST := [
 	"res://assets/music/2010 Throwback DJ Set (Rihanna, Kesha, David Guetta, Taio Cruz, etc.) - DJ MADEINRIKA Debut [u-jcRpOA514].mp3",
 ]
 const UI_OPEN_SOUND_PATH := "res://assets/sounds_effects/litupsubway-ui-close-sfx-513359.mp3"
+<<<<<<< Updated upstream
 const DEFAULT_MUSIC_VOLUME := 2.0
 const DEFAULT_SFX_VOLUME    := 40.0
 const UI_OPEN_SOUND_VOLUME_DB := 2.0
+=======
+const DEFAULT_MUSIC_VOLUME := 5.0
+const UI_OPEN_SOUND_VOLUME_DB := 6.0
+const STATS_SAMPLE_INTERVAL := 60.0
+>>>>>>> Stashed changes
 
 const WIN_CONDITION = 110000#specjalnie żeby gra się za szybko nie kończyła
 
@@ -35,6 +46,8 @@ var sfx_volume: float   = DEFAULT_SFX_VOLUME
 var music_vibe_index: int = 0
 var _music_player: AudioStreamPlayer
 var _ui_open_sound_player: AudioStreamPlayer
+var stats_history: Array[Dictionary] = []
+var _next_stats_sample_time: float = STATS_SAMPLE_INTERVAL
 
 var possible_events = [
 	{
@@ -405,6 +418,7 @@ var possible_events = [
 func _ready():
 	add_to_group("game_manager")
 	print("GameManager: Initialized with $", money, " (target: $", WIN_CONDITION, ")")
+	reset_run_stats()
 	_setup_background_music()
 	_setup_ui_open_sound()
 	
@@ -528,6 +542,8 @@ func _check_win_condition():
 	if money >= WIN_CONDITION and not has_won and not has_lost:
 		print("GameManager: WIN CONDITION REACHED! Money: ", money, " Target: ", WIN_CONDITION)
 		has_won = true
+		record_final_stats_sample()
+		LeaderboardManager.add_result(player_nickname, current_difficulty, play_time)
 		get_tree().paused = true
 		await get_tree().process_frame  # Wait one frame to ensure GameEndUI is ready
 		emit_signal("game_won")
@@ -536,6 +552,7 @@ func _check_lose_condition():
 	if money < 0 and not has_lost and not has_won:
 		print("GameManager: LOSE CONDITION REACHED! Money: ", money)
 		has_lost = true
+		record_final_stats_sample()
 		# Use call_deferred so the signal fires AFTER the current call stack
 		# finishes (e.g. EventUI calling get_tree().paused = false on line 73
 		# of EventUI.gd). show_end_screen() will then re-pause correctly.
@@ -543,7 +560,11 @@ func _check_lose_condition():
 
 func add_customer():
 	customers += 1
+<<<<<<< Updated upstream
 	total_customers += 1
+=======
+	total_customers_visited += 1
+>>>>>>> Stashed changes
 	emit_signal("stats_changed")
 
 func remove_customer():
@@ -573,8 +594,13 @@ func change_reputation(amount):
 
 func _process(delta):
 	if not get_tree().paused and not has_won and not has_lost:
+		if stats_history.is_empty():
+			record_stats_sample()
 		play_time += delta
 		time_since_last_event += delta
+		while play_time >= _next_stats_sample_time:
+			record_stats_sample(_next_stats_sample_time)
+			_next_stats_sample_time += STATS_SAMPLE_INTERVAL
 		
 		# Check if it's time for an event
 		if time_since_last_event >= next_event_time:
@@ -614,3 +640,33 @@ func _on_event_resolved(outcome: Dictionary):
 		add_money(outcome["money"])
 	if outcome.has("prestige"):
 		change_reputation(outcome["prestige"])
+
+func reset_run_stats() -> void:
+	stats_history.clear()
+	total_customers_visited = 0
+	_next_stats_sample_time = STATS_SAMPLE_INTERVAL
+
+func sync_next_stats_sample_time() -> void:
+	var completed_intervals: float = floor(play_time / STATS_SAMPLE_INTERVAL)
+	_next_stats_sample_time = (completed_intervals + 1.0) * STATS_SAMPLE_INTERVAL
+
+func record_stats_sample(sample_time: float = -1.0) -> void:
+	var time_value: float = play_time if sample_time < 0.0 else sample_time
+	if not stats_history.is_empty():
+		var last_sample: Dictionary = stats_history[stats_history.size() - 1]
+		if abs(float(last_sample.get("time", -9999.0)) - time_value) < 0.01:
+			last_sample["money"] = money
+			last_sample["prestige"] = get_total_prestige()
+			last_sample["total_customers"] = total_customers_visited
+			stats_history[stats_history.size() - 1] = last_sample
+			return
+
+	stats_history.append({
+		"time": time_value,
+		"money": money,
+		"prestige": get_total_prestige(),
+		"total_customers": total_customers_visited,
+	})
+
+func record_final_stats_sample() -> void:
+	record_stats_sample(play_time)
