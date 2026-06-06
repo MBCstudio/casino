@@ -234,8 +234,8 @@ func move_to_target():
 				people_ahead += 1
 			
 			# Ustaw się w szyku (oddalając się od kasy w osi X w lewo)
-			# Zwiększony odstęp z 60.0 na 80.0 px
-			var queue_spacing = 55.0
+			# Mniejszy odstęp między osobami w kolejce do kasy
+			var queue_spacing = 40.0
 			var target_spot = c_pos + Vector2(-people_ahead * queue_spacing, 0)
 			set_target(target_spot)
 			
