@@ -62,7 +62,7 @@ func _on_start_button_pressed():
 	nick_field.grab_focus()
 
 
-func _on_nickname_confirmed():
+func _on_nickname_confirmed(_submitted_text: String = "") -> void:
 	var nick_field: LineEdit = $CenterContainer/NicknameMenu/MarginContainer/VBoxContainer/NicknameLineEdit
 	GameManager.player_nickname = nick_field.text.strip_edges()
 	nickname_menu.hide()
