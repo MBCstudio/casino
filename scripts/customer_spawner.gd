@@ -9,14 +9,25 @@ var vip_customer_scene = preload("res://scenes/actors/customers/vip_customer.tsc
 @export var spawn_x_max: int = 150   # szerokość chodnika
 
 @export var screen_height: int = 1080
+@export var max_active_customers: int = 120
+@export var max_total_spawned: int = 10000
+
+var _total_spawned: int = 0
 
 func _ready():
 	spawn_loop()
 
 func spawn_loop():
-	while true:
+	while _total_spawned < max_total_spawned:
 		await get_tree().create_timer(randf_range(5.0, 8.5), false).timeout
-		spawn_customer()
+		if _get_active_customer_count() < max_active_customers:
+			spawn_customer()
+
+func _get_active_customer_count() -> int:
+	var customers_parent := get_parent().get_node_or_null("Customers")
+	if customers_parent == null:
+		return get_tree().get_nodes_in_group("customers").size()
+	return customers_parent.get_child_count()
 
 func get_random_customer_scene() -> PackedScene:
 	var roll = randf()
@@ -51,4 +62,10 @@ func spawn_customer():
 	else:
 		customer.walking_direction = -1  # w górę
 	
-	get_parent().get_node("Customers").add_child(customer)
+	var customers_parent := get_parent().get_node_or_null("Customers")
+	if customers_parent == null:
+		customer.queue_free()
+		return
+
+	customers_parent.add_child(customer)
+	_total_spawned += 1

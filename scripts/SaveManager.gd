@@ -5,6 +5,10 @@ extends Node
 
 const SAVE_PATH      := "user://savegame.json"
 const LAST_SAVES_DIR := "res://last_saves"
+const MAX_SAVED_NPCS := 500
+const MAX_RESTORED_NPCS := 500
+const MAX_RESTORED_TABLES := 256
+const MAX_LOADED_STATS_SAMPLES := 720
 
 signal save_completed
 signal load_completed(success: bool)
@@ -83,6 +87,9 @@ func save_game() -> bool:
 	# ── 4. NPC – pozycja, stan, powiązanie ze stolikiem / miejscem ───────────
 	var npcs_data: Array = []
 	for npc in _get_tree().get_nodes_in_group("customers"):
+		if npcs_data.size() >= MAX_SAVED_NPCS:
+			break
+
 		var n := {
 			"position_x":           npc.global_position.x,
 			"position_y":           npc.global_position.y,
@@ -163,6 +170,8 @@ func load_game() -> bool:
 	if "stats_history"           in data:
 		GameManager.stats_history.clear()
 		for sample in data["stats_history"]:
+			if GameManager.stats_history.size() >= MAX_LOADED_STATS_SAMPLES:
+				break
 			if sample is Dictionary:
 				GameManager.stats_history.append(sample)
 	if "play_time"               in data: GameManager.play_time               = float(data["play_time"])
@@ -301,7 +310,9 @@ func _restore_tables(tables_data: Array) -> Array:
 		casino_floor = _get_tree().current_scene
 
 	var spawned: Array = []
-	for t_data in tables_data:
+	var tables_to_restore: int = mini(tables_data.size(), MAX_RESTORED_TABLES)
+	for i in range(tables_to_restore):
+		var t_data = tables_data[i]
 		var ttype: String   = t_data.get("table_type", "roulette")
 		var spath: String   = _get_table_scene_path(ttype)
 		if spath.is_empty():
@@ -411,7 +422,9 @@ func _restore_npcs(npcs_data: Array, restored_tables: Array) -> void:
 
 	var customers_node = _get_tree().current_scene.get_node_or_null("Customers")
 
-	for n_data in npcs_data:
+	var npcs_to_restore: int = mini(npcs_data.size(), MAX_RESTORED_NPCS)
+	for i in range(npcs_to_restore):
+		var n_data = npcs_data[i]
 		var status:     String = str(n_data.get("status", "normal"))
 		var on_sidewalk: bool  = bool(n_data.get("on_sidewalk", true))
 

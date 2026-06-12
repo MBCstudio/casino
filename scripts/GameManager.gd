@@ -25,6 +25,7 @@ const UI_OPEN_SOUND_PATH := "res://assets/sounds_effects/litupsubway-ui-close-sf
 const DEFAULT_MUSIC_VOLUME := 5.0
 const UI_OPEN_SOUND_VOLUME_DB := 6.0
 const STATS_SAMPLE_INTERVAL := 60.0
+const MAX_STATS_HISTORY_SAMPLES := 720
 const DEFAULT_SFX_VOLUME    := 40.0
 
 const WIN_CONDITION = 1000000#specjalnie żeby gra się za szybko nie kończyła
@@ -422,12 +423,24 @@ func _ready():
 		event_ui_instance.event_resolved.connect(_on_event_resolved)
 
 func _setup_background_music() -> void:
+	if _is_web_build():
+		music_volume = 0.0
+		return
+
 	_music_player = AudioStreamPlayer.new()
 	_music_player.name = "BackgroundMusic"
 	_music_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(_music_player)
 	_load_current_music()
 	set_music_volume(music_volume)
+
+func _is_web_build() -> bool:
+	return OS.has_feature("web") or OS.get_name() == "Web"
+
+func _get_music_playlist() -> Array:
+	if _is_web_build():
+		return []
+	return MUSIC_PLAYLIST
 
 func _setup_ui_open_sound() -> void:
 	var stream: AudioStream = load(UI_OPEN_SOUND_PATH)
@@ -454,11 +467,12 @@ func play_ui_open_sound() -> void:
 	_ui_open_sound_player.play()
 
 func _load_current_music() -> void:
-	if _music_player == null or MUSIC_PLAYLIST.is_empty():
+	var playlist := _get_music_playlist()
+	if _music_player == null or playlist.is_empty():
 		return
 
-	music_vibe_index = wrapi(music_vibe_index, 0, MUSIC_PLAYLIST.size())
-	var music_path: String = MUSIC_PLAYLIST[music_vibe_index]
+	music_vibe_index = wrapi(music_vibe_index, 0, playlist.size())
+	var music_path: String = playlist[music_vibe_index]
 	var stream: AudioStream = load(music_path)
 	if stream == null:
 		push_warning("GameManager: Could not load background music: " + music_path)
@@ -504,7 +518,12 @@ func change_music_vibe(direction: int) -> void:
 	set_music_vibe(music_vibe_index + direction)
 
 func set_music_vibe(index: int) -> void:
-	music_vibe_index = wrapi(index, 0, MUSIC_PLAYLIST.size())
+	var playlist := _get_music_playlist()
+	if playlist.is_empty():
+		music_vibe_index = 0
+		return
+
+	music_vibe_index = wrapi(index, 0, playlist.size())
 	_load_current_music()
 	set_music_volume(music_volume)
 
@@ -512,7 +531,7 @@ func get_music_vibe_index() -> int:
 	return music_vibe_index
 
 func get_music_vibe_count() -> int:
-	return MUSIC_PLAYLIST.size()
+	return _get_music_playlist().size()
 
 func add_money(amount):
 	money += amount
@@ -590,9 +609,11 @@ func _process(delta):
 			record_stats_sample()
 		play_time += delta
 		time_since_last_event += delta
-		while play_time >= _next_stats_sample_time:
+		while play_time >= _next_stats_sample_time and stats_history.size() < MAX_STATS_HISTORY_SAMPLES:
 			record_stats_sample(_next_stats_sample_time)
 			_next_stats_sample_time += STATS_SAMPLE_INTERVAL
+		if stats_history.size() >= MAX_STATS_HISTORY_SAMPLES and play_time >= _next_stats_sample_time:
+			_next_stats_sample_time = play_time + STATS_SAMPLE_INTERVAL
 		
 		# Check if it's time for an event
 		if time_since_last_event >= next_event_time:
@@ -659,6 +680,8 @@ func record_stats_sample(sample_time: float = -1.0) -> void:
 		"prestige": get_total_prestige(),
 		"total_customers": total_customers_visited,
 	})
+	while stats_history.size() > MAX_STATS_HISTORY_SAMPLES:
+		stats_history.pop_front()
 
 func record_final_stats_sample() -> void:
 	record_stats_sample(play_time)
